@@ -1,0 +1,14 @@
+@use "../../styles/tokens" as *;
+@use "../../styles/mixins/media" as *;
+
+.grid {
+  display: grid;
+  gap: $spacing-lg;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

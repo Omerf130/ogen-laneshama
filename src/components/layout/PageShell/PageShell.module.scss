@@ -1,0 +1,18 @@
+@use "../../../styles/tokens" as *;
+
+.shell {
+  min-height: 50vh;
+  padding-block: $spacing-2xl;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.body {
+  margin: 0;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+}

@@ -1,0 +1,40 @@
+@use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/focus" as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  background-color: #fafafa;
+  text-decoration: none;
+
+  @include focus-visible;
+
+  &:hover {
+    border-color: #cccccc;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-heading;
+}
+
+.description {
+  margin: 0;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: #555555;
+}
+
+.link {
+  margin-top: auto;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: #333333;
+}

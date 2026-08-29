@@ -1,0 +1,15 @@
+@use "../../../styles/tokens" as *;
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 12rem;
+  border: 1px dashed #cccccc;
+  border-radius: 0.5rem;
+  background-color: #f5f5f5;
+  color: #888888;
+  font-size: $font-size-sm;
+  text-align: center;
+}

@@ -1,0 +1,13 @@
+@use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/media" as *;
+
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: $container-padding-inline;
+
+  @include respond-to(md) {
+    padding-inline: $spacing-xl;
+  }
+}
