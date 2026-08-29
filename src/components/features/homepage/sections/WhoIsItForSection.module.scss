@@ -1,0 +1,80 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/media" as *;
+
+.section {
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
+  padding-block: $spacing-2xl $spacing-3xl;
+  background: color-mix(in srgb, #{$color-secondary} 5%, #{$color-bg});
+
+  @include respond-to(lg) {
+    padding-block: $spacing-2xl calc(#{$spacing-3xl} + #{$spacing-md});
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+
+  @include respond-to(md) {
+    display: grid;
+    grid-template-columns: minmax(10rem, 4fr) minmax(0, 8fr);
+    gap: $spacing-2xl $spacing-xl;
+    align-items: start;
+  }
+
+  @include respond-to(lg) {
+    gap: $spacing-2xl $spacing-2xl;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  max-width: 16rem;
+
+  @include respond-to(md) {
+    position: sticky;
+    top: $spacing-2xl;
+    padding-block-start: $spacing-sm;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, #{$color-accent-dark} 72%, #{$color-text-muted});
+  opacity: 0.88;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  margin: 0;
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 2.35rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1.15;
+  color: $color-text;
+}
+
+.titleLine {
+  display: block;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(12, 1fr);
+    gap: $spacing-lg;
+  }
+}

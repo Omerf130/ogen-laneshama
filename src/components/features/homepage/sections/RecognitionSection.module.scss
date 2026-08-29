@@ -1,0 +1,116 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/media" as *;
+@use "../../../../styles/mixins/typography" as *;
+
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block-end: $spacing-2xl;
+
+  @include respond-to(lg) {
+    padding-block-end: $spacing-xl;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 10% auto auto 15%;
+    width: min(28rem, 55vw);
+    height: min(20rem, 40vh);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #{$color-secondary} 18%, transparent) 0%,
+      transparent 72%
+    );
+    pointer-events: none;
+    opacity: 0.55;
+  }
+}
+
+.composition {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  max-width: 52rem;
+
+  @include respond-to(md) {
+    gap: $spacing-2xl;
+  }
+}
+
+.context {
+  @include text-small;
+  margin: 0;
+  max-width: 22ch;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, #{$color-accent-dark} 65%, #{$color-text-muted});
+  opacity: 0.9;
+  font-size: $font-size-small;
+  line-height: $line-height-small;
+}
+
+.featured {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.featuredText {
+  margin: 0;
+  max-width: 18ch;
+  font-size: clamp(1.35rem, 2.2vw + 0.85rem, 2rem);
+  font-weight: $font-weight-medium;
+  line-height: 1.45;
+  color: $color-text;
+
+  @include respond-to(md) {
+    margin-inline-start: 8%;
+    max-width: 20ch;
+  }
+
+  @include respond-to(lg) {
+    margin-inline-start: 12%;
+  }
+}
+
+.featuredAccent {
+  font-weight: $font-weight-semibold;
+  color: color-mix(in srgb, #{$color-accent-dark} 82%, #{$color-text});
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, #{$color-accent} 45%, transparent);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+.supporting {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  max-width: 42ch;
+
+  @include respond-to(md) {
+    margin-inline-start: 22%;
+    gap: $spacing-lg;
+  }
+
+  @include respond-to(lg) {
+    margin-inline-start: 28%;
+  }
+}
+
+.supportingLine {
+  @include text-body-lg;
+  margin: 0;
+  color: $color-text-muted;
+}
+
+.reassurance {
+  @include text-body;
+  margin: 0;
+  max-width: 36ch;
+  color: color-mix(in srgb, #{$color-text-muted} 88%, #{$color-text});
+}

@@ -1,40 +1,37 @@
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { JourneySection } from "../JourneySection";
-import type { TestimonialSlot } from "@/types/homepage";
-import styles from "./sections.module.scss";
+import { TestimonialQuote } from "../ui/TestimonialQuote/TestimonialQuote";
+import type {
+  HomepageTestimonialsSection,
+  TestimonialSlot,
+} from "@/types/homepage";
+import styles from "./TestimonialsSection.module.scss";
 
 interface TestimonialsSectionProps {
+  content: HomepageTestimonialsSection;
   testimonials: TestimonialSlot[];
 }
 
-export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
-  const hasTestimonials = testimonials.some((t) => t.quote);
+export function TestimonialsSection({
+  content,
+  testimonials,
+}: TestimonialsSectionProps) {
+  const quoted = testimonials.filter((t) => t.quote);
+
+  if (quoted.length === 0) {
+    return null;
+  }
 
   return (
-    <JourneySection id="testimonials" stage="testimonials">
-      <div className={styles.sectionIntro}>
-        <SectionHeading
-          title="מה נשים משתפות"
-          subtitle="המלצות מלקוחות — יתווספו בקרוב."
-          level={2}
-        />
+    <JourneySection id="testimonials" stage="testimonials" className={styles.section}>
+      <header className={styles.header}>
+        <h2 className={styles.title}>{content.title}</h2>
+        <p className={styles.subtitle}>{content.subtitle}</p>
+      </header>
+      <div className={styles.quotes}>
+        {quoted.map((testimonial) => (
+          <TestimonialQuote key={testimonial.id} testimonial={testimonial} />
+        ))}
       </div>
-      {hasTestimonials ? (
-        <ul className={styles.blockList}>
-          {testimonials
-            .filter((t) => t.quote)
-            .map((t) => (
-              <li key={t.id} className={styles.blockItem}>
-                {t.quote}
-                {t.name ? ` — ${t.name}` : ""}
-              </li>
-            ))}
-        </ul>
-      ) : (
-        <p className={styles.emptyState}>
-          המלצות יתווספו בקרוב. בינתיים, אשמח לשוחח איתך ישירות.
-        </p>
-      )}
     </JourneySection>
   );
 }

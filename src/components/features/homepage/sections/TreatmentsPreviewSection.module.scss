@@ -1,0 +1,53 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/media" as *;
+
+.section {
+  background-color: $color-bg;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  max-width: 32rem;
+  margin-block-end: $spacing-xl;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, #{$color-accent-dark} 72%, #{$color-text-muted});
+  opacity: 0.88;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 2.25rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1.2;
+  color: $color-text;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: $font-size-body-lg;
+  line-height: 1.65;
+  color: $color-text-muted;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:has(a:hover) a:not(:hover) {
+      opacity: 0.72;
+    }
+  }
+}
+
+.footerCta {
+  margin-block-start: $spacing-xl;
+}

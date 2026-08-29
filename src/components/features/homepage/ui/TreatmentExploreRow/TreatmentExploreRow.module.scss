@@ -1,0 +1,121 @@
+@use "../../../../../styles/tokens" as *;
+@use "../../../../../styles/mixins/focus" as *;
+@use "../../../../../styles/mixins/typography" as *;
+@use "../../../../../styles/mixins/motion" as *;
+@use "../../../../../styles/mixins/media" as *;
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: $spacing-md $spacing-lg;
+  padding: $spacing-lg $spacing-md;
+  border-block-end: 1px solid color-mix(in srgb, #{$color-border} 70%, transparent);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  border-radius: $radius-md;
+
+  @include focus-visible;
+  @include motion-safe(
+    background-color $transition-base $ease-soft,
+    transform $transition-base $ease-soft,
+    border-color $transition-base $ease-soft,
+    box-shadow $transition-base $ease-soft,
+    opacity $transition-base $ease-soft
+  );
+
+  @include respond-to(md) {
+    padding: $spacing-xl $spacing-lg;
+    gap: $spacing-lg $spacing-2xl;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover,
+    &:focus-visible {
+      transform: translateY(-2px);
+      background: color-mix(in srgb, #{$color-secondary} 10%, #{$color-bg});
+      border-color: color-mix(in srgb, #{$color-accent} 25%, #{$color-border});
+      box-shadow: 0 4px 20px rgb(45 52 54 / 4%);
+
+      .anchorWrap {
+        opacity: 0.38;
+        transform: translateX(-3px);
+      }
+
+      .anchor {
+        color: $color-accent-dark;
+      }
+
+      .description {
+        color: $color-text-muted;
+        opacity: 1;
+      }
+
+      .arrow {
+        color: $color-accent-dark;
+        transform: translateX(-4px);
+      }
+    }
+  }
+}
+
+.anchorWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: clamp(2.25rem, 3.5vw, 2.75rem);
+  opacity: 0.24;
+  user-select: none;
+
+  @include motion-safe(
+    opacity $transition-base $ease-soft,
+    transform $transition-base $ease-soft
+  );
+}
+
+.anchor {
+  width: clamp(1.75rem, 2.8vw, 2.25rem);
+  height: clamp(1.75rem, 2.8vw, 2.25rem);
+  color: color-mix(in srgb, #{$color-accent-dark} 88%, #{$color-accent});
+
+  @include motion-safe(color $transition-base $ease-soft);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.5vw + 0.9rem, 1.5rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1.25;
+  color: $color-text;
+}
+
+.description {
+  @include text-body;
+  margin: 0;
+  color: $color-text-muted;
+  opacity: 0.88;
+
+  @include motion-safe(color $transition-base $ease-soft, opacity $transition-base $ease-soft);
+}
+
+.arrow {
+  font-size: $font-size-h3;
+  font-weight: $font-weight-medium;
+  color: color-mix(in srgb, #{$color-accent-dark} 70%, #{$color-text-muted});
+  line-height: 1;
+
+  @include motion-safe(
+    color $transition-base $ease-soft,
+    transform $transition-base $ease-soft
+  );
+}

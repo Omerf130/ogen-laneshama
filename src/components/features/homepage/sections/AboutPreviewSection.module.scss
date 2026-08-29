@@ -1,0 +1,128 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/media" as *;
+@use "../../../../styles/mixins/typography" as *;
+
+.section {
+  background-color: $color-bg;
+  padding-block-start: $spacing-2xl;
+}
+
+.composition {
+  display: grid;
+  gap: $spacing-2xl;
+  align-items: start;
+
+  @include respond-to(md) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: $spacing-2xl $spacing-3xl;
+    align-items: center;
+  }
+}
+
+.portraitCol {
+  position: relative;
+  z-index: 1;
+}
+
+.contentCol {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  max-width: 36rem;
+
+  @include respond-to(md) {
+    gap: $spacing-xl;
+    padding-block: $spacing-md;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, #{$color-accent-dark} 72%, #{$color-text-muted});
+  opacity: 0.88;
+}
+
+.name {
+  margin: 0;
+  font-size: clamp(1.75rem, 2vw + 1rem, 2.25rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1.2;
+  color: $color-text;
+}
+
+.supporting {
+  @include text-body-lg;
+  margin: 0;
+  max-width: 38ch;
+  color: $color-text-muted;
+}
+
+.featured {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.featuredText {
+  margin: 0;
+  max-width: 22ch;
+  font-size: clamp(1.35rem, 1.8vw + 0.9rem, 1.85rem);
+  font-weight: $font-weight-medium;
+  line-height: 1.45;
+  color: $color-text;
+
+  @include respond-to(md) {
+    margin-inline-start: 6%;
+  }
+}
+
+.accent {
+  font-weight: $font-weight-semibold;
+  color: color-mix(in srgb, #{$color-accent-dark} 82%, #{$color-text});
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, #{$color-accent} 45%, transparent);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+.whyBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding-block-start: $spacing-sm;
+}
+
+.whyTitle {
+  @include text-h3;
+  margin: 0;
+  color: $color-text;
+}
+
+.whyList {
+  display: grid;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacing-sm $spacing-lg;
+  }
+}
+
+.whyItem {
+  @include text-body;
+  margin: 0;
+  padding-inline-start: $spacing-md;
+  color: $color-text-muted;
+  border-inline-start: 1px solid color-mix(in srgb, #{$color-accent} 35%, transparent);
+}
+
+.cta {
+  align-self: flex-start;
+  margin-block-start: $spacing-sm;
+}

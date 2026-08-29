@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/Button";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { RevealGroup } from "../ui/RevealGroup/RevealGroup";
 import { JourneySection } from "../JourneySection";
 import type { HomepageContactCta } from "@/types/homepage";
-import styles from "./sections.module.scss";
+import styles from "./ContactCtaSection.module.scss";
 
 interface ContactCtaSectionProps {
   content: HomepageContactCta;
@@ -14,14 +14,12 @@ export function ContactCtaSection({
   whatsAppUrl,
 }: ContactCtaSectionProps) {
   return (
-    <JourneySection id="contact-cta" stage="cta">
-      <div className={styles.ctaBlock}>
-        <SectionHeading
-          title={content.title}
-          subtitle={content.subtitle}
-          level={2}
-        />
-        <div className={styles.heroActions}>
+    <JourneySection id="contact-cta" stage="cta" className={styles.section}>
+      <RevealGroup className={styles.composition}>
+        <p className={styles.eyebrow}>{content.eyebrow}</p>
+        <h2 className={styles.featured}>{content.featuredStatement}</h2>
+        <p className={styles.subtitle}>{content.subtitle}</p>
+        <div className={styles.actions}>
           <Button href="/contact">{content.ctaLabel}</Button>
           {whatsAppUrl ? (
             <Button
@@ -34,7 +32,7 @@ export function ContactCtaSection({
             </Button>
           ) : null}
         </div>
-      </div>
+      </RevealGroup>
     </JourneySection>
   );
 }

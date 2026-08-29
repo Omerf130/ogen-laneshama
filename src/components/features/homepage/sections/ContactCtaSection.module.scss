@@ -1,0 +1,91 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/media" as *;
+
+.section {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, #{$color-accent} 5%, #{$color-bg});
+  padding-block: calc(#{$spacing-3xl} + #{$spacing-lg});
+
+  @include respond-to(lg) {
+    padding-block: calc(#{$spacing-3xl} + #{$spacing-2xl});
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: auto 15% 0 20%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, #{$color-accent} 40%, transparent) 40%,
+      color-mix(in srgb, #{$color-accent} 40%, transparent) 60%,
+      transparent 100%
+    );
+    opacity: 0.6;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 20% auto auto 10%;
+    width: min(24rem, 50vw);
+    height: min(16rem, 30vh);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #{$color-secondary} 14%, transparent) 0%,
+      transparent 72%
+    );
+    pointer-events: none;
+  }
+}
+
+.composition {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  max-width: 36rem;
+
+  @include respond-to(md) {
+    gap: $spacing-xl;
+    margin-inline-start: 8%;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, #{$color-accent-dark} 72%, #{$color-text-muted});
+  opacity: 0.88;
+}
+
+.featured {
+  margin: 0;
+  max-width: 16ch;
+  font-size: clamp(1.85rem, 3vw + 1rem, 2.75rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1.15;
+  color: $color-text;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 32ch;
+  font-size: $font-size-body-lg;
+  line-height: 1.7;
+  color: $color-text-muted;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  align-items: center;
+  margin-block-start: $spacing-sm;
+}

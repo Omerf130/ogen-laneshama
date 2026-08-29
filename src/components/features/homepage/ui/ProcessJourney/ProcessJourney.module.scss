@@ -1,0 +1,164 @@
+@use "../../../../../styles/tokens" as *;
+@use "../../../../../styles/mixins/typography" as *;
+@use "../../../../../styles/mixins/media" as *;
+@use "../../../../../styles/mixins/motion" as *;
+
+.journey {
+  --process-progress: 0;
+  position: relative;
+  padding-block: $spacing-lg;
+}
+
+.lineDesktop {
+  display: none;
+  position: absolute;
+  inset: 2.5rem 0 auto;
+  width: 100%;
+  height: 5rem;
+  overflow: visible;
+  pointer-events: none;
+
+  @include respond-to(md) {
+    display: block;
+  }
+}
+
+.lineMobile {
+  display: block;
+  position: absolute;
+  inset-inline-start: 0.65rem;
+  top: 1.5rem;
+  width: 2.5rem;
+  height: calc(100% - 3rem);
+  overflow: visible;
+  pointer-events: none;
+
+  @include respond-to(md) {
+    display: none;
+  }
+}
+
+.lineTrack,
+.lineProgress {
+  fill: none;
+  stroke-width: 2;
+}
+
+.lineTrack {
+  stroke: color-mix(in srgb, #{$color-border} 80%, transparent);
+}
+
+.lineProgress {
+  stroke: color-mix(in srgb, #{$color-accent} 55%, #{$color-secondary});
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--process-progress));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey {
+    --process-progress: 1;
+  }
+}
+
+.steps {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to(md) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-lg;
+    padding-block-start: $spacing-3xl;
+  }
+}
+
+.step {
+  display: flex;
+  gap: $spacing-lg;
+  padding-inline-start: $spacing-2xl;
+  opacity: 0.55;
+
+  @include motion-safe(opacity $transition-slow $ease-soft);
+
+  @include respond-to(md) {
+    flex-direction: column;
+    gap: $spacing-md;
+    padding-inline-start: 0;
+    text-align: center;
+    align-items: center;
+  }
+
+  &[data-active="true"] {
+    opacity: 1;
+
+    .number {
+      color: $color-accent-dark;
+      border-color: color-mix(in srgb, #{$color-accent} 50%, transparent);
+      background: color-mix(in srgb, #{$color-accent} 10%, #{$color-bg});
+    }
+
+    .stepTitle {
+      color: $color-text;
+    }
+  }
+}
+
+.number {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: $font-size-small;
+  font-weight: $font-weight-semibold;
+  color: $color-text-muted;
+  border: 1px solid color-mix(in srgb, #{$color-border} 90%, transparent);
+  border-radius: $radius-full;
+  background: color-mix(in srgb, #{$color-bg} 90%, #{$color-surface});
+
+  @include motion-safe(
+    color $transition-base $ease-soft,
+    border-color $transition-base $ease-soft,
+    background-color $transition-base $ease-soft
+  );
+
+  @include respond-to(md) {
+    width: 3rem;
+    height: 3rem;
+    font-size: $font-size-body;
+  }
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  min-width: 0;
+}
+
+.stepTitle {
+  @include text-h3;
+  margin: 0;
+  color: color-mix(in srgb, #{$color-text} 75%, #{$color-text-muted});
+
+  @include motion-safe(color $transition-base $ease-soft);
+}
+
+.stepDescription {
+  @include text-body;
+  margin: 0;
+  color: $color-text-muted;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    opacity: 1;
+  }
+}

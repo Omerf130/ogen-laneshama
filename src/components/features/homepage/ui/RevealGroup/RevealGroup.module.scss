@@ -1,0 +1,24 @@
+@use "../../../../../styles/tokens" as *;
+@use "../../../../../styles/mixins/motion" as *;
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+
+  @include motion-safe(
+    opacity $transition-slow $ease-soft,
+    transform $transition-slow $ease-soft
+  );
+
+  &.visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

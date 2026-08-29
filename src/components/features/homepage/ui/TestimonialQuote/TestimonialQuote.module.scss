@@ -1,0 +1,44 @@
+@use "../../../../../styles/tokens" as *;
+@use "../../../../../styles/mixins/typography" as *;
+@use "../../../../../styles/mixins/media" as *;
+
+.quote {
+  position: relative;
+  margin: 0;
+  padding: $spacing-xl $spacing-lg $spacing-lg;
+  border-radius: $radius-lg $radius-md $radius-lg $radius-xl;
+  background: color-mix(in srgb, #{$color-surface} 75%, #{$color-bg});
+  border: 1px solid color-mix(in srgb, #{$color-border} 70%, transparent);
+}
+
+.mark {
+  position: absolute;
+  top: $spacing-sm;
+  inset-inline-end: $spacing-lg;
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  line-height: 1;
+  font-weight: $font-weight-semibold;
+  color: color-mix(in srgb, #{$color-accent} 35%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.text {
+  @include text-body-lg;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 38ch;
+  font-style: italic;
+  color: $color-text;
+}
+
+.attribution {
+  @include text-small;
+  margin-block-start: $spacing-md;
+  color: $color-text-muted;
+}
+
+.context {
+  color: color-mix(in srgb, #{$color-text-muted} 85%, #{$color-text});
+}

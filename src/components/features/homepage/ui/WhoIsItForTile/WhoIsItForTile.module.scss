@@ -1,0 +1,119 @@
+@use "../../../../../styles/tokens" as *;
+@use "../../../../../styles/mixins/media" as *;
+@use "../../../../../styles/mixins/motion" as *;
+@use "../../../../../styles/mixins/typography" as *;
+
+.tile {
+  position: relative;
+  overflow: hidden;
+  padding: $spacing-lg $spacing-lg $spacing-xl;
+  border: 1px solid color-mix(in srgb, #{$color-border} 80%, transparent);
+  background: color-mix(in srgb, #{$color-bg} 92%, #{$color-surface});
+
+  @include motion-safe(
+    transform $transition-base $ease-soft,
+    border-color $transition-base $ease-soft,
+    box-shadow $transition-base $ease-soft
+  );
+
+  @include respond-to(md) {
+    padding: $spacing-xl;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, #{$color-accent} 35%, #{$color-border});
+      box-shadow: 0 4px 16px rgb(45 52 54 / 5%);
+
+      .number {
+        opacity: 0.22;
+        transform: translateX(-4px);
+      }
+    }
+  }
+}
+
+.tileA {
+  border-radius: $radius-lg $radius-md $radius-lg $radius-md;
+
+  @include respond-to(md) {
+    grid-column: span 5;
+  }
+}
+
+.tileB {
+  border-radius: $radius-md $radius-lg $radius-md $radius-lg;
+  background: color-mix(in srgb, #{$color-secondary} 10%, #{$color-bg});
+
+  @include respond-to(md) {
+    grid-column: span 7;
+  }
+}
+
+.tileC {
+  border-radius: $radius-lg $radius-lg $radius-md $radius-xl;
+  background: color-mix(in srgb, #{$color-accent} 6%, #{$color-bg});
+
+  @include respond-to(md) {
+    grid-column: span 7;
+  }
+}
+
+.tileD {
+  border-radius: $radius-md $radius-lg $radius-lg $radius-md;
+  background: color-mix(in srgb, #{$color-surface} 70%, #{$color-bg});
+
+  @include respond-to(md) {
+    grid-column: span 5;
+  }
+}
+
+.number {
+  position: absolute;
+  top: $spacing-sm;
+  inset-inline-end: $spacing-md;
+  font-size: clamp(3.5rem, 7vw, 5.5rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: color-mix(in srgb, #{$color-accent-dark} 55%, #{$color-text-muted});
+  opacity: 0.14;
+  pointer-events: none;
+  user-select: none;
+
+  @include motion-safe(
+    opacity $transition-base $ease-soft,
+    transform $transition-base $ease-soft
+  );
+}
+
+.tileC .number,
+.tileD .number {
+  @include respond-to(md) {
+    inset-inline-end: auto;
+    inset-inline-start: $spacing-md;
+  }
+}
+
+.text {
+  @include text-body-lg;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 34ch;
+  padding-inline-end: 2.5rem;
+  color: $color-text-muted;
+
+  @include respond-to(md) {
+    padding-inline-end: 3rem;
+  }
+}
+
+.tileC .text,
+.tileD .text {
+  @include respond-to(md) {
+    padding-inline-end: 0;
+    padding-inline-start: 2.75rem;
+  }
+}

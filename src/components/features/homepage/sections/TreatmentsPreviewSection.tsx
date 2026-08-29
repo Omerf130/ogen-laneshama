@@ -1,35 +1,42 @@
 import { Button } from "@/components/ui/Button";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { JourneySection } from "../JourneySection";
-import { TreatmentPathItem } from "../ui/TreatmentPathItem";
+import { TreatmentExploreRow } from "../ui/TreatmentExploreRow/TreatmentExploreRow";
+import type { HomepageTreatmentsPreview } from "@/types/homepage";
 import type { Treatment } from "@/types/content";
-import styles from "./sections.module.scss";
+import styles from "./TreatmentsPreviewSection.module.scss";
 
 interface TreatmentsPreviewSectionProps {
+  content: HomepageTreatmentsPreview;
   treatments: Treatment[];
 }
 
 export function TreatmentsPreviewSection({
+  content,
   treatments,
 }: TreatmentsPreviewSectionProps) {
   return (
-    <JourneySection id="treatments-preview" stage="treatments">
-      <div className={styles.sectionIntro}>
-        <SectionHeading
-          title="דרכים שבהן אני יכולה ללוות אותך"
-          subtitle="כל אישה שונה — נמצא יחד את מה שמתאים לך."
-          level={2}
-        />
-      </div>
-      <ul className={styles.treatmentsList}>
+    <JourneySection
+      id="treatments-preview"
+      stage="treatments"
+      className={styles.section}
+    >
+      <header className={styles.header}>
+        <p className={styles.eyebrow}>{content.eyebrow}</p>
+        <h2 className={styles.title}>{content.title}</h2>
+        <p className={styles.subtitle}>{content.subtitle}</p>
+      </header>
+
+      <div className={styles.list}>
         {treatments.map((treatment) => (
-          <li key={treatment.slug}>
-            <TreatmentPathItem treatment={treatment} />
-          </li>
+          <TreatmentExploreRow
+            key={treatment.slug}
+            treatment={treatment}
+          />
         ))}
-      </ul>
-      <Button href="/treatments" variant="ghost">
-        לכל הטיפולים
+      </div>
+
+      <Button href="/treatments" variant="ghost" className={styles.footerCta}>
+        {content.ctaLabel}
       </Button>
     </JourneySection>
   );

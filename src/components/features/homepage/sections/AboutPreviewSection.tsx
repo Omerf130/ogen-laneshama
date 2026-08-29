@@ -1,13 +1,29 @@
 import { Button } from "@/components/ui/Button";
-import { MediaPlaceholder } from "@/components/ui/MediaPlaceholder";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { RevealGroup } from "../ui/RevealGroup/RevealGroup";
+import { PortraitFrame } from "../ui/PortraitFrame/PortraitFrame";
 import { JourneySection } from "../JourneySection";
 import type { HomepageAboutPreview } from "@/types/homepage";
-import styles from "./sections.module.scss";
+import styles from "./AboutPreviewSection.module.scss";
 
 interface AboutPreviewSectionProps {
   content: HomepageAboutPreview;
   portraitSrc: string | null;
+}
+
+function renderWithAccent(text: string, accent?: string) {
+  if (!accent || !text.includes(accent)) {
+    return text;
+  }
+
+  const [before, after] = text.split(accent);
+
+  return (
+    <>
+      {before}
+      <span className={styles.accent}>{accent}</span>
+      {after}
+    </>
+  );
 }
 
 export function AboutPreviewSection({
@@ -15,38 +31,39 @@ export function AboutPreviewSection({
   portraitSrc,
 }: AboutPreviewSectionProps) {
   return (
-    <JourneySection id="about-preview" stage="about">
-      <div className={styles.aboutLayout}>
-        <div className={styles.aboutMedia}>
-          {portraitSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={portraitSrc} alt={content.title} />
-          ) : (
-            <MediaPlaceholder label="תמונת רחלי תתווסף בשלב הבא" />
-          )}
+    <JourneySection id="about-preview" stage="about" className={styles.section}>
+      <RevealGroup className={styles.composition}>
+        <div className={styles.portraitCol}>
+          <PortraitFrame src={portraitSrc} alt={content.title} />
         </div>
-        <div className={styles.aboutText}>
-          <SectionHeading
-            title={content.title}
-            subtitle={content.subtitle}
-            level={2}
-          />
-          <p className={styles.excerpt}>{content.excerpt}</p>
-          <div className={styles.block}>
-            <h3 className={styles.blockTitle}>{content.whyRacheli.title}</h3>
-            <ul className={styles.blockList}>
+
+        <div className={styles.contentCol}>
+          <p className={styles.eyebrow}>{content.eyebrow}</p>
+          <h2 className={styles.name}>{content.title}</h2>
+          <p className={styles.supporting}>{content.supportingCopy}</p>
+
+          <blockquote className={styles.featured}>
+            <p className={styles.featuredText}>
+              {renderWithAccent(content.featuredStatement, content.featuredAccent)}
+            </p>
+          </blockquote>
+
+          <div className={styles.whyBlock}>
+            <h3 className={styles.whyTitle}>{content.whyRacheli.title}</h3>
+            <ul className={styles.whyList}>
               {content.whyRacheli.points.map((point) => (
-                <li key={point} className={styles.blockItem}>
+                <li key={point} className={styles.whyItem}>
                   {point}
                 </li>
               ))}
             </ul>
           </div>
-          <Button href="/about" variant="secondary">
+
+          <Button href="/about" variant="secondary" className={styles.cta}>
             {content.ctaLabel}
           </Button>
         </div>
-      </div>
+      </RevealGroup>
     </JourneySection>
   );
 }

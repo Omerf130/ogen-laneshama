@@ -15,20 +15,27 @@ export interface HomepageHero {
   ctaPrimary: string;
 }
 
+export interface HomepageWhoIsItFor {
+  eyebrow: string;
+  titleLines: [string, string];
+  items: string[];
+}
+
 export interface HomepageRecognition {
   title: string;
   subtitle: string;
-  statements: string[];
-  whoIsItFor: {
-    title: string;
-    items: string[];
-  };
+  supportingStatements: string[];
+  featuredStatement: string;
+  featuredAccent?: string;
+  whoIsItFor: HomepageWhoIsItFor;
 }
 
 export interface HomepageAboutPreview {
+  eyebrow: string;
   title: string;
-  subtitle: string;
-  excerpt: string;
+  featuredStatement: string;
+  featuredAccent?: string;
+  supportingCopy: string;
   whyRacheli: {
     title: string;
     points: string[];
@@ -37,7 +44,8 @@ export interface HomepageAboutPreview {
 }
 
 export interface HomepagePregnancySpotlight {
-  title: string;
+  eyebrow: string;
+  featuredStatement: string;
   excerpt: string;
   disclaimer: string;
   ctaLabel: string;
@@ -48,16 +56,34 @@ export interface ProcessStep {
   description: string;
 }
 
-export interface HomepageSafety {
-  process: {
-    title: string;
-    subtitle: string;
-    steps: ProcessStep[];
-  };
+export interface HomepageProcess {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  steps: ProcessStep[];
+}
+
+export interface HomepageTreatmentsPreview {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  ctaLabel: string;
+}
+
+export interface HomepageFaqSection {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+}
+
+export interface HomepageTestimonialsSection {
+  title: string;
+  subtitle: string;
 }
 
 export interface HomepageContactCta {
-  title: string;
+  eyebrow: string;
+  featuredStatement: string;
   subtitle: string;
   ctaLabel: string;
 }
@@ -66,8 +92,11 @@ export interface HomepageContent {
   hero: HomepageHero;
   recognition: HomepageRecognition;
   aboutPreview: HomepageAboutPreview;
+  treatmentsPreview: HomepageTreatmentsPreview;
   pregnancySpotlight: HomepagePregnancySpotlight;
-  safety: HomepageSafety;
+  process: HomepageProcess;
+  testimonialsSection: HomepageTestimonialsSection;
+  faqSection: HomepageFaqSection;
   contactCta: HomepageContactCta;
 }
 
