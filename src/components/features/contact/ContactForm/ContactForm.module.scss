@@ -1,0 +1,21 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/typography" as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  padding: $spacing-xl;
+  border-radius: $radius-lg;
+  background: color-mix(in srgb, #{$color-bg} 60%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.notice {
+  @include text-small;
+  margin: 0;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background: color-mix(in srgb, #{$color-secondary} 25%, transparent);
+  color: $color-text-muted;
+}

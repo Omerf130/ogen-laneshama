@@ -1,0 +1,31 @@
+@use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/typography" as *;
+
+.moments {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin: $spacing-xl 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moment {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding-inline-start: $spacing-lg;
+  border-inline-start: 2px solid color-mix(in srgb, #{$color-accent} 35%, transparent);
+}
+
+.momentTitle {
+  @include text-h3;
+  margin: 0;
+  color: $color-text;
+}
+
+.momentDesc {
+  @include text-body;
+  margin: 0;
+  color: $color-text-muted;
+}

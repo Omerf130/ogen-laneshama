@@ -1,0 +1,65 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/typography" as *;
+
+.prose {
+  @include text-body;
+  color: $color-text-muted;
+  max-width: 42rem;
+
+  p {
+    margin: 0 0 $spacing-md;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  li {
+    padding-inline-start: $spacing-md;
+
+    &::before {
+      content: "·";
+      margin-inline-end: $spacing-sm;
+      color: $color-accent-dark;
+    }
+  }
+}
+
+.default {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.emphasis {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-xl;
+  border-radius: $radius-lg;
+  background: color-mix(in srgb, #{$color-bg} 55%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding-inline-start: $spacing-lg;
+  border-inline-start: 2px solid color-mix(in srgb, #{$color-accent} 35%, transparent);
+}
+
+.title {
+  @include text-h3;
+  margin: 0;
+  color: $color-text;
+}

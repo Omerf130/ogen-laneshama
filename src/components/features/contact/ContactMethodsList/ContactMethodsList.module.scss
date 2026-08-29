@@ -1,0 +1,42 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/typography" as *;
+@use "../../../../styles/mixins/focus" as *;
+
+.methods {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.heading {
+  @include text-h3;
+  margin: 0;
+  color: $color-text;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    @include text-body;
+    color: $color-text-muted;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    @include focus-visible;
+
+    &:hover {
+      color: $color-accent-dark;
+    }
+  }
+
+  li:not(:has(a)) {
+    @include text-body;
+    color: $color-text-muted;
+  }
+}

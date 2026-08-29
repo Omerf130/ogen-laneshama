@@ -1,0 +1,6 @@
+@use "../../../../styles/tokens" as *;
+
+.hero {
+  max-width: 44rem;
+  padding-block-end: $spacing-lg;
+}

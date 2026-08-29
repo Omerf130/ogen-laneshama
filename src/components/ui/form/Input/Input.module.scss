@@ -1,0 +1,35 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/focus" as *;
+
+.field {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: color-mix(in srgb, #{$color-bg} 80%, transparent);
+  color: $color-text;
+  font: inherit;
+
+  @include focus-visible;
+
+  &::placeholder {
+    color: $color-text-muted;
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.hasError {
+  border-color: color-mix(in srgb, #{$color-accent-dark} 60%, #{$color-border});
+}
+
+.textarea {
+  min-height: 8rem;
+  resize: vertical;
+}

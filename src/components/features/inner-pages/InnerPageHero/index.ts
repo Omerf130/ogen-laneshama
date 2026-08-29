@@ -1,0 +1,1 @@
+export { InnerPageHero } from "./InnerPageHero";

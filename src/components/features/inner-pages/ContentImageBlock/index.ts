@@ -1,0 +1,1 @@
+export { ContentImageBlock } from "./ContentImageBlock";

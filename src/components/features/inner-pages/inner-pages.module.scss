@@ -1,0 +1,124 @@
+@use "../../../styles/tokens" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3xl;
+  padding-block: $spacing-2xl;
+
+  @media (min-width: 1024px) {
+    padding-block: $spacing-3xl;
+  }
+}
+
+.intro {
+  max-width: 42rem;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+}
+
+.split {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: $spacing-2xl;
+  }
+}
+
+.media {
+  flex-shrink: 0;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    color: $color-accent-dark;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+.moments {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.moment {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding-inline-start: $spacing-lg;
+  border-inline-start: 2px solid color-mix(in srgb, #{$color-accent} 35%, transparent);
+}
+
+.momentTitle {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.momentDesc {
+  margin: 0;
+}
+
+.contactLayout {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: $spacing-3xl;
+  }
+}
+
+.contactMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.contactAside {
+  flex: 0 0 auto;
+  min-width: 14rem;
+
+  @media (min-width: 768px) {
+    max-width: 16rem;
+  }
+}
+
+.backLink {
+  margin-block-end: $spacing-lg;
+
+  a {
+    color: $color-text-muted;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: $color-accent-dark;
+    }
+  }
+}
+
+.emotionalOpening {
+  max-width: 44rem;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}

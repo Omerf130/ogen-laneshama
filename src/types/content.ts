@@ -1,3 +1,5 @@
+import type { FaqItem } from "@/types/homepage";
+
 export type SocialPlatform =
   | "facebook"
   | "instagram"
@@ -38,29 +40,113 @@ export type TreatmentSlug =
   | "reiki"
   | "guidance";
 
+export type TreatmentLayoutVariant =
+  | "standard"
+  | "immersive"
+  | "process-focused";
+
+export type ContentBlockVariant = "default" | "emphasis" | "aside";
+
+export interface ContentImage {
+  src: string | null;
+  alt: string;
+}
+
+export interface ContentBlock {
+  id: string;
+  title?: string;
+  body: string | string[];
+  variant?: ContentBlockVariant;
+}
+
+export interface PageCtaContent {
+  label: string;
+  href: string;
+}
+
+export interface AboutContent {
+  hero: {
+    title: string;
+    subtitle: string;
+  };
+  introduction: ContentBlock;
+  philosophy: ContentBlock;
+  approach: ContentBlock;
+  methods: ContentBlock & {
+    treatmentLinks: { slug: TreatmentSlug; label: string }[];
+  };
+  safeSpace: ContentBlock;
+  cta: PageCtaContent;
+  portrait: ContentImage;
+}
+
 export interface Treatment {
   slug: TreatmentSlug;
   title: string;
   shortDescription: string;
-  longDescription: string;
-  /** Content guideline reminder — not displayed by default */
-  contentNote?: string;
+  emotionalOpening: string;
+  whatItIs: ContentBlock;
+  whoItSuits: ContentBlock;
+  sessionProcess: ContentBlock;
+  supportiveGoals: ContentBlock;
+  expectations: ContentBlock;
+  disclaimer?: string;
+  cta: PageCtaContent;
+  image: ContentImage;
+  faq?: FaqItem[];
+  layoutVariant: TreatmentLayoutVariant;
+}
+
+export interface TreatmentsIndexContent {
+  title: string;
+  subtitle: string;
+  intro: string;
+  cta: PageCtaContent;
+}
+
+export interface PregnancyMoment {
+  title: string;
+  description: string;
 }
 
 export interface PregnancyMotherhoodContent {
-  title: string;
-  shortDescription: string;
-  longDescription: string;
-  contentNote: string;
+  hero: {
+    title: string;
+    subtitle: string;
+  };
+  recognition: ContentBlock;
+  moments: {
+    title: string;
+    items: PregnancyMoment[];
+  };
+  howSupportHelps: ContentBlock;
+  process: ContentBlock;
+  reassurance: ContentBlock;
+  disclaimer: string;
+  cta: PageCtaContent;
+  image: ContentImage;
 }
 
-export interface AboutContent {
-  title: string;
-  shortDescription: string;
-  longDescription: string;
+export interface ContactFormContent {
+  nameLabel: string;
+  phoneLabel: string;
+  emailLabel: string;
+  messageLabel: string;
+  submitLabel: string;
+  devNotice: string;
 }
 
 export interface ContactPageContent {
   title: string;
-  shortDescription: string;
+  subtitle: string;
+  intro: string;
+  contactMethodsHeading: string;
+  form: ContactFormContent;
+  ctaWhatsApp?: string;
+}
+
+export interface PagesAssets {
+  aboutPortrait: ContentImage;
+  pregnancyImage: ContentImage;
+  treatmentImages: Record<TreatmentSlug, ContentImage>;
 }

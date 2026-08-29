@@ -1,0 +1,1 @@
+export { TreatmentsIndexContent } from "./TreatmentsIndexContent";

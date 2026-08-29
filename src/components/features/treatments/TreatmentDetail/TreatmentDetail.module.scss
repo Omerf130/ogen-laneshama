@@ -1,0 +1,9 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/typography" as *;
+
+.emotionalOpening {
+  @include text-body-lg;
+  margin: 0;
+  max-width: 44rem;
+  color: $color-text-muted;
+}

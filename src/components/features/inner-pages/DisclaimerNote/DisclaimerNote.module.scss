@@ -1,0 +1,16 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/typography" as *;
+
+.note {
+  padding: $spacing-lg;
+  border-radius: $radius-md;
+  background: color-mix(in srgb, #{$color-secondary} 20%, transparent);
+  border-inline-start: 2px solid color-mix(in srgb, #{$color-accent} 40%, transparent);
+
+  p {
+    @include text-small;
+    margin: 0;
+    color: $color-text-muted;
+    font-style: italic;
+  }
+}

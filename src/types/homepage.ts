@@ -9,10 +9,10 @@ export type JourneyStage =
   | "cta";
 
 export interface HomepageHero {
+  eyebrow: string;
   title: string;
   subtitle: string;
   ctaPrimary: string;
-  ctaSecondary: string;
 }
 
 export interface HomepageRecognition {

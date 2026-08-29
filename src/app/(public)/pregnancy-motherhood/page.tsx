@@ -1,12 +1,9 @@
 import { pageMetadata } from "@/content/pages/page-metadata";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getPregnancyMotherhoodContent } from "@/lib/content/get-pregnancy-motherhood-content";
-import { PageShell } from "@/components/layout/PageShell";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { MediaPlaceholder } from "@/components/ui/MediaPlaceholder";
-import { Button } from "@/components/ui/Button";
-import styles from "./page.module.scss";
+import { PregnancyPageContent } from "@/components/features/pregnancy/PregnancyPageContent";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildWebPageSchema } from "@/lib/seo/structured-data";
 
 export const metadata = buildPageMetadata(pageMetadata.pregnancyMotherhood);
 
@@ -14,14 +11,15 @@ export default async function PregnancyMotherhoodPage() {
   const content = await getPregnancyMotherhoodContent();
 
   return (
-    <PageShell>
-      <Section>
-        <SectionHeading title={content.title} subtitle={content.shortDescription} />
-        <MediaPlaceholder />
-        <p className={styles.body}>{content.longDescription}</p>
-        <p className={styles.note}>{content.contentNote}</p>
-        <Button href="/contact">יצירת קשר</Button>
-      </Section>
-    </PageShell>
+    <>
+      <JsonLd
+        data={buildWebPageSchema({
+          name: content.hero.title,
+          description: pageMetadata.pregnancyMotherhood.description,
+          path: pageMetadata.pregnancyMotherhood.path,
+        })}
+      />
+      <PregnancyPageContent content={content} />
+    </>
   );
 }

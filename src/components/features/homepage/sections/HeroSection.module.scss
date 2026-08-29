@@ -1,0 +1,294 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/media" as *;
+@use "../../../../styles/mixins/motion" as *;
+
+.hero {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background-color: $color-bg;
+  min-height: clamp(26rem, 68vh, 38rem);
+
+  @include respond-to(md) {
+    min-height: clamp(26rem, 72vh, 40rem);
+  }
+
+  @include respond-to(lg) {
+    min-height: clamp(28rem, 74vh, 42rem);
+  }
+}
+
+.layout {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: $container-padding-inline;
+  min-height: inherit;
+  display: grid;
+  align-items: center;
+  padding-block: $spacing-2xl;
+
+  @include respond-to(md) {
+    padding-inline: $spacing-xl $spacing-lg;
+    grid-template-columns: minmax(30rem, 36rem) 1fr;
+    padding-block: $spacing-2xl;
+  }
+
+  @include respond-to(lg) {
+    padding-inline: $spacing-2xl $spacing-md;
+    padding-block: $spacing-3xl;
+  }
+}
+
+.content {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $spacing-lg;
+  max-width: 36rem;
+  padding-block: $spacing-md;
+
+  @include respond-to(md) {
+    align-self: center;
+    transform: translate(2%, -4%);
+    padding-block: $spacing-lg;
+    gap: $spacing-lg;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, #{$color-accent-dark} 72%, #{$color-text-muted});
+  opacity: 0.88;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.65rem, 5vw + 1.1rem, 3.9rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: $color-text;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 3.25rem;
+    height: 2px;
+    margin-block-start: $spacing-md;
+    border-radius: $radius-full;
+    background: linear-gradient(
+      90deg,
+      $color-accent 0%,
+      color-mix(in srgb, #{$color-accent} 30%, transparent) 100%
+    );
+  }
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 40ch;
+  font-size: clamp(1.125rem, 1vw + 1rem, 1.3125rem);
+  line-height: 1.75;
+  color: $color-text-muted;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cta {
+  min-height: 3rem;
+  padding: $spacing-md $spacing-2xl;
+
+  @include motion-safe(
+    box-shadow $transition-base $ease-soft,
+    transform $transition-fast $ease-soft
+  );
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 6px 20px rgb(45 52 54 / 8%);
+  }
+}
+
+.visual {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.photoFrame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  @include respond-to(md) {
+    inset: 0 auto 0 0;
+    width: 54vw;
+    max-width: 58rem;
+  }
+}
+
+.photo {
+  object-fit: cover;
+  object-position: 28% 42%;
+  transform: scale(1.05);
+  transform-origin: left center;
+
+  @include respond-to(md) {
+    object-position: 24% 38%;
+  }
+}
+
+.ivoryFade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$color-bg} 0%, transparent) 0%,
+      color-mix(in srgb, #{$color-bg} 0%, transparent) 58%,
+      color-mix(in srgb, #{$color-bg} 28%, transparent) 82%,
+      color-mix(in srgb, #{$color-bg} 72%, transparent) 94%,
+      #{$color-bg} 100%
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, #{$color-bg} 0%, transparent) 8%,
+      color-mix(in srgb, #{$color-bg} 45%, transparent) 78%,
+      #{$color-bg} 100%
+    );
+
+  @include respond-to(md) {
+    background:
+      radial-gradient(
+        ellipse 90% 110% at 24% 48%,
+        color-mix(in srgb, #{$color-bg} 0%, transparent) 0%,
+        color-mix(in srgb, #{$color-bg} 8%, transparent) 58%,
+        color-mix(in srgb, #{$color-bg} 28%, transparent) 82%
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in srgb, #{$color-bg} 0%, transparent) 0%,
+        color-mix(in srgb, #{$color-bg} 0%, transparent) 62%,
+        color-mix(in srgb, #{$color-bg} 22%, transparent) 84%,
+        color-mix(in srgb, #{$color-bg} 65%, transparent) 94%,
+        #{$color-bg} 100%
+      ),
+      linear-gradient(
+        to right,
+        color-mix(in srgb, #{$color-bg} 0%, transparent) 0%,
+        color-mix(in srgb, #{$color-bg} 0%, transparent) 46%,
+        color-mix(in srgb, #{$color-bg} 12%, transparent) 54%,
+        color-mix(in srgb, #{$color-bg} 38%, transparent) 60%,
+        color-mix(in srgb, #{$color-bg} 68%, transparent) 66%,
+        color-mix(in srgb, #{$color-bg} 88%, transparent) 72%,
+        #{$color-bg} 78%,
+        #{$color-bg} 100%
+      );
+  }
+}
+
+.sageAccent {
+  display: none;
+
+  @include respond-to(lg) {
+    display: block;
+    position: absolute;
+    bottom: 12%;
+    left: 8%;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 58% 42% 48% 52% / 44% 56% 42% 58%;
+    background: color-mix(in srgb, #{$color-secondary} 22%, transparent);
+    filter: blur(48px);
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    padding-block: $spacing-xl $spacing-lg;
+    gap: $spacing-xl;
+  }
+
+  .layout {
+    order: 1;
+    display: block;
+    min-height: auto;
+    padding-block: 0;
+    padding-inline: $container-padding-inline;
+  }
+
+  .content {
+    max-width: none;
+    transform: none;
+    padding-block: 0;
+    gap: $spacing-lg;
+  }
+
+  .eyebrow {
+    letter-spacing: 0.08em;
+  }
+
+  .title {
+    font-size: clamp(2.35rem, 8vw + 1rem, 2.85rem);
+  }
+
+  .visual {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: 100%;
+    max-width: none;
+    height: clamp(12rem, 38vh, 17rem);
+    overflow: hidden;
+  }
+
+  .photoFrame {
+    inset: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .photo {
+    object-position: 45% 38%;
+    transform: scale(1.08);
+    transform-origin: center center;
+  }
+
+  .ivoryFade {
+    background:
+      linear-gradient(
+        to bottom,
+        color-mix(in srgb, #{$color-bg} 0%, transparent) 0%,
+        color-mix(in srgb, #{$color-bg} 35%, transparent) 88%,
+        #{$color-bg} 100%
+      ),
+      linear-gradient(
+        to right,
+        color-mix(in srgb, #{$color-bg} 0%, transparent) 8%,
+        color-mix(in srgb, #{$color-bg} 50%, transparent) 78%,
+        #{$color-bg} 100%
+      );
+  }
+}

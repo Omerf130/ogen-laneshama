@@ -2,11 +2,11 @@ import type { HomepageContent } from "@/types/homepage";
 
 export const homepageContent: HomepageContent = {
   hero: {
+    eyebrow: "ליווי • הקשבה • מרחב",
     title: "עוגן לנשמה",
     subtitle:
       "מרחב בטוח לליווי רגשי ורוחני לנשים — כשמשהו כבד על הלב, לא צריך לעבור את זה לבד.",
     ctaPrimary: "דברי איתי",
-    ctaSecondary: "גללי הלאה",
   },
   recognition: {
     title: "אולי את מרגישה ש...",

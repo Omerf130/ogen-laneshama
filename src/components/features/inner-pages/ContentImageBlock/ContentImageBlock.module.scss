@@ -1,0 +1,17 @@
+@use "../../../../styles/tokens" as *;
+@use "../../../../styles/mixins/media" as *;
+
+.figure {
+  margin: 0;
+  max-width: 18rem;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: $radius-lg;
+}
+
+.placeholder {
+  max-width: 18rem;
+}
