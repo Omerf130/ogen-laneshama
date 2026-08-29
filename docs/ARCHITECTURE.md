@@ -237,6 +237,7 @@ Enforced in `content/content-guidelines.ts` and documented on relevant content r
 
 - [x] **Phase 0** — Architecture, routing skeleton, content layer, design tokens placeholder
 - [x] **Phase 1** — Design system, global shell (Navbar, Footer, WhatsApp), `(public)` route group
-- [ ] **Phase 2** — Homepage sections, full page layouts, SEO content, JSON-LD
-- [ ] **Phase 3** — MongoDB, admin panel, authentication
-- [ ] **Phase 4** — Contact form, leads, analytics
+- [x] **Phase 2** — Homepage continuous journey (environment-first visual world, 8 narrative sections)
+- [ ] **Phase 3** — Inner page layouts, SEO content finalization, JSON-LD
+- [ ] **Phase 4** — MongoDB, admin panel, authentication
+- [ ] **Phase 5** — Contact form, leads, analytics

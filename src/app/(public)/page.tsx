@@ -1,29 +1,46 @@
 import { pageMetadata } from "@/content/pages/page-metadata";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { getFaqItems } from "@/lib/content/get-faq";
+import { getHomepageAssets } from "@/lib/content/get-homepage-assets";
+import { getHomepageContent } from "@/lib/content/get-homepage-content";
 import { getSiteConfig } from "@/lib/content/get-site-config";
-import { PageShell } from "@/components/layout/PageShell";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { MediaPlaceholder } from "@/components/ui/MediaPlaceholder";
-import { Button } from "@/components/ui/Button";
+import { getTestimonials } from "@/lib/content/get-testimonials";
+import { getTreatments } from "@/lib/content/get-treatments";
+import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
+import { HomeJourney } from "@/components/features/homepage/HomeJourney";
 
 export const metadata = buildPageMetadata(pageMetadata.home);
 
 export default async function HomePage() {
-  const siteConfig = await getSiteConfig();
+  const [
+    content,
+    treatments,
+    faqItems,
+    testimonials,
+    assets,
+    siteConfig,
+  ] = await Promise.all([
+    getHomepageContent(),
+    getTreatments(),
+    getFaqItems(),
+    getTestimonials(),
+    getHomepageAssets(),
+    getSiteConfig(),
+  ]);
+
+  const whatsAppUrl = buildWhatsAppUrl(
+    siteConfig.whatsapp.number,
+    siteConfig.whatsapp.message,
+  );
 
   return (
-    <PageShell>
-      <Section id="hero">
-        <SectionHeading
-          title={siteConfig.businessName}
-          subtitle={`ליווי רגשי ורוחני לנשים — ${siteConfig.therapistName}`}
-        />
-        <MediaPlaceholder label="לוגו ותמונות יתווספו בשלב הבא" />
-        <p>דף הבית — תוכן מלא ייבנה בשלב 2.</p>
-        <Button href="/contact">יצירת קשר</Button>
-      </Section>
-      {/* FAQ (#faq) and testimonials (#testimonials) anchor sections — Phase 2 */}
-    </PageShell>
+    <HomeJourney
+      content={content}
+      treatments={treatments}
+      faqItems={faqItems}
+      testimonials={testimonials}
+      assets={assets}
+      whatsAppUrl={whatsAppUrl}
+    />
   );
 }

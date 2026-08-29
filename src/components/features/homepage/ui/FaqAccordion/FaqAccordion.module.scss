@@ -1,0 +1,61 @@
+@use "../../../../../styles/tokens" as *;
+@use "../../../../../styles/mixins/focus" as *;
+@use "../../../../../styles/mixins/typography" as *;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  border-bottom: 1px solid $color-border;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  width: 100%;
+  padding: $spacing-md 0;
+  border: none;
+  background: transparent;
+  color: $color-text;
+  text-align: start;
+  cursor: pointer;
+
+  @include text-body;
+  @include focus-visible;
+}
+
+.icon {
+  flex-shrink: 0;
+  font-size: $font-size-h3;
+  color: $color-accent-dark;
+  line-height: 1;
+}
+
+.panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height $transition-base $ease-soft;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &.open {
+    max-height: 32rem;
+  }
+}
+
+.answer {
+  @include text-body;
+  margin: 0 0 $spacing-md;
+  padding-inline-end: $spacing-xl;
+  color: $color-text-muted;
+}

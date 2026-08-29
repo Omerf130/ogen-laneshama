@@ -1,0 +1,1 @@
+export { JourneyBackground } from "./JourneyBackground";

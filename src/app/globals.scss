@@ -43,6 +43,14 @@ body {
   );
 }
 
+body[data-journey-page] {
+  background: $color-bg;
+}
+
+body[data-journey-page] [data-site-decor] {
+  display: none;
+}
+
 img,
 picture,
 video,
