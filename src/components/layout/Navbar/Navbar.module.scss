@@ -1,0 +1,223 @@
+@use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/focus" as *;
+@use "../../../styles/mixins/motion" as *;
+@use "../../../styles/mixins/media" as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: $z-navbar;
+  border-block-end: 1px solid transparent;
+
+  @include motion-safe(
+    background-color $transition-base $ease-soft,
+    border-color $transition-base $ease-soft,
+    box-shadow $transition-base $ease-soft
+  );
+
+  &.scrolled {
+    background-color: color-mix(in srgb, #{$color-surface} 95%, transparent);
+    border-block-end-color: $color-border;
+    box-shadow: $shadow-navbar;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  min-height: 4rem;
+}
+
+.logo {
+  flex-shrink: 0;
+  color: $color-text;
+  font-size: $font-size-h3;
+  font-weight: $font-weight-semibold;
+  line-height: 1.2;
+
+  @include focus-visible;
+  @include motion-safe(color $transition-base $ease-soft);
+
+  &:hover {
+    color: $color-accent-dark;
+  }
+}
+
+.desktopNav {
+  display: none;
+
+  @include respond-to(lg) {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+  }
+}
+
+.navList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-sm $spacing-lg;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  position: relative;
+  padding-block: $spacing-xs;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+
+  @include focus-visible;
+  @include motion-safe(color $transition-base $ease-soft);
+
+  &:hover,
+  &.active {
+    color: $color-text;
+  }
+
+  &.active::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -2px;
+    height: 2px;
+    border-radius: $radius-full;
+    background-color: $color-accent;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.menuToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background-color: $color-surface;
+  color: $color-text;
+  cursor: pointer;
+
+  @include focus-visible;
+
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.desktopCta {
+  display: none;
+
+  @include respond-to(lg) {
+    display: inline-flex;
+  }
+}
+
+.mobileCta {
+  width: 100%;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+  background-color: color-mix(in srgb, #{$color-text} 25%, transparent);
+  opacity: 0;
+  pointer-events: none;
+
+  @include fade-in-up;
+
+  &.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.panel {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: calc($z-overlay + 1);
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 22rem);
+  padding: $spacing-xl $spacing-lg;
+  background-color: $color-surface;
+  box-shadow: $shadow-md;
+  transform: translateX(100%);
+  overflow-y: auto;
+
+  @include fade-in-up;
+
+  &.open {
+    transform: translateX(0);
+  }
+}
+
+.mobileNavList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: $spacing-xl 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mobileNavLink {
+  display: block;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  color: $color-text;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+
+  @include focus-visible;
+  @include motion-safe(background-color $transition-base $ease-soft);
+
+  &:hover,
+  &.active {
+    background-color: color-mix(in srgb, #{$color-primary} 50%, transparent);
+  }
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: $font-size-h3;
+  font-weight: $font-weight-semibold;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background-color: transparent;
+  color: $color-text;
+  cursor: pointer;
+
+  @include focus-visible;
+}

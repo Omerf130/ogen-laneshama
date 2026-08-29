@@ -1,40 +1,48 @@
 @use "../../../styles/tokens" as *;
 @use "../../../styles/mixins/focus" as *;
+@use "../../../styles/mixins/motion" as *;
+@use "../../../styles/mixins/typography" as *;
 
 .card {
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
   padding: $spacing-lg;
-  border: 1px solid #e5e5e5;
-  border-radius: 0.5rem;
-  background-color: #fafafa;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background-color: $color-surface;
   text-decoration: none;
+  box-shadow: $shadow-sm;
 
   @include focus-visible;
+  @include motion-safe(
+    border-color $transition-base $ease-soft,
+    box-shadow $transition-base $ease-soft,
+    transform $transition-base $ease-soft
+  );
 
   &:hover {
-    border-color: #cccccc;
+    border-color: color-mix(in srgb, #{$color-accent} 40%, #{$color-border});
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
   }
 }
 
 .title {
+  @include text-h3;
   margin: 0;
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-heading;
+  color: $color-text;
 }
 
 .description {
+  @include text-body;
   margin: 0;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: #555555;
+  color: $color-text-muted;
 }
 
 .link {
+  @include text-small;
   margin-top: auto;
-  font-size: $font-size-sm;
+  color: $color-accent-dark;
   font-weight: $font-weight-medium;
-  color: #333333;
 }

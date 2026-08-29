@@ -25,6 +25,7 @@ export interface WhatsAppInfo {
 export interface SiteConfig {
   businessName: string;
   therapistName: string;
+  tagline: string;
   siteUrl: string;
   contact: ContactInfo;
   whatsapp: WhatsAppInfo;

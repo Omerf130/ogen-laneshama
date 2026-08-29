@@ -1,18 +1,18 @@
 @use "../../../styles/tokens" as *;
 
 .shell {
-  min-height: 50vh;
-  padding-block: $spacing-2xl;
+  position: relative;
+  z-index: $z-base;
+  flex: 1;
+  padding-block: $spacing-xl;
+
+  @media (min-width: $breakpoint-md) {
+    padding-block: $spacing-2xl;
+  }
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
-}
-
-.body {
-  margin: 0;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
+  gap: $spacing-xl;
 }

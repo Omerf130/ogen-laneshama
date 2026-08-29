@@ -1,6 +1,8 @@
+@use "../tokens/colors" as *;
+
 @mixin focus-visible {
   &:focus-visible {
-    outline: 2px solid currentColor;
+    outline: 2px solid $color-accent;
     outline-offset: 2px;
   }
 }

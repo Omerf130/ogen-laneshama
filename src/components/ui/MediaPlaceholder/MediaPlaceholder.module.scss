@@ -6,10 +6,11 @@
   justify-content: center;
   width: 100%;
   min-height: 12rem;
-  border: 1px dashed #cccccc;
-  border-radius: 0.5rem;
-  background-color: #f5f5f5;
-  color: #888888;
-  font-size: $font-size-sm;
+  padding: $spacing-lg;
+  border: 1px dashed $color-border;
+  border-radius: $radius-lg;
+  background-color: color-mix(in srgb, #{$color-secondary} 25%, transparent);
+  color: $color-text-muted;
+  font-size: $font-size-small;
   text-align: center;
 }

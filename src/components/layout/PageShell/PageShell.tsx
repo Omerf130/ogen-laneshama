@@ -8,7 +8,7 @@ interface PageShellProps {
 
 export function PageShell({ children }: PageShellProps) {
   return (
-    <main className={styles.shell}>
+    <main id="main-content" className={styles.shell}>
       <Container>
         <div className={styles.content}>{children}</div>
       </Container>

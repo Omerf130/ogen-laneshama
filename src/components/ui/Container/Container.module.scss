@@ -10,4 +10,8 @@
   @include respond-to(md) {
     padding-inline: $spacing-xl;
   }
+
+  @include respond-to(lg) {
+    padding-inline: $spacing-2xl;
+  }
 }

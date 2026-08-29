@@ -1,29 +1,41 @@
-# Design System — Phase 1 Prep
+# Design System — Phase 1
 
-This folder holds the centralized design system for **עוגן לנשמה**.
+Centralized design system for **עוגן לנשמה**.
 
 ## Structure
 
 ```
 styles/
-├── tokens/          # SCSS variables (colors, spacing, typography, breakpoints)
-├── mixins/          # Reusable SCSS mixins (focus, responsive)
+├── tokens/          # SCSS variables
+├── mixins/          # focus, media, typography, motion
 └── README.md
 ```
 
-## Phase 1 tasks
+## Brand palette
 
-1. Define final brand color tokens in `_colors.scss` (sky blue, sage green, white, gold accent)
-2. Select and load a Hebrew-friendly font
-3. Apply tokens across all components
-4. Replace neutral placeholder styles in UI components
+| Token | Value | Use |
+|-------|-------|-----|
+| `$color-bg` | `#FCFAF6` | Warm ivory background |
+| `$color-surface` | `#FFFFFF` | Cards, panels |
+| `$color-primary` | `#DDEFF2` | Light sky blue |
+| `$color-secondary` | `#DCE7D6` | Sage / pistachio |
+| `$color-accent` | `#C9AD80` | Soft champagne gold |
+| `$color-text` | `#2D3436` | Charcoal text |
+| `$color-text-muted` | `#68706B` | Muted gray-green |
+| `$color-accent-dark` | `#BFA67A` | Accent hover / active |
+
+## Typography
+
+Font: **Assistant** (Hebrew + Latin) via `next/font/google`.
+
+Scale: display, h1, h2, h3, body-lg, body, small — see `_typography.scss`.
 
 ## Usage in SCSS Modules
 
 ```scss
-@use "styles/tokens" as *;
-@use "styles/mixins/media" as *;
-@use "styles/mixins/focus" as *;
+@use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/media" as *;
+@use "../../../styles/mixins/focus" as *;
 ```
 
-The `includePaths` in `next.config.ts` allows importing from `src/` without relative paths.
+Adjust relative path depth based on file location.

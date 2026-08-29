@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import styles from "./SectionHeading.module.scss";
 
 type HeadingLevel = 1 | 2 | 3;
@@ -8,8 +7,13 @@ interface SectionHeadingProps {
   subtitle?: string;
   level?: HeadingLevel;
   id?: string;
-  children?: ReactNode;
 }
+
+const levelClassMap = {
+  1: styles.level1,
+  2: styles.level2,
+  3: styles.level3,
+} as const;
 
 export function SectionHeading({
   title,
@@ -17,13 +21,35 @@ export function SectionHeading({
   level = 1,
   id,
 }: SectionHeadingProps) {
-  const HeadingTag = `h${level}` as const;
+  const headingClass = `${styles.heading} ${levelClassMap[level]}`;
+
+  if (level === 1) {
+    return (
+      <header>
+        <h1 id={id} className={headingClass}>
+          {title}
+        </h1>
+        {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
+      </header>
+    );
+  }
+
+  if (level === 2) {
+    return (
+      <header>
+        <h2 id={id} className={headingClass}>
+          {title}
+        </h2>
+        {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
+      </header>
+    );
+  }
 
   return (
     <header>
-      <HeadingTag id={id} className={styles.heading}>
+      <h3 id={id} className={headingClass}>
         {title}
-      </HeadingTag>
+      </h3>
       {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
     </header>
   );

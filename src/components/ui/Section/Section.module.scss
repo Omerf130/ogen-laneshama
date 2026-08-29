@@ -1,5 +1,10 @@
 @use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/media" as *;
 
 .section {
   padding-block: $spacing-2xl;
+
+  @include respond-to(md) {
+    padding-block: $spacing-3xl;
+  }
 }

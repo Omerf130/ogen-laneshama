@@ -20,10 +20,10 @@ export default async function HomePage() {
           subtitle={`ליווי רגשי ורוחני לנשים — ${siteConfig.therapistName}`}
         />
         <MediaPlaceholder label="לוגו ותמונות יתווספו בשלב הבא" />
-        <p>דף הבית — תוכן מלא ייבנה בשלב 1.</p>
+        <p>דף הבית — תוכן מלא ייבנה בשלב 2.</p>
         <Button href="/contact">יצירת קשר</Button>
       </Section>
-      {/* FAQ and testimonials will be homepage sections with #faq / #testimonials anchors in Phase 1 */}
+      {/* FAQ (#faq) and testimonials (#testimonials) anchor sections — Phase 2 */}
     </PageShell>
   );
 }

@@ -1,0 +1,46 @@
+@use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/focus" as *;
+@use "../../../styles/mixins/motion" as *;
+
+.floatingButton {
+  position: fixed;
+  right: $spacing-md;
+  bottom: $spacing-md;
+  z-index: $z-whatsapp;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: $radius-full;
+  background-color: $color-secondary;
+  color: $color-text;
+  box-shadow: $shadow-md;
+  cursor: pointer;
+
+  @include focus-visible;
+  @include motion-safe(
+    transform $transition-base $ease-soft,
+    box-shadow $transition-base $ease-soft,
+    background-color $transition-base $ease-soft
+  );
+
+  &:hover {
+    background-color: $color-primary;
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: $breakpoint-md) {
+    right: $spacing-xl;
+    bottom: $spacing-xl;
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}

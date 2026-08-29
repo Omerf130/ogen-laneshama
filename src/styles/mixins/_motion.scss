@@ -1,0 +1,14 @@
+@use "../tokens/transitions" as *;
+
+@mixin motion-safe($properties...) {
+  @media (prefers-reduced-motion: no-preference) {
+    transition: $properties;
+  }
+}
+
+@mixin fade-in-up {
+  @include motion-safe(
+    opacity $transition-base $ease-soft,
+    transform $transition-base $ease-soft
+  );
+}

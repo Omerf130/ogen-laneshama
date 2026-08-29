@@ -1,0 +1,84 @@
+@use "../../../styles/tokens" as *;
+@use "../../../styles/mixins/focus" as *;
+@use "../../../styles/mixins/media" as *;
+@use "../../../styles/mixins/typography" as *;
+@use "../../../styles/mixins/motion" as *;
+
+.footer {
+  position: relative;
+  z-index: $z-base;
+  margin-top: auto;
+  padding-block: $spacing-3xl $spacing-xl;
+  border-block-start: 1px solid $color-border;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, #{$color-secondary} 15%, transparent) 0%,
+    color-mix(in srgb, #{$color-bg} 90%, transparent) 100%
+  );
+}
+
+.grid {
+  display: grid;
+  gap: $spacing-2xl;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  }
+}
+
+.brandName {
+  @include text-h3;
+  margin: 0 0 $spacing-sm;
+  color: $color-text;
+}
+
+.brandSentence {
+  @include text-body;
+  margin: 0;
+  color: $color-text-muted;
+}
+
+.sectionTitle {
+  @include text-small;
+  margin: 0 0 $spacing-md;
+  color: $color-text;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.navList,
+.contactList,
+.socialList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footerLink {
+  color: $color-text-muted;
+  font-size: $font-size-small;
+
+  @include focus-visible;
+  @include motion-safe(color $transition-base $ease-soft);
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.copyright {
+  @include text-small;
+  margin: $spacing-2xl 0 0;
+  padding-block-start: $spacing-lg;
+  border-block-start: 1px solid $color-border;
+  color: $color-text-muted;
+  text-align: center;
+}

@@ -8,10 +8,20 @@ Phase 0 foundation document for the **עוגן לנשמה** website (רחלי נ
 
 ```
 src/
-├── app/                 # Next.js App Router — routes, layouts, SEO files
+├── app/
+│   ├── layout.tsx           # Root: RTL, Assistant font, globals
+│   ├── (public)/            # Public shell — Navbar, Footer, WhatsApp
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── about/
+│   │   ├── contact/
+│   │   ├── pregnancy-motherhood/
+│   │   └── treatments/
+│   ├── robots.ts
+│   └── sitemap.ts
 ├── components/
 │   ├── ui/              # Reusable presentational components
-│   ├── layout/          # Page-level layout wrappers
+│   ├── layout/          # Navbar, Footer, PageShell, BackgroundDecor, FloatingWhatsApp
 │   └── features/        # Feature-specific composed components
 ├── content/             # Static content data (Phase 0–N: migrates to MongoDB)
 ├── features/            # Domain logic (forms, leads — future phases)
@@ -62,13 +72,16 @@ FAQ and testimonials will be **sections on the homepage** with navbar hash links
 - `#faq`
 - `#testimonials`
 
-### Future admin routes (not implemented in Phase 0)
+### Future admin routes (not implemented)
 
 ```
 src/app/(admin)/
+├── layout.tsx           # Separate admin layout — no public shell
 ├── login/page.tsx       → /admin/login
 └── page.tsx             → /admin
 ```
+
+Public routes live under `(public)/` so the Navbar/Footer/WhatsApp shell does not wrap admin pages.
 
 Protected by `middleware.ts` + session check in a later phase.
 
@@ -130,11 +143,15 @@ export async function getTreatments(): Promise<Treatment[]> {
 | Container | `components/ui/Container` |
 | Section | `components/ui/Section` |
 | SectionHeading | `components/ui/SectionHeading` |
-| Button | `components/ui/Button` |
+| Button | `components/ui/Button` (primary, secondary, ghost) |
 | TreatmentCard | `components/ui/TreatmentCard` |
 | MediaPlaceholder | `components/ui/MediaPlaceholder` |
 | PageShell | `components/layout/PageShell` |
 | TreatmentDetail | `components/features/treatments/TreatmentDetail` |
+| Navbar | `components/layout/Navbar` |
+| Footer | `components/layout/Footer` |
+| BackgroundDecor | `components/layout/BackgroundDecor` |
+| FloatingWhatsApp | `components/layout/FloatingWhatsApp` |
 
 ---
 
@@ -142,17 +159,23 @@ export async function getTreatments(): Promise<Treatment[]> {
 
 Tokens live in `src/styles/tokens/`:
 
-- `_colors.scss` — brand palette (placeholder comments in Phase 0)
+- `_colors.scss` — brand palette (ivory, sky blue, sage, gold, charcoal)
 - `_spacing.scss` — spacing scale and container width
-- `_typography.scss` — font sizes, weights, line heights
+- `_typography.scss` — Assistant font scale (display, h1–h3, body, small)
 - `_breakpoints.scss` — mobile-first breakpoints
+- `_radii.scss` — border radius scale
+- `_shadows.scss` — subtle elevation shadows
+- `_transitions.scss` — timing and easing
+- `_z-index.scss` — layer stacking (decor, navbar, whatsapp, overlay)
 
 Mixins in `src/styles/mixins/`:
 
-- `_focus.scss` — accessible `:focus-visible` styles
+- `_focus.scss` — accessible `:focus-visible` (gold accent outline)
 - `_media.scss` — `@mixin respond-to($breakpoint)`
+- `_typography.scss` — text scale mixins
+- `_motion.scss` — `@mixin motion-safe` (respects reduced motion)
 
-Phase 1 will define final colors (sky blue, sage green, white, gold accent) and Hebrew typography.
+Font loaded via `next/font/google` (Assistant, Hebrew subset) in root layout.
 
 ---
 
@@ -213,7 +236,7 @@ Enforced in `content/content-guidelines.ts` and documented on relevant content r
 ## 10. Phase roadmap
 
 - [x] **Phase 0** — Architecture, routing skeleton, content layer, design tokens placeholder
-- [ ] **Phase 1** — Design system, navbar, footer, homepage sections, full page layouts
-- [ ] **Phase 2** — SEO content finalization, JSON-LD, performance optimization
+- [x] **Phase 1** — Design system, global shell (Navbar, Footer, WhatsApp), `(public)` route group
+- [ ] **Phase 2** — Homepage sections, full page layouts, SEO content, JSON-LD
 - [ ] **Phase 3** — MongoDB, admin panel, authentication
 - [ ] **Phase 4** — Contact form, leads, analytics
