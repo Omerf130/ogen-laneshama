@@ -6,6 +6,12 @@ function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
 }
 
+/** Bell curve: peaks at `peak` with width `spread`, returns 0–1 */
+function bell(progress: number, peak: number, spread: number): number {
+  const distance = Math.abs(progress - peak) / spread;
+  return clamp01(1 - distance * distance);
+}
+
 /** Smooth, continuous easing — no abrupt transitions */
 export function easeJourney(t: number): number {
   const p = clamp01(t);
@@ -18,8 +24,8 @@ interface ApplyJourneyProgressOptions {
 }
 
 /**
- * Drives composition, scale, depth and light — not dramatic color shifts.
- * Canvas stays warm ivory; forms expand from contained → spacious.
+ * Drives composition, scale, depth and light across the homepage journey.
+ * Canvas stays warm ivory; color rhythm shifts perceptibly but remains calm.
  */
 export function applyJourneyProgress(
   element: HTMLElement,
@@ -31,60 +37,67 @@ export function applyJourneyProgress(
 
   element.style.setProperty("--journey-p", progress.toFixed(4));
 
-  /* Canvas — imperceptible warmth increase only */
-  element.style.setProperty("--canvas-warmth", lerp(0, 0.06, progress).toFixed(3));
+  const earlyPhase = clamp01(1 - progress / 0.48);
+  const aboutPhase = bell(progress, 0.28, 0.24);
+  const treatmentsPhase = bell(progress, 0.44, 0.22);
+  const closurePhase = clamp01((progress - 0.72) / 0.28);
+
+  /* Canvas — warmth builds toward closure */
+  element.style.setProperty(
+    "--canvas-warmth",
+    lerp(0.05, 0.18, progress).toFixed(3),
+  );
 
   /*
-   * Membrane A — large sage form, slow horizontal expansion
-   * Top: closer to content centre. End: drifts outward and softens.
+   * Membrane A — sage, strong early (Recognition → About)
    */
   element.style.setProperty(
     "--membrane-a-x",
-    `${lerp(8, -26, progress) * motion}%`,
+    `${lerp(8, -22, progress) * motion}%`,
   );
   element.style.setProperty(
     "--membrane-a-y",
-    `${lerp(6, -10, progress) * motion}%`,
+    `${lerp(6, -8, progress) * motion}%`,
   );
   element.style.setProperty(
     "--membrane-a-scale",
-    lerp(0.94, 1.42, progress).toFixed(3),
+    lerp(1.02, 1.52, progress).toFixed(3),
   );
   element.style.setProperty(
     "--membrane-a-rotate",
-    `${lerp(-4, 7, progress) * motion}deg`,
+    `${lerp(-4, 6, progress) * motion}deg`,
   );
   element.style.setProperty(
     "--membrane-a-opacity",
-    lerp(0.34, 0.13, progress).toFixed(3),
+    lerp(0.34, 0.56, earlyPhase).toFixed(3),
   );
 
   /*
-   * Membrane B — warm neutral form behind, vertical drift + scale
+   * Membrane B — champagne warmth, rises around About
    */
   element.style.setProperty(
     "--membrane-b-x",
-    `${lerp(-4, 22, progress) * motion}%`,
+    `${lerp(-4, 18, progress) * motion}%`,
   );
   element.style.setProperty(
     "--membrane-b-y",
-    `${lerp(12, -18, progress) * motion}%`,
+    `${lerp(12, -14, progress) * motion}%`,
   );
   element.style.setProperty(
     "--membrane-b-scale",
-    lerp(0.88, 1.48, progress).toFixed(3),
+    lerp(0.98, 1.58, progress).toFixed(3),
   );
   element.style.setProperty(
     "--membrane-b-rotate",
-    `${lerp(5, -9, progress) * motion}deg`,
+    `${lerp(5, -8, progress) * motion}deg`,
   );
   element.style.setProperty(
     "--membrane-b-opacity",
-    lerp(0.28, 0.09, progress).toFixed(3),
+    lerp(0.22, 0.5, aboutPhase).toFixed(3),
   );
 
   /*
-   * Flow ribbon — thin translucent membrane, subtle position shift
+   * Flow ribbon — connector, stronger mid-journey
    */
   element.style.setProperty(
     "--flow-x",
@@ -92,60 +105,60 @@ export function applyJourneyProgress(
   );
   element.style.setProperty(
     "--flow-y",
-    `${lerp(38, 52, progress) * motion}%`,
+    `${lerp(38, 50, progress) * motion}%`,
   );
   element.style.setProperty(
     "--flow-scale-x",
-    lerp(0.82, 1.62, progress).toFixed(3),
+    lerp(0.92, 1.62, progress).toFixed(3),
   );
   element.style.setProperty(
     "--flow-scale-y",
-    lerp(1, 0.62, progress).toFixed(3),
+    lerp(1, 0.78, progress).toFixed(3),
   );
   element.style.setProperty(
     "--flow-rotate",
-    `${lerp(-14, 6, progress) * motion}deg`,
+    `${lerp(-14, 4, progress) * motion}deg`,
   );
   element.style.setProperty(
     "--flow-opacity",
-    lerp(0.2, 0.05, progress).toFixed(3),
+    lerp(0.16, 0.38, treatmentsPhase).toFixed(3),
   );
 
   /*
-   * Pale sky accent — always restrained, drifts to edge
+   * Pale blue accent — peaks around Treatments (strongest global shift)
    */
   element.style.setProperty(
     "--accent-x",
-    `${lerp(58, 76, progress) * motion}%`,
+    `${lerp(52, 68, progress) * motion}%`,
   );
   element.style.setProperty(
     "--accent-y",
-    `${lerp(22, 8, progress) * motion}%`,
+    `${lerp(26, 14, progress) * motion}%`,
   );
   element.style.setProperty(
     "--accent-scale",
-    lerp(0.78, 1.18, progress).toFixed(3),
+    lerp(0.96, 1.48, progress).toFixed(3),
   );
   element.style.setProperty(
     "--accent-opacity",
-    lerp(0.11, 0.04, progress).toFixed(3),
+    lerp(0.12, 0.42, treatmentsPhase).toFixed(3),
   );
 
   /*
-   * Warm champagne glow — gradually expands through composition
+   * Warm champagne glow — expands toward Final CTA
    */
-  element.style.setProperty("--glow-x", `${lerp(54, 48, progress)}%`);
+  element.style.setProperty("--glow-x", `${lerp(54, 50, progress)}%`);
   element.style.setProperty(
     "--glow-y",
-    `${lerp(68, 38, progress) * (motion || 1)}%`,
+    `${lerp(62, 28, progress) * (motion || 1)}%`,
   );
   element.style.setProperty(
     "--glow-size",
-    `${lerp(32, 88, progress).toFixed(1)}%`,
+    `${lerp(44, 108, progress).toFixed(1)}%`,
   );
   element.style.setProperty(
     "--glow-opacity",
-    lerp(0.07, 0.22, progress).toFixed(3),
+    lerp(0.18, 0.52, Math.max(closurePhase, progress * 0.6)).toFixed(3),
   );
 }
 

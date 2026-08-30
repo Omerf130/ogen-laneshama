@@ -1,11 +1,39 @@
 @use "../../../../styles/tokens" as *;
 @use "../../../../styles/mixins/media" as *;
+@use "../../../../styles/mixins/homepage-atmosphere" as *;
 
 .section {
-  background-color: $color-bg;
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+  background: transparent;
+
+  &::before {
+    @include atmospheric-orb(
+      $color-accent,
+      min(48rem, 96vw),
+      min(28rem, 42vh),
+      auto,
+      -8%,
+      auto,
+      -12%,
+      0.08,
+      56px,
+      50% 50% / 50% 50%
+    );
+  }
+
+  @media (max-width: 767px) {
+    &::before {
+      opacity: 0.06;
+      filter: blur(36px);
+    }
+  }
 }
 
 .layout {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: $spacing-2xl;

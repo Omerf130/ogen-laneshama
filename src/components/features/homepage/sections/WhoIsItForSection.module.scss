@@ -1,19 +1,60 @@
 @use "../../../../styles/tokens" as *;
 @use "../../../../styles/mixins/media" as *;
+@use "../../../../styles/mixins/homepage-atmosphere" as *;
 
 .section {
   position: relative;
   z-index: 1;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   padding-block: $spacing-2xl $spacing-3xl;
-  background: color-mix(in srgb, #{$color-secondary} 5%, #{$color-bg});
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, #{$color-secondary} 18%, transparent) 0%,
+    color-mix(in srgb, #{$color-secondary} 26%, transparent) 55%,
+    color-mix(in srgb, #{$color-secondary} 16%, transparent) 100%
+  );
 
   @include respond-to(lg) {
     padding-block: $spacing-2xl calc(#{$spacing-3xl} + #{$spacing-md});
   }
+
+  &::before {
+    @include atmospheric-orb(
+      $color-secondary,
+      min(84rem, 145vw),
+      min(52rem, 82vh),
+      -32%,
+      auto,
+      auto,
+      -22%,
+      0.28,
+      52px,
+      42% 58% 52% 48% / 48% 42% 58% 52%
+    );
+  }
+
+  @media (max-width: 767px) {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, #{$color-secondary} 16%, transparent) 0%,
+      color-mix(in srgb, #{$color-secondary} 22%, transparent) 100%
+    );
+
+    &::before {
+      width: min(48rem, 155vw);
+      height: min(34rem, 62vh);
+      inset-inline-end: -44%;
+      top: -14%;
+      opacity: 0.22;
+      filter: blur(38px);
+    }
+  }
 }
 
 .layout {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: $spacing-2xl;

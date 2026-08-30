@@ -8,26 +8,26 @@
   --membrane-a-y: 6%;
   --membrane-a-scale: 0.94;
   --membrane-a-rotate: -4deg;
-  --membrane-a-opacity: 0.34;
+  --membrane-a-opacity: 0.52;
   --membrane-b-x: -4%;
   --membrane-b-y: 12%;
   --membrane-b-scale: 0.88;
   --membrane-b-rotate: 5deg;
-  --membrane-b-opacity: 0.28;
+  --membrane-b-opacity: 0.44;
   --flow-x: 42%;
   --flow-y: 38%;
   --flow-scale-x: 0.82;
   --flow-scale-y: 1;
   --flow-rotate: -14deg;
-  --flow-opacity: 0.2;
+  --flow-opacity: 0.32;
   --accent-x: 58%;
   --accent-y: 22%;
   --accent-scale: 0.78;
-  --accent-opacity: 0.11;
+  --accent-opacity: 0.28;
   --glow-x: 54%;
   --glow-y: 68%;
   --glow-size: 32%;
-  --glow-opacity: 0.07;
+  --glow-opacity: 0.22;
 
   position: fixed;
   inset: 0;
@@ -58,19 +58,19 @@
  */
 .layerMembraneA {
   position: absolute;
-  top: -6%;
-  inset-inline-start: -14%;
-  width: min(78vw, 40rem);
-  height: min(68vh, 36rem);
+  top: -8%;
+  inset-inline-start: -18%;
+  width: min(92vw, 48rem);
+  height: min(78vh, 42rem);
   border-radius: 68% 32% 58% 42% / 42% 62% 38% 58%;
   background: linear-gradient(
     145deg,
-    color-mix(in srgb, #{$color-secondary} 42%, transparent) 0%,
-    color-mix(in srgb, #{$color-secondary} 18%, transparent) 55%,
-    transparent 82%
+    color-mix(in srgb, #{$color-secondary} 58%, transparent) 0%,
+    color-mix(in srgb, #{$color-secondary} 32%, transparent) 50%,
+    transparent 84%
   );
   opacity: var(--membrane-a-opacity);
-  filter: blur(48px);
+  filter: blur(40px);
   transform: translate3d(var(--membrane-a-x), var(--membrane-a-y), 0)
     scale(var(--membrane-a-scale))
     rotate(var(--membrane-a-rotate));
@@ -82,19 +82,19 @@
  */
 .layerMembraneB {
   position: absolute;
-  bottom: -8%;
-  inset-inline-end: -16%;
-  width: min(72vw, 38rem);
-  height: min(62vh, 34rem);
+  bottom: -10%;
+  inset-inline-end: -20%;
+  width: min(86vw, 44rem);
+  height: min(72vh, 40rem);
   border-radius: 38% 62% 45% 55% / 58% 38% 62% 42%;
   background: linear-gradient(
     210deg,
-    color-mix(in srgb, #{$color-accent} 22%, transparent) 0%,
-    color-mix(in srgb, #{$color-secondary} 16%, transparent) 48%,
-    transparent 78%
+    color-mix(in srgb, #{$color-accent} 38%, transparent) 0%,
+    color-mix(in srgb, #{$color-secondary} 24%, transparent) 48%,
+    transparent 80%
   );
   opacity: var(--membrane-b-opacity);
-  filter: blur(56px);
+  filter: blur(44px);
   transform: translate3d(var(--membrane-b-x), var(--membrane-b-y), 0)
     scale(var(--membrane-b-scale))
     rotate(var(--membrane-b-rotate));
@@ -114,13 +114,13 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    color-mix(in srgb, #{$color-bg} 55%, #{$color-accent}) 28%,
-    color-mix(in srgb, #{$color-secondary} 28%, transparent) 52%,
-    color-mix(in srgb, #{$color-bg} 50%, #{$color-accent}) 72%,
+    color-mix(in srgb, #{$color-primary} 32%, transparent) 22%,
+    color-mix(in srgb, #{$color-secondary} 24%, transparent) 52%,
+    color-mix(in srgb, #{$color-accent} 20%, transparent) 72%,
     transparent 100%
   );
   opacity: var(--flow-opacity);
-  filter: blur(28px);
+  filter: blur(22px);
   transform: translate3d(-50%, -50%, 0)
     scale(var(--flow-scale-x), var(--flow-scale-y))
     rotate(var(--flow-rotate));
@@ -134,16 +134,17 @@
   position: absolute;
   top: var(--accent-y);
   inset-inline-start: var(--accent-x);
-  width: min(52vw, 26rem);
-  height: min(38vh, 20rem);
+  width: min(68vw, 36rem);
+  height: min(52vh, 28rem);
   border-radius: 52% 48% 64% 36% / 44% 56% 34% 66%;
   background: radial-gradient(
     ellipse at 42% 38%,
-    color-mix(in srgb, #{$color-primary} 24%, transparent) 0%,
-    transparent 72%
+    color-mix(in srgb, #{$color-primary} 48%, transparent) 0%,
+    color-mix(in srgb, #{$color-primary} 22%, transparent) 52%,
+    transparent 78%
   );
   opacity: var(--accent-opacity);
-  filter: blur(40px);
+  filter: blur(32px);
   transform: translate3d(-50%, -50%, 0) scale(var(--accent-scale));
   will-change: transform, opacity;
 }
@@ -160,12 +161,12 @@
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
-    color-mix(in srgb, #{$color-accent} 38%, #{$color-bg}) 0%,
-    color-mix(in srgb, #{$color-accent} 12%, transparent) 42%,
-    transparent 72%
+    color-mix(in srgb, #{$color-accent} 52%, #{$color-bg}) 0%,
+    color-mix(in srgb, #{$color-accent} 24%, transparent) 46%,
+    transparent 76%
   );
   opacity: var(--glow-opacity);
-  filter: blur(52px);
+  filter: blur(44px);
   transform: translate3d(-50%, -50%, 0);
   will-change: transform, opacity;
 }
@@ -191,17 +192,17 @@
   }
 
   .layerMembraneA {
-    top: calc(-6% - var(--journey-p) * 4%);
-    inset-inline-start: calc(-14% - var(--journey-p) * 10%);
-    width: calc(min(78vw, 40rem) * (0.94 + var(--journey-p) * 0.48));
-    height: calc(min(68vh, 36rem) * (0.94 + var(--journey-p) * 0.48));
+    top: calc(-8% - var(--journey-p) * 4%);
+    inset-inline-start: calc(-18% - var(--journey-p) * 10%);
+    width: calc(min(92vw, 48rem) * (0.94 + var(--journey-p) * 0.48));
+    height: calc(min(78vh, 42rem) * (0.94 + var(--journey-p) * 0.48));
   }
 
   .layerMembraneB {
-    bottom: calc(-8% - var(--journey-p) * 6%);
-    inset-inline-end: calc(-16% - var(--journey-p) * 8%);
-    width: calc(min(72vw, 38rem) * (0.88 + var(--journey-p) * 0.6));
-    height: calc(min(62vh, 34rem) * (0.88 + var(--journey-p) * 0.6));
+    bottom: calc(-10% - var(--journey-p) * 6%);
+    inset-inline-end: calc(-20% - var(--journey-p) * 8%);
+    width: calc(min(86vw, 44rem) * (0.88 + var(--journey-p) * 0.6));
+    height: calc(min(72vh, 40rem) * (0.88 + var(--journey-p) * 0.6));
   }
 
   .layerFlow {
@@ -217,66 +218,66 @@
 /* Mobile — reposition forms, preserve journey, lighter blur */
 .background[data-mobile] {
   .layerMembraneA {
-    top: -4%;
-    inset-inline-start: -22%;
-    width: min(96vw, 28rem);
-    height: min(48vh, 22rem);
-    filter: blur(32px);
-  }
-
-  .layerMembraneB {
-    bottom: -4%;
-    inset-inline-end: -24%;
-    width: min(92vw, 26rem);
-    height: min(44vh, 20rem);
-    filter: blur(36px);
-  }
-
-  .layerFlow {
-    width: min(110vw, 32rem);
-    height: min(10vh, 5rem);
-    filter: blur(20px);
-  }
-
-  .layerAccent {
-    width: min(64vw, 18rem);
-    height: min(28vh, 14rem);
+    top: -6%;
+    inset-inline-start: -26%;
+    width: min(110vw, 34rem);
+    height: min(58vh, 28rem);
     filter: blur(28px);
   }
 
+  .layerMembraneB {
+    bottom: -6%;
+    inset-inline-end: -28%;
+    width: min(106vw, 32rem);
+    height: min(54vh, 26rem);
+    filter: blur(30px);
+  }
+
+  .layerFlow {
+    width: min(120vw, 38rem);
+    height: min(12vh, 6rem);
+    filter: blur(18px);
+  }
+
+  .layerAccent {
+    width: min(78vw, 24rem);
+    height: min(36vh, 18rem);
+    filter: blur(24px);
+  }
+
   .layerGlow {
-    filter: blur(36px);
+    filter: blur(32px);
   }
 }
 
 @include respond-to(md) {
   .layerMembraneA {
-    filter: blur(56px);
+    filter: blur(44px);
   }
 
   .layerMembraneB {
-    filter: blur(64px);
+    filter: blur(48px);
   }
 
   .layerFlow {
-    filter: blur(32px);
+    filter: blur(26px);
   }
 
   .layerGlow {
-    filter: blur(64px);
+    filter: blur(48px);
   }
 }
 
 @include respond-to(lg) {
   .layerMembraneA {
-    filter: blur(64px);
+    filter: blur(48px);
   }
 
   .layerMembraneB {
-    filter: blur(72px);
+    filter: blur(52px);
   }
 
   .layerGlow {
-    filter: blur(72px);
+    filter: blur(52px);
   }
 }

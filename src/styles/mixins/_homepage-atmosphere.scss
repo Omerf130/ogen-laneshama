@@ -1,0 +1,47 @@
+@use "../tokens" as *;
+
+@mixin atmospheric-orb(
+  $color,
+  $width,
+  $height,
+  $top: auto,
+  $bottom: auto,
+  $inset-inline-start: auto,
+  $inset-inline-end: auto,
+  $opacity: 0.22,
+  $blur: 48px,
+  $radius: 50%
+) {
+  content: "";
+  position: absolute;
+  top: $top;
+  bottom: $bottom;
+  inset-inline-start: $inset-inline-start;
+  inset-inline-end: $inset-inline-end;
+  width: $width;
+  height: $height;
+  border-radius: $radius;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, #{$color} 58%, transparent) 0%,
+    color-mix(in srgb, #{$color} 32%, transparent) 42%,
+    color-mix(in srgb, #{$color} 12%, transparent) 68%,
+    transparent 82%
+  );
+  opacity: $opacity;
+  filter: blur($blur);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@mixin atmosphere-sage-tint($strength: 12%) {
+  background: color-mix(in srgb, #{$color-secondary} #{$strength}, transparent);
+}
+
+@mixin atmosphere-champagne-tint($strength: 10%) {
+  background: color-mix(in srgb, #{$color-accent} #{$strength}, transparent);
+}
+
+@mixin atmosphere-primary-tint($strength: 16%) {
+  background: color-mix(in srgb, #{$color-primary} #{$strength}, transparent);
+}

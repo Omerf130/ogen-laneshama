@@ -1,13 +1,56 @@
 @use "../../../../styles/tokens" as *;
 @use "../../../../styles/mixins/media" as *;
 @use "../../../../styles/mixins/typography" as *;
+@use "../../../../styles/mixins/homepage-atmosphere" as *;
 
 .section {
-  background-color: $color-bg;
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
   padding-block-start: $spacing-2xl;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, #{$color-accent} 14%, transparent) 0%,
+    color-mix(in srgb, #{$color-accent} 20%, transparent) 45%,
+    color-mix(in srgb, #{$color-accent} 10%, transparent) 100%
+  );
+
+  &::before {
+    @include atmospheric-orb(
+      $color-accent,
+      min(76rem, 135vw),
+      min(48rem, 72vh),
+      -16%,
+      auto,
+      auto,
+      -18%,
+      0.22,
+      48px,
+      46% 54% 50% 50% / 52% 48% 52% 48%
+    );
+  }
+
+  @media (max-width: 767px) {
+    background: linear-gradient(
+      165deg,
+      color-mix(in srgb, #{$color-accent} 12%, transparent) 0%,
+      color-mix(in srgb, #{$color-accent} 18%, transparent) 100%
+    );
+
+    &::before {
+      width: min(44rem, 145vw);
+      height: min(30rem, 58vh);
+      inset-inline-end: -38%;
+      top: -10%;
+      opacity: 0.18;
+      filter: blur(36px);
+    }
+  }
 }
 
 .composition {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: $spacing-2xl;
   align-items: start;

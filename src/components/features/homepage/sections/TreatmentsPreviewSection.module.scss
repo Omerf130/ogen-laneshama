@@ -1,11 +1,80 @@
 @use "../../../../styles/tokens" as *;
 @use "../../../../styles/mixins/media" as *;
+@use "../../../../styles/mixins/homepage-atmosphere" as *;
 
 .section {
-  background-color: $color-bg;
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, #{$color-primary} 10%, transparent) 0%,
+    color-mix(in srgb, #{$color-primary} 22%, transparent) 42%,
+    color-mix(in srgb, #{$color-primary} 26%, transparent) 62%,
+    color-mix(in srgb, #{$color-primary} 12%, transparent) 100%
+  );
+
+  &::before {
+    @include atmospheric-orb(
+      $color-primary,
+      min(92rem, 160vw),
+      min(56rem, 92vh),
+      -20%,
+      auto,
+      -26%,
+      auto,
+      0.3,
+      44px,
+      54% 46% 58% 42% / 46% 54% 42% 58%
+    );
+  }
+
+  &::after {
+    @include atmospheric-orb(
+      $color-primary,
+      min(72rem, 130vw),
+      min(44rem, 70vh),
+      auto,
+      -24%,
+      auto,
+      -20%,
+      0.18,
+      40px,
+      48% 52% 56% 44% / 52% 48% 54% 46%
+    );
+  }
+
+  @media (max-width: 767px) {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, #{$color-primary} 12%, transparent) 0%,
+      color-mix(in srgb, #{$color-primary} 22%, transparent) 55%,
+      color-mix(in srgb, #{$color-primary} 14%, transparent) 100%
+    );
+
+    &::before {
+      width: min(50rem, 165vw);
+      height: min(38rem, 72vh);
+      inset-inline-start: -44%;
+      top: -14%;
+      opacity: 0.24;
+      filter: blur(36px);
+    }
+
+    &::after {
+      width: min(40rem, 140vw);
+      height: min(28rem, 52vh);
+      inset-inline-end: -36%;
+      bottom: -16%;
+      opacity: 0.16;
+      filter: blur(32px);
+    }
+  }
 }
 
 .header {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
@@ -38,6 +107,8 @@
 }
 
 .list {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
 
@@ -49,5 +120,7 @@
 }
 
 .footerCta {
+  position: relative;
+  z-index: 1;
   margin-block-start: $spacing-xl;
 }
