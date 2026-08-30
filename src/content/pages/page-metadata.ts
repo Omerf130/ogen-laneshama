@@ -5,7 +5,7 @@ export const pageMetadata: Record<PageMetadataKey, PageMetadata> = {
     path: "/",
     title: "בית",
     description:
-      "עוגן לנשמה — ליווי רגשי ורוחני לנשים. רחלי נגרין, פסיכותרפיה, רייקי, Aroma Touch והכוונה.",
+      "עוגן לנשימה — ליווי רגשי ורוחני לנשים. רחלי נגרין, פסיכותרפיה, רייקי, Aroma Touch והכוונה.",
   },
   about: {
     path: "/about",

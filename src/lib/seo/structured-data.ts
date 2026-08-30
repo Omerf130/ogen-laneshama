@@ -83,7 +83,7 @@ export function buildContactPageSchema() {
   if (!hasContact) {
     return buildWebPageSchema({
       name: "יצירת קשר",
-      description: "צרו קשר עם עוגן לנשמה",
+      description: "צרו קשר עם עוגן לנשימה",
       path: "/contact",
     });
   }

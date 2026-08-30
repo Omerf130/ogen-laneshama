@@ -24,26 +24,57 @@
 }
 
 .inner {
+  --navbar-content-height: clamp(5rem, 4vw + 4rem, 6.5rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $spacing-md;
-  min-height: 4rem;
+  min-height: var(--navbar-content-height);
+  padding-block: 0;
+
+  @include respond-to(lg) {
+    --navbar-content-height: clamp(5.75rem, 2vw + 5.25rem, 7rem);
+  }
 }
 
 .logo {
   flex-shrink: 0;
-  color: $color-text;
-  font-size: $font-size-h3;
-  font-weight: $font-weight-semibold;
-  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--navbar-content-height);
+  overflow: hidden;
+  line-height: 0;
 
   @include focus-visible;
-  @include motion-safe(color $transition-base $ease-soft);
+  @include motion-safe(opacity $transition-base $ease-soft);
 
   &:hover {
-    color: $color-accent-dark;
+    opacity: 0.88;
   }
+}
+
+.logoImage {
+  width: auto;
+  height: 150%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+}
+
+.panelLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(4.5rem, 7vw + 3rem, 6.25rem);
+  overflow: hidden;
+  line-height: 0;
+
+  .logoImage {
+    height: 150%;
+  }
+
+  @include focus-visible;
 }
 
 .desktopNav {
@@ -198,12 +229,6 @@
   align-items: center;
   justify-content: space-between;
   gap: $spacing-md;
-}
-
-.panelTitle {
-  margin: 0;
-  font-size: $font-size-h3;
-  font-weight: $font-weight-semibold;
 }
 
 .closeButton {

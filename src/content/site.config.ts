@@ -1,7 +1,7 @@
 import type { SiteConfig } from "@/types/content";
 
 export const siteConfig: SiteConfig = {
-  businessName: "עוגן לנשמה",
+  businessName: "עוגן לנשימה",
   therapistName: "רחלי נגרין",
   tagline: "מרחב בטוח לליווי רגשי ורוחני לנשים",
   // TODO: Replace with production URL before launch

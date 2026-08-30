@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
+import logoImage from "@/pics/WhatsApp_Image_2026-08-30_at_21.17.23-removebg-preview.png";
 import type { NavItem } from "@/types/navigation";
 import type { SiteConfig } from "@/types/content";
 import styles from "./Navbar.module.scss";
@@ -111,7 +113,12 @@ export function Navbar({ navItems, siteConfig }: NavbarProps) {
         <Container>
           <div className={styles.inner}>
             <Link href="/" className={styles.logo}>
-              {siteConfig.businessName}
+              <Image
+                src={logoImage}
+                alt={siteConfig.businessName}
+                className={styles.logoImage}
+                priority
+              />
             </Link>
 
             <nav className={styles.desktopNav} aria-label="ניווט ראשי">
@@ -175,7 +182,13 @@ export function Navbar({ navItems, siteConfig }: NavbarProps) {
         hidden={!isMenuOpen}
       >
         <div className={styles.panelHeader}>
-          <p className={styles.panelTitle}>{siteConfig.businessName}</p>
+          <Link href="/" className={styles.panelLogo} onClick={closeMenu}>
+            <Image
+              src={logoImage}
+              alt={siteConfig.businessName}
+              className={styles.logoImage}
+            />
+          </Link>
           <button
             type="button"
             className={styles.closeButton}
