@@ -17,6 +17,8 @@ const mediaAssetSchema = new Schema(
   timestampsOptions,
 );
 
+mediaAssetSchema.index({ provider: 1, providerKey: 1 }, { unique: true });
+
 export type MediaAssetDocument = InferSchemaType<typeof mediaAssetSchema>;
 
 export const MediaAssetModel = registerModel("MediaAsset", mediaAssetSchema);
