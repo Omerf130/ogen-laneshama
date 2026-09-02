@@ -119,3 +119,8 @@ export interface HomepageAssets {
   aboutPortrait: string | null;
   botanicalAccent: string | null;
 }
+
+export interface HomepageSectionVisibility {
+  faq?: boolean;
+  testimonials?: boolean;
+}

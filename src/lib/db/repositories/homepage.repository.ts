@@ -18,3 +18,32 @@ export async function findHomepage(): Promise<HomepageLeanDocument | null> {
 
   return HomepageModel.findById(HOMEPAGE_ID).lean<HomepageLeanDocument>().exec();
 }
+
+export async function findHomepageForAdmin(): Promise<HomepageLeanDocument | null> {
+  return findHomepage();
+}
+
+export async function updateHomepage(
+  input: HomepageDocumentInput,
+): Promise<HomepageLeanDocument> {
+  await ensureDbConnection();
+
+  const doc = await HomepageModel.findByIdAndUpdate(
+    HOMEPAGE_ID,
+    {
+      $set: {
+        content: input.content,
+        assets: input.assets,
+        sectionVisibility: input.sectionVisibility,
+        seo: input.seo,
+      },
+    },
+    { new: true, upsert: false, runValidators: true },
+  ).lean<HomepageLeanDocument>();
+
+  if (!doc) {
+    throw new Error("Homepage document not found");
+  }
+
+  return doc;
+}

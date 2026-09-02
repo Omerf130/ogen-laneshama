@@ -1,6 +1,6 @@
-# Admin Authentication & Foundation
+# Admin — Authentication & CMS
 
-Phase 5 introduces a protected `/admin` area with first-party session authentication. CMS CRUD arrives in Phase 6.
+Phase 5 introduced protected `/admin` authentication. Phase 6 adds structured CMS editors for all content domains.
 
 ## Architecture
 
@@ -63,28 +63,50 @@ The script refuses to overwrite an existing admin email.
 - Session cookie is HttpOnly + SameSite=Lax
 - No public GET logout route
 
-Phase 6 CMS mutations should use `withAdminAction()`:
+Phase 6 CMS mutations use `withAdminAction()`:
 
 1. `requireAdmin()`
-2. Zod parse input
-3. Perform mutation
+2. Zod parse input (domain schemas in `src/lib/validation/admin-cms/`)
+3. Whitelisted Mongo `$set` via repository write functions
 4. `invalidateContent(...)`
-5. Return `{ ok: true } | { ok: false, error: string }`
+5. Return `{ ok: true } | { ok: false, error: string }` (Hebrew messages)
+
+## CMS Domains (Phase 6)
+
+| Route | Domain | Notes |
+|-------|--------|-------|
+| `/admin/content/homepage` | Homepage | All sections; FAQ/Testimonials visibility toggles |
+| `/admin/content/about` | ContentPage | Slug `about` |
+| `/admin/content/pregnancy-motherhood` | ContentPage | Slug `pregnancy-motherhood` |
+| `/admin/content/contact` | ContentPage | Form labels only (backend in later phase) |
+| `/admin/content/treatments` | ContentPage | Treatments index copy |
+| `/admin/treatments` | Treatment | List, reorder, active toggle |
+| `/admin/treatments/[slug]` | Treatment | Edit only — 4 fixed slugs |
+| `/admin/faq` | FAQ | Full CRUD + publish + reorder |
+| `/admin/testimonials` | Testimonials | Full CRUD + publish + reorder |
+| `/admin/settings` | SiteSettings | Business/contact/social/footer/SEO — nav read-only |
+
+Admin reads load **directly from MongoDB**. DB failures show `AdminDbErrorState` — no static fallback for editing.
+
+FAQ item `id` is assigned server-side with `crypto.randomUUID()` on create.
+
+Media previews are read-only until Phase 7 upload.
 
 ## Verification
 
 ```bash
 npm run admin:verify-auth
+npm run admin:verify-cms
 npm run verify:phase-4c
 ```
 
-Full regression (Phase 5 gate):
+Full regression (Phase 6 gate):
 
 ```bash
 npm run lint && npx tsc --noEmit && npm run build
 npm run db:check && npm run db:verify-seed && npm run db:verify-parity
 npm run db:verify-content-source && npm run db:verify-public-foundation
-npm run admin:verify-auth
+npm run admin:verify-auth && npm run admin:verify-cms
 ```
 
 ## Production Checklist

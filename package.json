@@ -15,7 +15,8 @@
     "db:verify-public-foundation": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-public-foundation.ts",
     "verify:phase-4c": "tsx scripts/verify-phase-4c.ts",
     "admin:create": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/create-admin.ts",
-    "admin:verify-auth": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-auth.ts"
+    "admin:verify-auth": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-auth.ts",
+    "admin:verify-cms": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-cms.ts"
   },
   "dependencies": {
     "@inquirer/prompts": "^8.7.0",

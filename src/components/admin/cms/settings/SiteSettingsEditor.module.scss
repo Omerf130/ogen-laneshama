@@ -1,0 +1,57 @@
+@use "../../../../styles/tokens" as *;
+
+.editor {
+  width: min(100%, $container-max-width);
+  margin-inline: auto;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.socialItem {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+}
+
+.socialPlatform {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.readOnlyPanel {
+  padding: $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-bg;
+}
+
+.readOnlyTitle {
+  margin: 0 0 $spacing-xs;
+  color: $color-text;
+  font-size: $font-size-small;
+  font-weight: 600;
+}
+
+.readOnlyText {
+  margin: 0 0 $spacing-sm;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  line-height: 1.6;
+}
+
+.navList {
+  margin: 0;
+  padding-inline-start: $spacing-lg;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+}

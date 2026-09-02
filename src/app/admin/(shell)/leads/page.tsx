@@ -10,7 +10,7 @@ export default function AdminPage() {
   return (
     <AdminPlaceholder
       title="ניהול פניות"
-      description="צפייה וטיפול בפניות מהאתר."
+      description="צפייה וטיפול בפניות מהאתר — ייושם בשלב הבא."
     />
   );
 }

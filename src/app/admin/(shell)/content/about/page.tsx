@@ -1,16 +1,32 @@
 ﻿import type { Metadata } from "next";
-import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder/AdminPlaceholder";
+import { AdminDbErrorState } from "@/components/admin/cms/AdminDbErrorState";
+import { ContentPageEditor } from "@/components/admin/cms/content-pages/ContentPageEditor";
+import { loadCmsOrError } from "@/lib/admin/cms/load-cms-or-error";
+import { loadContentPageForAdmin } from "@/lib/admin/cms/loaders";
 
 export const metadata: Metadata = {
   title: "אודות | ניהול עוגן",
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
+export default async function AdminAboutContentPage() {
+  const result = await loadCmsOrError(() => loadContentPageForAdmin("about"));
+
+  if (!result.ok) {
+    return <AdminDbErrorState />;
+  }
+
+  const page = result.data;
+
   return (
-    <AdminPlaceholder
-      title="עריכת עמוד אודות"
-      description="ניהול תוכן עמוד האודות."
-    />
+    <>
+      <h1>עריכת עמוד אודות</h1>
+      <ContentPageEditor
+        slug="about"
+        content={page.content as Record<string, unknown>}
+        seo={page.seo}
+        imagePreview={page.imagePreview}
+      />
+    </>
   );
 }

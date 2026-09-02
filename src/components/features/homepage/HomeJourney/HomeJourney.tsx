@@ -25,6 +25,10 @@ interface HomeJourneyProps {
   testimonials: TestimonialSlot[];
   assets: HomepageAssets;
   whatsAppUrl: string | null;
+  sectionVisibility?: {
+    faq?: boolean;
+    testimonials?: boolean;
+  };
 }
 
 export function HomeJourney({
@@ -34,8 +38,12 @@ export function HomeJourney({
   testimonials,
   assets,
   whatsAppUrl,
+  sectionVisibility,
 }: HomeJourneyProps) {
   const hasTestimonials = testimonials.some((t) => t.quote);
+  const showTestimonials =
+    sectionVisibility?.testimonials !== false && hasTestimonials;
+  const showFaq = sectionVisibility?.faq !== false;
 
   return (
     <JourneyShell>
@@ -61,13 +69,15 @@ export function HomeJourney({
             imageSrc={assets.pregnancySpotlight}
           />
           <ProcessSection content={content.process} />
-          {hasTestimonials ? (
+          {showTestimonials ? (
             <TestimonialsSection
               content={content.testimonialsSection}
               testimonials={testimonials}
             />
           ) : null}
-          <FaqSection content={content.faqSection} items={faqItems} />
+          {showFaq ? (
+            <FaqSection content={content.faqSection} items={faqItems} />
+          ) : null}
           <ContactCtaSection
             content={content.contactCta}
             whatsAppUrl={whatsAppUrl}

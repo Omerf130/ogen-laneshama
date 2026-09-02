@@ -5,6 +5,7 @@ import { getFaqItems } from "@/lib/content/get-faq";
 import { getHomepageAssets } from "@/lib/content/get-homepage-assets";
 import { getHomepageContent } from "@/lib/content/get-homepage-content";
 import { getTestimonials } from "@/lib/content/get-testimonials";
+import { getHomepageSectionVisibility } from "@/lib/content/get-homepage-section-visibility";
 import { getTreatments } from "@/lib/content/get-treatments";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
@@ -27,6 +28,7 @@ export default async function HomePage() {
     testimonials,
     assets,
     siteConfig,
+    sectionVisibility,
   ] = await Promise.all([
     getHomepageContent(),
     getTreatments(),
@@ -34,6 +36,7 @@ export default async function HomePage() {
     getTestimonials(),
     getHomepageAssets(),
     getSiteConfig(),
+    getHomepageSectionVisibility(),
   ]);
 
   const whatsAppUrl = buildWhatsAppUrl(
@@ -49,6 +52,7 @@ export default async function HomePage() {
       testimonials={testimonials}
       assets={assets}
       whatsAppUrl={whatsAppUrl}
+      sectionVisibility={sectionVisibility}
     />
   );
 }

@@ -17,32 +17,57 @@ export { ensureDbConnection } from "./shared";
 
 export {
   findSiteSettings,
+  findSiteSettingsForAdmin,
+  updateSiteSettings,
   type SiteSettingsLeanDocument,
 } from "./site-settings.repository";
 
 export {
   findHomepage,
+  findHomepageForAdmin,
+  updateHomepage,
   type HomepageLeanDocument,
 } from "./homepage.repository";
 
 export {
   findContentPageBySlug,
+  findContentPageForAdmin,
+  updateContentPageBySlug,
   type ContentPageLeanDocument,
 } from "./content-page.repository";
 
 export {
   findActiveTreatments,
   findActiveTreatmentBySlug,
+  findAllTreatmentsForAdmin,
+  findTreatmentBySlugForAdmin,
+  updateTreatmentBySlug,
+  setTreatmentActive,
+  updateTreatmentSortOrders,
   type TreatmentLeanDocument,
 } from "./treatment.repository";
 
 export {
   findPublishedFaqItems,
+  findAllFaqItemsForAdmin,
+  createFaqItem,
+  updateFaqItemById,
+  deleteFaqItemById,
+  updateFaqItemSortOrders,
+  setFaqItemPublished,
+  countPublishedFaqItems,
   type FaqItemLeanDocument,
 } from "./faq-item.repository";
 
 export {
   findPublishedTestimonials,
+  findAllTestimonialsForAdmin,
+  createTestimonial,
+  updateTestimonialById,
+  deleteTestimonialById,
+  updateTestimonialSortOrders,
+  setTestimonialPublished,
+  countPublishedTestimonials,
   type TestimonialLeanDocument,
 } from "./testimonial.repository";
 

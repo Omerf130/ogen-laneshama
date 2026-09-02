@@ -1,0 +1,33 @@
+@use "../../../../styles/tokens" as *;
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+}
+
+.linkPanel {
+  margin: 0;
+
+  a {
+    color: $color-accent-dark;
+    font-size: $font-size-small;
+    font-weight: 500;
+    text-decoration: none;
+  }
+}

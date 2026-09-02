@@ -1,16 +1,25 @@
 ﻿import type { Metadata } from "next";
-import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder/AdminPlaceholder";
+import { AdminDbErrorState } from "@/components/admin/cms/AdminDbErrorState";
+import { FaqListManager } from "@/components/admin/cms/faq/FaqListManager";
+import { loadCmsOrError } from "@/lib/admin/cms/load-cms-or-error";
+import { loadFaqItemsForAdmin } from "@/lib/admin/cms/loaders";
 
 export const metadata: Metadata = {
   title: "שאלות נפוצות | ניהול עוגן",
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
+export default async function AdminFaqPage() {
+  const result = await loadCmsOrError(() => loadFaqItemsForAdmin());
+
+  if (!result.ok) {
+    return <AdminDbErrorState />;
+  }
+
   return (
-    <AdminPlaceholder
-      title="ניהול שאלות נפוצות"
-      description="הוספה, עריכה ופרסום שאלות ותשובות."
-    />
+    <>
+      <h1>שאלות נפוצות</h1>
+      <FaqListManager initialItems={result.data} />
+    </>
   );
 }

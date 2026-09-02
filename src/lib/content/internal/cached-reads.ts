@@ -62,6 +62,7 @@ import type {
   FaqItem,
   HomepageAssets,
   HomepageContent,
+  HomepageSectionVisibility,
   TestimonialSlot,
 } from "@/types/homepage";
 import type {
@@ -156,6 +157,18 @@ export async function readHomepageContentFromDb(): Promise<HomepageContent> {
     "homepage",
   );
   return mapHomepageToHomepageContent(doc);
+}
+
+export async function readHomepageSectionVisibilityFromDb(): Promise<
+  HomepageSectionVisibility | undefined
+> {
+  const doc = requireDocument(
+    await loadHomepageDocument(),
+    "Homepage",
+    "homepage",
+  );
+
+  return doc.sectionVisibility ?? undefined;
 }
 
 export async function readHomepageAssetsFromDb(): Promise<HomepageAssets> {

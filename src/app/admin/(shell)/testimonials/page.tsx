@@ -1,16 +1,25 @@
 ﻿import type { Metadata } from "next";
-import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder/AdminPlaceholder";
+import { AdminDbErrorState } from "@/components/admin/cms/AdminDbErrorState";
+import { TestimonialsListManager } from "@/components/admin/cms/testimonials/TestimonialsListManager";
+import { loadCmsOrError } from "@/lib/admin/cms/load-cms-or-error";
+import { loadTestimonialsForAdmin } from "@/lib/admin/cms/loaders";
 
 export const metadata: Metadata = {
   title: "המלצות | ניהול עוגן",
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
+export default async function AdminTestimonialsPage() {
+  const result = await loadCmsOrError(() => loadTestimonialsForAdmin());
+
+  if (!result.ok) {
+    return <AdminDbErrorState />;
+  }
+
   return (
-    <AdminPlaceholder
-      title="ניהול המלצות"
-      description="הוספה, עריכה ופרסום המלצות לקוחות."
-    />
+    <>
+      <h1>המלצות</h1>
+      <TestimonialsListManager initialItems={result.data} />
+    </>
   );
 }

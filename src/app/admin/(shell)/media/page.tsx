@@ -10,7 +10,7 @@ export default function AdminPage() {
   return (
     <AdminPlaceholder
       title="ניהול מדיה"
-      description="העלאה וניהול קבצי מדיה."
+      description="העלאה וניהול קבצי מדיה — ייושם בשלב 7."
     />
   );
 }

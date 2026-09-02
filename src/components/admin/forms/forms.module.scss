@@ -1,0 +1,408 @@
+@use "../../../styles/tokens" as *;
+
+.section {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+}
+
+.sectionHeader {
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: $color-text;
+  font-size: $font-size-h3;
+  font-weight: 600;
+}
+
+.sectionDescription {
+  margin: $spacing-xs 0 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  line-height: 1.5;
+}
+
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.label {
+  color: $color-text;
+  font-size: $font-size-small;
+  font-weight: 500;
+}
+
+.helper {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  line-height: 1.5;
+}
+
+.error {
+  margin: 0;
+  color: $color-accent-dark;
+  font-size: $font-size-small;
+}
+
+.input,
+.textarea {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-surface;
+  color: $color-text;
+  font-size: $font-size-body;
+  font-family: inherit;
+
+  &:focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+    border-color: $color-accent;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.textarea {
+  min-height: 7rem;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.toggleLabelWrap {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.toggle {
+  position: relative;
+  width: 2.75rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: $color-border;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &[data-checked="true"] {
+    background: $color-accent;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 0.125rem;
+  inset-inline-start: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: $color-white;
+  transition: transform $transition-fast;
+
+  [data-checked="true"] & {
+    transform: translateX(-1.25rem);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-md;
+  margin-block-start: $spacing-lg;
+  padding-block-start: $spacing-lg;
+  border-top: 1px solid $color-border;
+}
+
+.dirtyNotice {
+  margin: 0;
+  color: $color-accent-dark;
+  font-size: $font-size-small;
+  font-weight: 500;
+}
+
+.submit {
+  padding: $spacing-sm $spacing-lg;
+  border: 0;
+  border-radius: $radius-md;
+  background: $color-accent;
+  color: $color-text;
+  font-size: $font-size-body;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover:not(:disabled) {
+    background: $color-accent-dark;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-text;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.feedbackSuccess,
+.feedbackError {
+  margin: 0 0 $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-size: $font-size-small;
+}
+
+.feedbackSuccess {
+  background: rgb(220 231 214 / 60%);
+  color: $color-text;
+}
+
+.feedbackError {
+  background: rgb(201 173 128 / 15%);
+  color: $color-text;
+}
+
+.seoDetails {
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.seoSummary {
+  padding: $spacing-sm $spacing-md;
+  background: $color-bg;
+  color: $color-text;
+  font-size: $font-size-body;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.seoBody {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-md;
+}
+
+.imagePreview {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border: 1px dashed $color-border;
+  border-radius: $radius-md;
+  background: $color-bg;
+}
+
+.imagePreviewImg {
+  width: min(100%, 16rem);
+  height: auto;
+  border-radius: $radius-md;
+  object-fit: cover;
+}
+
+.imagePreviewMeta {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+}
+
+.imagePreviewNotice {
+  margin: 0;
+  color: $color-accent-dark;
+  font-size: $font-size-small;
+}
+
+.dialogBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+  background: rgb(45 52 54 / 40%);
+}
+
+.dialog {
+  width: min(100%, 28rem);
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-surface;
+  box-shadow: $shadow-md;
+}
+
+.dialogTitle {
+  margin: 0 0 $spacing-sm;
+  color: $color-text;
+  font-size: $font-size-h3;
+  font-weight: 600;
+}
+
+.dialogBody {
+  margin: 0 0 $spacing-lg;
+  color: $color-text-muted;
+  font-size: $font-size-body;
+  line-height: 1.6;
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-start;
+  gap: $spacing-sm;
+}
+
+.secondaryButton,
+.dangerButton {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-size: $font-size-body;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.secondaryButton {
+  border: 1px solid $color-border;
+  background: $color-surface;
+  color: $color-text;
+}
+
+.dangerButton {
+  border: 0;
+  background: $color-accent-dark;
+  color: $color-white;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.inlineActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-surface;
+  color: $color-text;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.listItem {
+  padding: $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-surface;
+}
+
+.listItemHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 0.125rem $spacing-sm;
+  border-radius: 999px;
+  background: $color-primary;
+  color: $color-text;
+  font-size: $font-size-small;
+  font-weight: 500;
+}
+
+.badgeMuted {
+  background: $color-bg;
+  color: $color-text-muted;
+}
+
+.readOnlyPanel {
+  padding: $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-bg;
+}
+
+.readOnlyTitle {
+  margin: 0 0 $spacing-xs;
+  color: $color-text;
+  font-size: $font-size-small;
+  font-weight: 600;
+}
+
+.readOnlyText {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .toggleThumb,
+  .submit {
+    transition: none;
+  }
+}

@@ -1,0 +1,14 @@
+@use "../../../../styles/tokens" as *;
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.backLink {
+  color: $color-accent-dark;
+  font-size: $font-size-small;
+  font-weight: 500;
+  text-decoration: none;
+}

@@ -1,0 +1,91 @@
+@use "../../../../styles/tokens" as *;
+
+.manager {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background: $color-surface;
+}
+
+.itemHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.title {
+  margin: 0 0 $spacing-xs;
+  color: $color-text;
+  font-size: $font-size-body;
+  font-weight: 600;
+}
+
+.slug {
+  margin: 0 0 $spacing-xs;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+}
+
+.badgeActive,
+.badgeInactive {
+  display: inline-flex;
+  padding: 0.125rem $spacing-sm;
+  border-radius: 999px;
+  font-size: $font-size-small;
+  font-weight: 500;
+}
+
+.badgeActive {
+  background: $color-secondary;
+  color: $color-text;
+}
+
+.badgeInactive {
+  background: $color-bg;
+  color: $color-text-muted;
+}
+
+.itemActions {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-surface;
+  color: $color-text;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

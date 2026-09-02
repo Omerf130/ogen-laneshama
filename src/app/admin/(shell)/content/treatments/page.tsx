@@ -1,16 +1,31 @@
 ﻿import type { Metadata } from "next";
-import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder/AdminPlaceholder";
+import { AdminDbErrorState } from "@/components/admin/cms/AdminDbErrorState";
+import { ContentPageEditor } from "@/components/admin/cms/content-pages/ContentPageEditor";
+import { loadCmsOrError } from "@/lib/admin/cms/load-cms-or-error";
+import { loadContentPageForAdmin } from "@/lib/admin/cms/loaders";
 
 export const metadata: Metadata = {
   title: "עמוד טיפולים | ניהול עוגן",
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
+export default async function AdminTreatmentsIndexContentPage() {
+  const result = await loadCmsOrError(() => loadContentPageForAdmin("treatments"));
+
+  if (!result.ok) {
+    return <AdminDbErrorState />;
+  }
+
+  const page = result.data;
+
   return (
-    <AdminPlaceholder
-      title="עריכת עמוד הטיפולים"
-      description="ניהול תוכן עמוד האינדקס של הטיפולים."
-    />
+    <>
+      <h1>עריכת עמוד טיפולים</h1>
+      <ContentPageEditor
+        slug="treatments"
+        content={page.content as Record<string, unknown>}
+        seo={page.seo}
+      />
+    </>
   );
 }
