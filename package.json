@@ -10,6 +10,7 @@
     "db:check": "tsx scripts/check-db-connection.ts",
     "db:seed": "tsx scripts/seed-database.ts",
     "db:verify-seed": "tsx scripts/verify-seed.ts",
+    "db:verify-parity": "tsx scripts/verify-content-parity.ts",
     "verify:phase-4c": "tsx scripts/verify-phase-4c.ts"
   },
   "dependencies": {
