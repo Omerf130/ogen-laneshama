@@ -1,0 +1,88 @@
+@use "../../../styles/tokens" as *;
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  height: 100%;
+  padding: $spacing-lg;
+  background: $color-secondary;
+  border-inline-end: 1px solid $color-border;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding-block-end: $spacing-md;
+  border-block-end: 1px solid $color-border;
+}
+
+.brandTitle {
+  color: $color-text;
+  font-size: $font-size-h3;
+  font-weight: 700;
+}
+
+.brandSubtitle {
+  color: $color-text-muted;
+  font-size: $font-size-small;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link,
+.linkActive {
+  display: block;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  color: $color-text;
+  font-size: $font-size-small;
+  text-decoration: none;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &:focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+  }
+}
+
+.link:hover {
+  background: rgb(255 255 255 / 55%);
+}
+
+.linkActive {
+  background: $color-surface;
+  color: $color-text;
+  font-weight: 600;
+  box-shadow: $shadow-sm;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .linkActive {
+    transition: none;
+  }
+}

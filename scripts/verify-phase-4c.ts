@@ -29,6 +29,20 @@ function hasIndex(
   });
 }
 
+function hasTtlIndex(
+  indexes: ReturnType<typeof import("mongoose").Schema.prototype.indexes>,
+  field: string,
+): boolean {
+  return indexes.some(([keys, options]) => {
+    const indexKeys = keys as Record<string, number>;
+    const indexOptions = options as { expireAfterSeconds?: number } | undefined;
+
+    return (
+      indexKeys[field] === 1 && indexOptions?.expireAfterSeconds === 0
+    );
+  });
+}
+
 async function verifyModels(): Promise<void> {
   const firstImport = await import("../src/lib/db/models/treatment.model");
   const secondImport = await import("../src/lib/db/models/treatment.model");
@@ -84,6 +98,30 @@ async function verifyModels(): Promise<void> {
   assert(
     passwordPath?.options.select === false,
     "AdminUser passwordHash must be select:false",
+  );
+
+  const adminSessionImport = await import("../src/lib/db/models/admin-session.model");
+  const adminSessionIndexes = adminSessionImport.AdminSessionModel.schema.indexes();
+  assert(
+    hasIndex(adminSessionIndexes, { tokenHash: 1 }),
+    "AdminSession tokenHash unique index missing",
+  );
+  assert(
+    hasTtlIndex(adminSessionIndexes, "expiresAt"),
+    "AdminSession expiresAt TTL index missing",
+  );
+
+  const rateLimitImport = await import(
+    "../src/lib/db/models/admin-login-rate-limit.model"
+  );
+  const rateLimitIndexes = rateLimitImport.AdminLoginRateLimitModel.schema.indexes();
+  assert(
+    hasIndex(rateLimitIndexes, { keyHash: 1 }),
+    "AdminLoginRateLimit keyHash unique index missing",
+  );
+  assert(
+    hasTtlIndex(rateLimitIndexes, "expiresAt"),
+    "AdminLoginRateLimit expiresAt TTL index missing",
   );
 
   console.log("Model registration and index checks passed.");

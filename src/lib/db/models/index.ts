@@ -19,3 +19,7 @@ export { MediaAssetModel } from "./media-asset.model";
 export type { MediaAssetDocument } from "./media-asset.model";
 export { AdminUserModel } from "./admin-user.model";
 export type { AdminUserDocument } from "./admin-user.model";
+export { AdminSessionModel } from "./admin-session.model";
+export type { AdminSessionDocument } from "./admin-session.model";
+export { AdminLoginRateLimitModel } from "./admin-login-rate-limit.model";
+export type { AdminLoginRateLimitDocument } from "./admin-login-rate-limit.model";

@@ -1,0 +1,36 @@
+@use "../../../styles/tokens" as *;
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: $spacing-lg;
+}
+
+.card {
+  width: min(100%, 24rem);
+  padding: $spacing-xl;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background: $color-surface;
+  box-shadow: $shadow-md;
+}
+
+.header {
+  margin-block-end: $spacing-lg;
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 $spacing-xs;
+  color: $color-text;
+  font-size: $font-size-h2;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+}

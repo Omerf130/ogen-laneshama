@@ -8,3 +8,5 @@ export * from "./testimonial";
 export * from "./lead";
 export * from "./media";
 export * from "./admin-user";
+export * from "./admin-session";
+export * from "./admin-auth";

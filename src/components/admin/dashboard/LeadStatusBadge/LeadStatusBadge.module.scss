@@ -1,0 +1,43 @@
+@use "../../../../styles/tokens" as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-full;
+  background: $color-bg;
+  color: $color-text;
+  font-size: $font-size-small;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.new {
+  border-color: rgb(201 173 128 / 45%);
+  background: rgb(201 173 128 / 12%);
+  color: $color-text;
+}
+
+.contacted {
+  border-color: rgb(123 168 176 / 35%);
+  background: rgb(221 239 242 / 55%);
+}
+
+.inProgress {
+  border-color: rgb(201 173 128 / 35%);
+  background: rgb(252 250 246 / 90%);
+}
+
+.closed {
+  border-color: $color-border;
+  background: rgb(255 255 255 / 70%);
+  color: $color-text-muted;
+}
+
+.archived {
+  border-color: $color-border;
+  background: rgb(232 228 222 / 45%);
+  color: $color-text-muted;
+}

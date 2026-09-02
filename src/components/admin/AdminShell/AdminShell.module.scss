@@ -1,0 +1,83 @@
+@use "../../../styles/tokens" as *;
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: $color-bg;
+}
+
+.desktopSidebar {
+  display: none;
+  flex-shrink: 0;
+  width: 17rem;
+
+  @media (min-width: $breakpoint-lg) {
+    display: block;
+  }
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.content {
+  flex: 1;
+  padding: $spacing-lg;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-xl;
+  }
+}
+
+.mobileSidebar,
+.mobileSidebarOpen {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: calc(#{$z-overlay} + 1);
+  width: min(18rem, 85vw);
+  background: $color-secondary;
+  box-shadow: $shadow-md;
+  transition: transform $transition-base;
+  overflow-y: auto;
+}
+
+.mobileSidebar {
+  transform: translateX(100%);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.mobileSidebarOpen {
+  transform: translateX(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+  padding: 0;
+  border: 0;
+  background: rgb(45 52 54 / 40%);
+  cursor: pointer;
+}
+
+@media (min-width: $breakpoint-lg) {
+  .mobileSidebar,
+  .mobileSidebarOpen,
+  .backdrop {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileSidebar,
+  .mobileSidebarOpen {
+    transition: none;
+  }
+}

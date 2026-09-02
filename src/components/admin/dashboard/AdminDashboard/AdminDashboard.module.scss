@@ -1,0 +1,6 @@
+@use "../../../../styles/tokens" as *;
+
+.dashboard {
+  width: min(100%, $container-max-width);
+  margin-inline: auto;
+}
