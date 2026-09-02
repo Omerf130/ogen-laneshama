@@ -1,11 +1,16 @@
+import "server-only";
+
 import { siteConfig } from "@/content/site.config";
+import { readContent } from "@/lib/content/internal/read-content";
+import { readSiteConfigFromDb } from "@/lib/content/internal/cached-reads";
 import type { SiteConfig } from "@/types/content";
 
-/**
- * Returns site-wide configuration.
- * Phase 0: static import from site.config.ts
- * Future: fetch from MongoDB / admin-managed settings
- */
 export async function getSiteConfig(): Promise<SiteConfig> {
-  return siteConfig;
+  return readContent({
+    getter: "getSiteConfig",
+    domain: "site-settings",
+    staticRead: () => siteConfig,
+    dbRead: readSiteConfigFromDb,
+    allowFallbackOnMissing: true,
+  });
 }

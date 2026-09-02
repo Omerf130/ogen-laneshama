@@ -11,6 +11,7 @@
     "db:seed": "tsx scripts/seed-database.ts",
     "db:verify-seed": "tsx scripts/verify-seed.ts",
     "db:verify-parity": "tsx scripts/verify-content-parity.ts",
+    "db:verify-content-source": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-content-source.ts",
     "verify:phase-4c": "tsx scripts/verify-phase-4c.ts"
   },
   "dependencies": {

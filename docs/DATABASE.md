@@ -30,13 +30,37 @@ Connection logic lives in `src/lib/db/mongoose.ts`; `connect.ts` and `index.ts` 
 
 ## Seed static content (Phase 4D.1)
 
-Seed copies approved static content from `src/content/**` into MongoDB. Public pages continue reading static getters only.
+Seed copies approved static content from `src/content/**` into MongoDB. Public pages read content through getters in `src/lib/content/get-*.ts`, which support DB-backed reads when `CONTENT_SOURCE` is configured.
 
 ```bash
 npm run db:seed -- --dry-run
 npm run db:seed
 npm run db:verify-seed
 ```
+
+## Public content source (Phase 4D.2C)
+
+Public getters resolve content from static files or MongoDB depending on `CONTENT_SOURCE`:
+
+| Mode | Behavior |
+|------|----------|
+| `static` (default) | Static files only — build-safe rollback, no MongoDB required at build time |
+| `db` | MongoDB only — throws on missing/invalid content or DB failures |
+| `db-with-fallback` | MongoDB primary; falls back to static only for infrastructure errors or missing singletons/content pages |
+
+Recommended local development after seed:
+
+```env
+CONTENT_SOURCE=db-with-fallback
+```
+
+Verify getter behavior across modes:
+
+```bash
+npm run db:verify-content-source
+```
+
+Treatments, FAQ, and testimonials lists never fall back to static when the DB responds successfully (including empty arrays or missing/inactive treatments).
 
 ### Seed policy
 

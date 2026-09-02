@@ -1,13 +1,18 @@
+import "server-only";
+
 import { treatments } from "@/content/treatments/treatments.data";
+import { readContentOptional } from "@/lib/content/internal/read-content";
+import { readTreatmentBySlugFromDb } from "@/lib/content/internal/cached-reads";
 import type { Treatment, TreatmentSlug } from "@/types/content";
 
-/**
- * Returns a single treatment by slug.
- * Phase 0: static lookup
- * Future: Mongoose findOne({ slug })
- */
 export async function getTreatmentBySlug(
   slug: TreatmentSlug,
 ): Promise<Treatment | undefined> {
-  return treatments.find((treatment) => treatment.slug === slug);
+  return readContentOptional({
+    getter: "getTreatmentBySlug",
+    domain: `treatment:${slug}`,
+    staticRead: () => treatments.find((treatment) => treatment.slug === slug),
+    dbRead: () => readTreatmentBySlugFromDb(slug),
+    allowFallbackOnMissing: false,
+  });
 }

@@ -108,6 +108,8 @@ async function main(): Promise<void> {
     mapSiteSettingsToMainNav(siteSettingsDoc),
     mainNavItems,
   );
+  // Composed DB-mode nav (via getMainNav) intentionally filters /#testimonials when
+  // published testimonial count is 0 — see scripts/verify-content-source.ts, not here.
 
   compareDomain(
     "Footer",
