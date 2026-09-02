@@ -14,6 +14,14 @@ npm run db:check
 
 The command loads `.env.local`, calls the shared connection helper in `src/lib/db/mongoose.ts`, pings the database, and exits with code `0` on success.
 
+## Verify models and validation (Phase 4C)
+
+```bash
+npm run verify:phase-4c
+```
+
+Compiles all Mongoose models, checks index definitions, and runs Zod boundary tests without writing data.
+
 ## Server usage
 
 Import from `@/lib/db` in server-only code (Route Handlers, Server Actions, future models). That entry point is guarded by `server-only`. Do not import from client components or public pages in Phase 4B.
