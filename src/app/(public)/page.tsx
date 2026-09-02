@@ -1,15 +1,23 @@
-import { pageMetadata } from "@/content/pages/page-metadata";
-import { buildPageMetadata } from "@/lib/seo/metadata";
+import type { Metadata } from "next";
+import { getHomepageSeo } from "@/lib/content/get-homepage-seo";
+import { getSiteConfig } from "@/lib/content/get-site-config";
 import { getFaqItems } from "@/lib/content/get-faq";
 import { getHomepageAssets } from "@/lib/content/get-homepage-assets";
 import { getHomepageContent } from "@/lib/content/get-homepage-content";
-import { getSiteConfig } from "@/lib/content/get-site-config";
 import { getTestimonials } from "@/lib/content/get-testimonials";
 import { getTreatments } from "@/lib/content/get-treatments";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
 import { HomeJourney } from "@/components/features/homepage/HomeJourney";
 
-export const metadata = buildPageMetadata(pageMetadata.home);
+export async function generateMetadata(): Promise<Metadata> {
+  const [seo, siteConfig] = await Promise.all([
+    getHomepageSeo(),
+    getSiteConfig(),
+  ]);
+
+  return buildPageMetadata(seo, { siteConfig, path: "/" });
+}
 
 export default async function HomePage() {
   const [

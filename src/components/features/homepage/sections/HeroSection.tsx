@@ -3,14 +3,20 @@ import { Button } from "@/components/ui/Button";
 import type { HomepageHero } from "@/types/homepage";
 import styles from "./HeroSection.module.scss";
 
-const HERO_IMAGE = "/images/homepage/hero-editorial.webp";
+const HERO_IMAGE_FALLBACK = "/images/homepage/hero-editorial.webp";
 
 interface HeroSectionProps {
   content: HomepageHero;
+  imageSrc?: string | null;
   whatsAppUrl: string | null;
 }
 
-export function HeroSection({ content, whatsAppUrl }: HeroSectionProps) {
+export function HeroSection({
+  content,
+  imageSrc,
+  whatsAppUrl,
+}: HeroSectionProps) {
+  const heroImage = imageSrc ?? HERO_IMAGE_FALLBACK;
   const ctaHref = whatsAppUrl ?? "/contact";
   const ctaExternal = Boolean(whatsAppUrl);
 
@@ -49,7 +55,7 @@ export function HeroSection({ content, whatsAppUrl }: HeroSectionProps) {
       <div className={styles.visual} aria-hidden="true">
         <div className={styles.photoFrame}>
           <Image
-            src={HERO_IMAGE}
+            src={heroImage}
             alt=""
             fill
             priority

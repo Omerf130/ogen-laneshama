@@ -16,6 +16,8 @@ export function collectHomepageAssetMediaIds(
   }
 
   return collectMediaIdsFromRefs([
+    assets.hero,
+    assets.pregnancySpotlight,
     assets.aboutPortrait,
     assets.botanicalAccent,
   ]);
@@ -28,6 +30,11 @@ export function mapHomepageToHomepageAssets(
   const assets = doc.assets;
 
   return {
+    hero: resolveMediaRefToPublicSrc(assets?.hero, mediaMap),
+    pregnancySpotlight: resolveMediaRefToPublicSrc(
+      assets?.pregnancySpotlight,
+      mediaMap,
+    ),
     aboutPortrait: resolveMediaRefToPublicSrc(assets?.aboutPortrait, mediaMap),
     botanicalAccent: resolveMediaRefToPublicSrc(
       assets?.botanicalAccent,

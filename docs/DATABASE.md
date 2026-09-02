@@ -62,6 +62,74 @@ npm run db:verify-content-source
 
 Treatments, FAQ, and testimonials lists never fall back to static when the DB responds successfully (including empty arrays or missing/inactive treatments).
 
+## Public CMS foundation (Phase 4E)
+
+Public SEO, sitemap, homepage hero/pregnancy images, and on-demand invalidation utilities are DB-aware when `CONTENT_SOURCE` is `db` or `db-with-fallback`.
+
+### SEO
+
+- Route metadata uses async `generateMetadata()` backed by CMS SEO fields with static `page-metadata.ts` fallback.
+- Structured data builders receive runtime `SiteConfig` from `getSiteConfig()`.
+- Priority: valid DB SEO override → approved static metadata → site defaults (never empty title/description).
+
+Verify:
+
+```bash
+npm run db:verify-public-foundation
+```
+
+### Sitemap
+
+- Core routes (`/`, `/about`, `/pregnancy-motherhood`, `/contact`, `/treatments`) always included.
+- Treatment URLs follow active DB treatments in DB modes; static four-slug set in `static` mode or `db-with-fallback` infrastructure failure.
+- Inactive treatments never appear when the DB responds successfully.
+
+### Homepage media
+
+- `HomepageAssets` exposes `hero`, `pregnancySpotlight`, `aboutPortrait`, `botanicalAccent`.
+- Resolution: MediaAsset URL → MediaRef.src → component fallback constant.
+
+### Navbar logo
+
+- UI still uses bundled `@/pics/` logo. `SiteSettings.logoMediaId` is reserved for a future Admin media phase.
+
+### Legacy getter
+
+- `getPagesAssets()` remains static with zero consumers — future cleanup candidate.
+
+### On-demand invalidation (Admin-ready)
+
+Server-only [`src/lib/content/invalidate-content.ts`](src/lib/content/invalidate-content.ts):
+
+```typescript
+await invalidateContent({ domain: "homepage" });
+await invalidateContent({ domain: "treatment", slug: "psychotherapy" });
+```
+
+Uses Next.js 16 `unstable_cache` tags + `revalidateTag(tag, "max")` and targeted `revalidatePath`. No-op when `CONTENT_SOURCE=static`. No public revalidation endpoint in this phase.
+
+DB reads in DB modes are wrapped with `unstable_cache` (`revalidate: false`) keyed by existing content domains. The data cache activates only inside the Next.js server runtime (`NEXT_RUNTIME` set); CLI verification scripts bypass it and read MongoDB directly.
+
+### Build-time DB dependency
+
+| `CONTENT_SOURCE` | Build behavior |
+|------------------|----------------|
+| unset / `static` | No MongoDB required; static prerender |
+| `db` | MongoDB required at build if routes prerender CMS data |
+| `db-with-fallback` | Build succeeds without MongoDB; falls back to static |
+
+Production recommendation after Admin verification: `CONTENT_SOURCE=db`. Local dev: `CONTENT_SOURCE=db-with-fallback`.
+
+### Static content dependencies
+
+| Category | Modules | Role |
+|----------|---------|------|
+| Runtime fallback | `src/content/**`, `page-metadata.ts` | Rollback, `static` mode, SEO fallback |
+| Seed only | `src/lib/seed/**`, `seoFromMetadataKey` | Populate MongoDB from approved static |
+| SEO fallback always | `page-metadata.ts` | Used when DB SEO fields are empty |
+
+Do not delete `src/content/**` until Admin CMS and production `db` mode are fully verified.
+
 ### Seed policy
 
 | Mode | Behavior |

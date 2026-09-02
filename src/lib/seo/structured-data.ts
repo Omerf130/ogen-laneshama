@@ -1,9 +1,11 @@
-import { siteConfig } from "@/content/site.config";
-import { SITE_URL } from "@/lib/seo/constants";
+import type { SiteConfig } from "@/types/content";
 import type { FaqItem } from "@/types/homepage";
 import type { Treatment } from "@/types/content";
+import { getSiteUrl } from "@/lib/seo/constants";
 
-export function buildPersonSchema() {
+export function buildPersonSchema(siteConfig: SiteConfig) {
+  const siteUrl = getSiteUrl(siteConfig);
+
   return {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -12,39 +14,49 @@ export function buildPersonSchema() {
     worksFor: {
       "@type": "Organization",
       name: siteConfig.businessName,
-      url: SITE_URL,
+      url: siteUrl,
     },
-    url: `${SITE_URL}/about`,
+    url: `${siteUrl}/about`,
   };
 }
 
-export function buildWebPageSchema(options: {
-  name: string;
-  description: string;
-  path: string;
-}) {
+export function buildWebPageSchema(
+  siteConfig: SiteConfig,
+  options: {
+    name: string;
+    description: string;
+    path: string;
+  },
+) {
+  const siteUrl = getSiteUrl(siteConfig);
+
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: options.name,
     description: options.description,
-    url: `${SITE_URL}${options.path}`,
+    url: `${siteUrl}${options.path}`,
     inLanguage: "he-IL",
     isPartOf: {
       "@type": "WebSite",
       name: siteConfig.businessName,
-      url: SITE_URL,
+      url: siteUrl,
     },
   };
 }
 
-export function buildServiceSchema(treatment: Treatment) {
+export function buildServiceSchema(
+  siteConfig: SiteConfig,
+  treatment: Treatment,
+) {
+  const siteUrl = getSiteUrl(siteConfig);
+
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     name: treatment.title,
     description: treatment.shortDescription,
-    url: `${SITE_URL}/treatments/${treatment.slug}`,
+    url: `${siteUrl}/treatments/${treatment.slug}`,
     provider: {
       "@type": "Person",
       name: siteConfig.therapistName,
@@ -73,7 +85,8 @@ export function buildFaqPageSchema(items: FaqItem[]) {
   };
 }
 
-export function buildContactPageSchema() {
+export function buildContactPageSchema(siteConfig: SiteConfig) {
+  const siteUrl = getSiteUrl(siteConfig);
   const hasContact = Boolean(
     siteConfig.contact.phone ||
       siteConfig.contact.email ||
@@ -81,7 +94,7 @@ export function buildContactPageSchema() {
   );
 
   if (!hasContact) {
-    return buildWebPageSchema({
+    return buildWebPageSchema(siteConfig, {
       name: "יצירת קשר",
       description: "צרו קשר עם עוגן לנשימה",
       path: "/contact",
@@ -92,7 +105,7 @@ export function buildContactPageSchema() {
     "@context": "https://schema.org",
     "@type": "ContactPage",
     name: "יצירת קשר",
-    url: `${SITE_URL}/contact`,
+    url: `${siteUrl}/contact`,
     ...(siteConfig.contact.phone
       ? { telephone: siteConfig.contact.phone }
       : {}),

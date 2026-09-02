@@ -5,15 +5,18 @@ import { RevealGroup } from "../ui/RevealGroup/RevealGroup";
 import type { HomepagePregnancySpotlight } from "@/types/homepage";
 import styles from "./PregnancySpotlightSection.module.scss";
 
-const PREGNANCY_IMAGE = "/images/homepage/pregnancy-editorial.webp";
+const PREGNANCY_IMAGE_FALLBACK = "/images/homepage/pregnancy-editorial.webp";
 
 interface PregnancySpotlightSectionProps {
   content: HomepagePregnancySpotlight;
+  imageSrc?: string | null;
 }
 
 export function PregnancySpotlightSection({
   content,
+  imageSrc,
 }: PregnancySpotlightSectionProps) {
+  const pregnancyImage = imageSrc ?? PREGNANCY_IMAGE_FALLBACK;
   return (
     <section
       id="pregnancy"
@@ -43,7 +46,7 @@ export function PregnancySpotlightSection({
           <div className={styles.visual} aria-hidden="true">
             <div className={styles.photoFrame}>
               <Image
-                src={PREGNANCY_IMAGE}
+                src={pregnancyImage}
                 alt=""
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

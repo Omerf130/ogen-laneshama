@@ -1,42 +1,51 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/content/site.config";
+import type { SiteConfig } from "@/types/content";
+import type { ResolvedPageSeo } from "@/types/seo";
 import {
   DEFAULT_OG_LOCALE,
   DEFAULT_OG_TYPE,
-  SITE_URL,
+  getSiteUrl,
 } from "@/lib/seo/constants";
-import type { PageMetadata } from "@/types/seo";
 
-export function buildPageMetadata(page: PageMetadata): Metadata {
-  const title = `${page.title} | ${siteConfig.businessName}`;
-  const url = `${SITE_URL}${page.path}`;
+export function buildPageMetadata(
+  resolved: ResolvedPageSeo,
+  ctx: { siteConfig: SiteConfig; path: string },
+): Metadata {
+  const title = `${resolved.title} | ${ctx.siteConfig.businessName}`;
+  const url = `${getSiteUrl(ctx.siteConfig)}${ctx.path}`;
 
   return {
     title,
-    description: page.description,
+    description: resolved.description,
     alternates: {
       canonical: url,
     },
     openGraph: {
       title,
-      description: page.description,
+      description: resolved.description,
       url,
       locale: DEFAULT_OG_LOCALE,
       type: DEFAULT_OG_TYPE,
-      siteName: siteConfig.businessName,
+      siteName: ctx.siteConfig.businessName,
+      ...(resolved.ogImageUrl
+        ? { images: [{ url: resolved.ogImageUrl }] }
+        : {}),
     },
   };
 }
 
-export function buildRootMetadata(): Metadata {
-  const home = {
+export function buildRootMetadata(
+  siteConfig: SiteConfig,
+  resolved: ResolvedPageSeo,
+): Metadata {
+  const metadata = buildPageMetadata(resolved, {
+    siteConfig,
     path: "/",
-    title: siteConfig.businessName,
-    description: `ליווי רגשי ורוחני לנשים — ${siteConfig.therapistName}`,
-  };
+  });
 
   return {
-    ...buildPageMetadata(home),
-    metadataBase: new URL(SITE_URL),
+    ...metadata,
+    title: resolved.title,
+    metadataBase: new URL(getSiteUrl(siteConfig)),
   };
 }

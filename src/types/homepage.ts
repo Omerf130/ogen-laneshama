@@ -114,6 +114,8 @@ export interface TestimonialSlot {
 }
 
 export interface HomepageAssets {
+  hero: string | null;
+  pregnancySpotlight: string | null;
   aboutPortrait: string | null;
   botanicalAccent: string | null;
 }

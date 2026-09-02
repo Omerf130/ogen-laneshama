@@ -41,7 +41,11 @@ export function HomeJourney({
     <JourneyShell>
       <div className={styles.journey}>
         <main id="main-content" className={styles.main}>
-          <HeroSection content={content.hero} whatsAppUrl={whatsAppUrl} />
+          <HeroSection
+            content={content.hero}
+            imageSrc={assets.hero}
+            whatsAppUrl={whatsAppUrl}
+          />
           <RecognitionSection content={content.recognition} />
           <WhoIsItForSection content={content.recognition.whoIsItFor} />
           <AboutPreviewSection
@@ -52,7 +56,10 @@ export function HomeJourney({
             content={content.treatmentsPreview}
             treatments={treatments}
           />
-          <PregnancySpotlightSection content={content.pregnancySpotlight} />
+          <PregnancySpotlightSection
+            content={content.pregnancySpotlight}
+            imageSrc={assets.pregnancySpotlight}
+          />
           <ProcessSection content={content.process} />
           {hasTestimonials ? (
             <TestimonialsSection

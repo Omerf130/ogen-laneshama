@@ -1,14 +1,6 @@
 import type { MetadataRoute } from "next";
-import { pageMetadata } from "@/content/pages/page-metadata";
-import { SITE_URL } from "@/lib/seo/constants";
+import { buildPublicSitemap } from "@/lib/seo/build-sitemap";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = Object.values(pageMetadata);
-
-  return routes.map((page) => ({
-    url: `${SITE_URL}${page.path}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: page.path === "/" ? 1 : 0.8,
-  }));
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  return buildPublicSitemap();
 }

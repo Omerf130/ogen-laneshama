@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Allows CLI verification scripts to import modules that use `import "server-only"`.
  */
