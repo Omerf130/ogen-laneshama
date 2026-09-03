@@ -4,7 +4,26 @@ import {
   resolveMediaRefToPublicSrc,
   type MediaAssetMap,
 } from "@/lib/db/mappers/media-resolver";
-import type { HomepageAssets } from "@/types/homepage";
+import type { HomepageAssets, HomepageImageAsset } from "@/types/homepage";
+import type { ContentImageFitMode } from "@/types/content";
+import type { MediaRef } from "@/types/db/persistence";
+
+function normalizeFitMode(fitMode: MediaRef["fitMode"]): ContentImageFitMode | undefined {
+  return fitMode === "cover" || fitMode === "contain" ? fitMode : undefined;
+}
+
+function mapMediaRefToHomepageImageAsset(
+  ref: MediaRef | undefined | null,
+  mediaMap: MediaAssetMap,
+): HomepageImageAsset {
+  return {
+    src: resolveMediaRefToPublicSrc(ref, mediaMap),
+    fitMode: normalizeFitMode(ref?.fitMode),
+    objectPosition: ref?.objectPosition
+      ? { x: ref.objectPosition.x, y: ref.objectPosition.y }
+      : undefined,
+  };
+}
 
 export function collectHomepageAssetMediaIds(
   doc: HomepageLeanDocument,
@@ -30,13 +49,13 @@ export function mapHomepageToHomepageAssets(
   const assets = doc.assets;
 
   return {
-    hero: resolveMediaRefToPublicSrc(assets?.hero, mediaMap),
-    pregnancySpotlight: resolveMediaRefToPublicSrc(
+    hero: mapMediaRefToHomepageImageAsset(assets?.hero, mediaMap),
+    pregnancySpotlight: mapMediaRefToHomepageImageAsset(
       assets?.pregnancySpotlight,
       mediaMap,
     ),
-    aboutPortrait: resolveMediaRefToPublicSrc(assets?.aboutPortrait, mediaMap),
-    botanicalAccent: resolveMediaRefToPublicSrc(
+    aboutPortrait: mapMediaRefToHomepageImageAsset(assets?.aboutPortrait, mediaMap),
+    botanicalAccent: mapMediaRefToHomepageImageAsset(
       assets?.botanicalAccent,
       mediaMap,
     ),

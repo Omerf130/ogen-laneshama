@@ -2,12 +2,12 @@ import { Button } from "@/components/ui/Button";
 import { RevealGroup } from "../ui/RevealGroup/RevealGroup";
 import { PortraitFrame } from "../ui/PortraitFrame/PortraitFrame";
 import { JourneySection } from "../JourneySection";
-import type { HomepageAboutPreview } from "@/types/homepage";
+import type { HomepageAboutPreview, HomepageImageAsset } from "@/types/homepage";
 import styles from "./AboutPreviewSection.module.scss";
 
 interface AboutPreviewSectionProps {
   content: HomepageAboutPreview;
-  portraitSrc: string | null;
+  portrait?: HomepageImageAsset | null;
 }
 
 function renderWithAccent(text: string, accent?: string) {
@@ -28,13 +28,18 @@ function renderWithAccent(text: string, accent?: string) {
 
 export function AboutPreviewSection({
   content,
-  portraitSrc,
+  portrait,
 }: AboutPreviewSectionProps) {
   return (
     <JourneySection id="about-preview" stage="about" className={styles.section}>
       <RevealGroup className={styles.composition}>
         <div className={styles.portraitCol}>
-          <PortraitFrame src={portraitSrc} alt={content.title} />
+          <PortraitFrame
+            src={portrait?.src ?? null}
+            alt={content.title}
+            fitMode={portrait?.fitMode}
+            objectPosition={portrait?.objectPosition}
+          />
         </div>
 
         <div className={styles.contentCol}>

@@ -11,11 +11,22 @@ export const seoFieldsSchema = z
   .strict()
   .optional();
 
+export const contentImageFitModeSchema = z.enum(["cover", "contain"]);
+
+export const contentImageObjectPositionSchema = z
+  .object({
+    x: z.number().min(0).max(100),
+    y: z.number().min(0).max(100),
+  })
+  .strict();
+
 export const mediaRefSchema = z
   .object({
     mediaId: z.string().trim().min(1).optional(),
     src: z.string().trim().nullable().optional(),
     alt: z.string().trim().min(1),
+    fitMode: contentImageFitModeSchema.optional(),
+    objectPosition: contentImageObjectPositionSchema.optional(),
   })
   .strict();
 
@@ -95,6 +106,8 @@ export const contentImageSchema = z
     src: z.string().nullable(),
     alt: z.string().trim().min(1),
     mediaId: z.string().trim().min(1).optional(),
+    fitMode: contentImageFitModeSchema.optional(),
+    objectPosition: contentImageObjectPositionSchema.optional(),
   })
   .strict();
 

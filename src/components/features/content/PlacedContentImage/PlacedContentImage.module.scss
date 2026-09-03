@@ -1,0 +1,27 @@
+.containRoot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.blurBackdrop {
+  position: absolute;
+  inset: -10%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(28px) saturate(0.85);
+  opacity: 0.32;
+  transform: scale(1.08);
+}
+
+.coverImage {
+  object-fit: cover;
+}
+
+.containImage {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+  object-position: center;
+}

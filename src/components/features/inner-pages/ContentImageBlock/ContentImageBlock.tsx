@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { PlacedContentImage } from "@/components/features/content/PlacedContentImage/PlacedContentImage";
 import type { ContentImage } from "@/types/content";
 import { MediaPlaceholder } from "@/components/ui/MediaPlaceholder";
 import styles from "./ContentImageBlock.module.scss";
@@ -20,13 +20,15 @@ export function ContentImageBlock({ image, label }: ContentImageBlockProps) {
 
   return (
     <figure className={styles.figure}>
-      <Image
-        src={image.src}
-        alt={image.alt}
-        width={400}
-        height={500}
-        className={styles.image}
-      />
+      <div className={styles.frame}>
+        <PlacedContentImage
+          src={image.src}
+          alt={image.alt}
+          fitMode={image.fitMode}
+          objectPosition={image.objectPosition}
+          sizes="(max-width: 768px) 100vw, 18rem"
+        />
+      </div>
     </figure>
   );
 }

@@ -92,6 +92,8 @@ export function ContentPageEditor({
       src: image?.src ?? imagePreview?.src ?? null,
       alt: image?.alt ?? imagePreview?.alt ?? fallbackAlt,
       mediaId: image?.mediaId,
+      fitMode: image?.fitMode,
+      objectPosition: image?.objectPosition,
     };
   };
 
@@ -182,6 +184,7 @@ export function ContentPageEditor({
                 value={getPageImageValue("portrait", "דיוקן")}
                 onChange={(image) => updatePageImage("portrait", image)}
                 mediaAssets={mediaAssets}
+                placement="contentPortrait"
                 disabled={isPending}
               />
             ) : null}
@@ -287,6 +290,7 @@ export function ContentPageEditor({
                 value={getPageImageValue("image", "תמונה")}
                 onChange={(image) => updatePageImage("image", image)}
                 mediaAssets={mediaAssets}
+                placement="contentPortrait"
                 disabled={isPending}
               />
             ) : null}

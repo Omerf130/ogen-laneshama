@@ -152,6 +152,11 @@ $section-bg: color-mix(in srgb, #{$color-secondary} 7%, #{$color-bg});
   }
 }
 
+.photoFull {
+  transform: none;
+  transform-origin: center center;
+}
+
 .atmosphereFade {
   position: absolute;
   inset: 0;

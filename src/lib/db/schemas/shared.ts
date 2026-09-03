@@ -10,11 +10,21 @@ export const seoFieldsSchema = new Schema(
   { _id: false },
 );
 
+export const contentImageObjectPositionSchema = new Schema(
+  {
+    x: { type: Number, min: 0, max: 100, required: true },
+    y: { type: Number, min: 0, max: 100, required: true },
+  },
+  { _id: false },
+);
+
 export const mediaRefSchema = new Schema(
   {
     mediaId: { type: Schema.Types.ObjectId, ref: "MediaAsset" },
     src: { type: String, default: null },
     alt: { type: String, required: true, trim: true },
+    fitMode: { type: String, enum: ["cover", "contain"], required: false },
+    objectPosition: { type: contentImageObjectPositionSchema, required: false },
   },
   { _id: false },
 );
@@ -93,6 +103,8 @@ export const contentImageSchema = new Schema(
     src: { type: String, default: null },
     alt: { type: String, required: true, trim: true },
     mediaId: { type: Schema.Types.ObjectId, ref: "MediaAsset" },
+    fitMode: { type: String, enum: ["cover", "contain"], required: false },
+    objectPosition: { type: contentImageObjectPositionSchema, required: false },
   },
   { _id: false },
 );

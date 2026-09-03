@@ -47,10 +47,19 @@ export type TreatmentLayoutVariant =
 
 export type ContentBlockVariant = "default" | "emphasis" | "aside";
 
+export interface ContentImageObjectPosition {
+  x: number;
+  y: number;
+}
+
+export type ContentImageFitMode = "cover" | "contain";
+
 export interface ContentImage {
   src: string | null;
   alt: string;
   mediaId?: string;
+  fitMode?: ContentImageFitMode;
+  objectPosition?: ContentImageObjectPosition;
 }
 
 export interface ContentBlock {

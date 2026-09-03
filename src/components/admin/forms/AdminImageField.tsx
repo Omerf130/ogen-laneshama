@@ -2,9 +2,14 @@
 
 import { ImageIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { AdminField } from "./AdminField";
-import { AdminTextInput } from "./AdminTextInput";
 import { AdminMediaPicker } from "@/components/admin/media/AdminMediaPicker";
+import {
+  IMAGE_PLACEMENT_PRESETS,
+  type ImagePlacementPresetKey,
+} from "@/lib/admin/media/image-placement-presets";
+import { AdminField } from "./AdminField";
+import { AdminImagePlacementControl } from "./AdminImagePlacementControl";
+import { AdminTextInput } from "./AdminTextInput";
 import type {
   AdminImageFieldValue,
   AdminMediaPickerItem,
@@ -17,6 +22,7 @@ type AdminImageFieldProps = {
   onChange: (value: AdminImageFieldValue) => void;
   mediaAssets: AdminMediaPickerItem[];
   onMediaAssetsChange?: (assets: AdminMediaPickerItem[]) => void;
+  placement?: ImagePlacementPresetKey;
   disabled?: boolean;
 };
 
@@ -41,16 +47,19 @@ export function AdminImageField({
   onChange,
   mediaAssets,
   onMediaAssetsChange,
+  placement,
   disabled,
 }: AdminImageFieldProps) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [localAssets, setLocalAssets] = useState(mediaAssets);
+  const placementPreset = placement ? IMAGE_PLACEMENT_PRESETS[placement] : null;
 
   const assets = localAssets.length >= mediaAssets.length ? localAssets : mediaAssets;
   const previewSrc = useMemo(() => resolvePreviewSrc(value, assets), [assets, value]);
 
   const handleSelect = (asset: AdminMediaPickerItem) => {
     onChange({
+      ...value,
       mediaId: asset._id,
       src: asset.url,
       alt: value.alt.trim() ? value.alt : asset.alt,
@@ -66,12 +75,9 @@ export function AdminImageField({
     <div className={formStyles.imagePreview}>
       <p className={formStyles.label}>{label}</p>
 
-      {previewSrc ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={previewSrc} alt={value.alt || label} className={formStyles.imagePreviewImg} />
-      ) : (
+      {!previewSrc ? (
         <p className={formStyles.imagePreviewMeta}>אין תמונה מוגדרת</p>
-      )}
+      ) : null}
 
       <AdminField label="טקסט חלופי" htmlFor={`${label}-alt`}>
         <AdminTextInput
@@ -91,6 +97,29 @@ export function AdminImageField({
         <ImageIcon size={16} aria-hidden />
         בחירה מהספרייה
       </button>
+
+      {previewSrc && placementPreset ? (
+        <AdminImagePlacementControl
+          previewSrc={previewSrc}
+          previewAlt={value.alt || label}
+          aspectRatio={placementPreset.aspectRatio}
+          previewDefault={placementPreset.previewDefault}
+          fitMode={value.fitMode}
+          objectPosition={value.objectPosition}
+          onFitModeChange={(fitMode) => onChange({ ...value, fitMode })}
+          onObjectPositionChange={(objectPosition) =>
+            onChange({ ...value, objectPosition })
+          }
+          disabled={disabled}
+        />
+      ) : previewSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={previewSrc}
+          alt={value.alt || label}
+          className={formStyles.imagePreviewImg}
+        />
+      ) : null}
 
       <AdminMediaPicker
         open={pickerOpen}

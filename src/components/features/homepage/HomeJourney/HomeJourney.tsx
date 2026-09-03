@@ -51,14 +51,14 @@ export function HomeJourney({
         <main id="main-content" className={styles.main}>
           <HeroSection
             content={content.hero}
-            imageSrc={assets.hero}
+            image={assets.hero}
             whatsAppUrl={whatsAppUrl}
           />
           <RecognitionSection content={content.recognition} />
           <WhoIsItForSection content={content.recognition.whoIsItFor} />
           <AboutPreviewSection
             content={content.aboutPreview}
-            portraitSrc={assets.aboutPortrait}
+            portrait={assets.aboutPortrait}
           />
           <TreatmentsPreviewSection
             content={content.treatmentsPreview}
@@ -66,7 +66,7 @@ export function HomeJourney({
           />
           <PregnancySpotlightSection
             content={content.pregnancySpotlight}
-            imageSrc={assets.pregnancySpotlight}
+            image={assets.pregnancySpotlight}
           />
           <ProcessSection content={content.process} />
           {showTestimonials ? (

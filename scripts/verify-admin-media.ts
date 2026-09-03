@@ -123,6 +123,9 @@ function verifyMediaSurface(): void {
   assertFileContains("src/features/admin/media/media.actions.ts", "isLocalProvider");
   assertFileContains("src/features/admin/media/media.actions.ts", "findMediaAssetReferences");
   assertFileContains("src/lib/admin/media/find-media-references.ts", "mediaId");
+  assertFileContains("src/components/admin/forms/AdminImageField.tsx", "AdminImagePlacementControl");
+  assertFileContains("src/lib/validation/common.ts", "contentImageFitModeSchema");
+  assertFileContains("src/lib/validation/common.ts", "contentImageObjectPositionSchema");
   assertFileContains("src/components/admin/cms/homepage/HomepageEditor.tsx", "AdminImageField");
 }
 

@@ -149,9 +149,9 @@ async function verifyHomepageMedia(): Promise<void> {
   );
   const assets = await getHomepageAssets();
 
-  assert(assets.hero === HERO_IMAGE, "DB hero image path mismatch");
+  assert(assets.hero.src === HERO_IMAGE, "DB hero image path mismatch");
   assert(
-    assets.pregnancySpotlight === PREGNANCY_IMAGE,
+    assets.pregnancySpotlight.src === PREGNANCY_IMAGE,
     "DB pregnancy spotlight image path mismatch",
   );
   console.log("  ✓ DB homepage hero and pregnancy spotlight paths");

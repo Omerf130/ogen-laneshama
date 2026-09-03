@@ -113,11 +113,19 @@ export interface TestimonialSlot {
   context?: string;
 }
 
+import type { ContentImageFitMode, ContentImageObjectPosition } from "@/types/content";
+
+export interface HomepageImageAsset {
+  src: string | null;
+  fitMode?: ContentImageFitMode;
+  objectPosition?: ContentImageObjectPosition;
+}
+
 export interface HomepageAssets {
-  hero: string | null;
-  pregnancySpotlight: string | null;
-  aboutPortrait: string | null;
-  botanicalAccent: string | null;
+  hero: HomepageImageAsset;
+  pregnancySpotlight: HomepageImageAsset;
+  aboutPortrait: HomepageImageAsset;
+  botanicalAccent: HomepageImageAsset;
 }
 
 export interface HomepageSectionVisibility {

@@ -59,12 +59,20 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
       src: ref?.src ?? initialData.assetPreviews[key].src,
       alt: ref?.alt ?? initialData.assetPreviews[key].alt ?? fallbackAlt,
       mediaId: ref?.mediaId,
+      fitMode: ref?.fitMode,
+      objectPosition: ref?.objectPosition,
     };
   };
 
   const updateAsset = (
     key: HomepageAssetKey,
-    image: { src: string | null; alt: string; mediaId?: string },
+    image: {
+      src: string | null;
+      alt: string;
+      mediaId?: string;
+      fitMode?: "cover" | "contain";
+      objectPosition?: { x: number; y: number };
+    },
   ) => {
     setValues({
       ...values,
@@ -74,6 +82,8 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           mediaId: image.mediaId,
           src: image.src,
           alt: image.alt,
+          fitMode: image.fitMode,
+          objectPosition: image.objectPosition,
         },
       },
     });
@@ -135,6 +145,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
             value={getAssetValue("hero", "תמונת Hero")}
             onChange={(image) => updateAsset("hero", image)}
             mediaAssets={mediaAssets}
+            placement="hero"
             disabled={isPending}
           />
         </AdminSection>
@@ -340,6 +351,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
             value={getAssetValue("aboutPortrait", "דיוקן")}
             onChange={(image) => updateAsset("aboutPortrait", image)}
             mediaAssets={mediaAssets}
+            placement="portrait"
             disabled={isPending}
           />
         </AdminSection>
@@ -402,6 +414,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
             value={getAssetValue("pregnancySpotlight", "הריון ואימהות")}
             onChange={(image) => updateAsset("pregnancySpotlight", image)}
             mediaAssets={mediaAssets}
+            placement="pregnancySpotlight"
             disabled={isPending}
           />
         </AdminSection>

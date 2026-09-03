@@ -6,10 +6,17 @@
   max-width: 18rem;
 }
 
-.image {
+.frame {
+  position: relative;
   width: 100%;
-  height: auto;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
   border-radius: $radius-lg;
+  background: color-mix(in srgb, #{$color-accent} 8%, #{$color-bg});
+}
+
+.image {
+  object-fit: cover;
 }
 
 .placeholder {

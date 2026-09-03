@@ -48,6 +48,16 @@ function toFormValues(treatment: TreatmentLeanDocument): TreatmentFormValues {
       mediaId: treatment.image?.mediaId
         ? String(treatment.image.mediaId)
         : undefined,
+      fitMode:
+        treatment.image?.fitMode === "cover" || treatment.image?.fitMode === "contain"
+          ? treatment.image.fitMode
+          : undefined,
+      objectPosition: treatment.image?.objectPosition
+        ? {
+            x: treatment.image.objectPosition.x,
+            y: treatment.image.objectPosition.y,
+          }
+        : undefined,
     },
     whatItIs: toContentBlockFormValue(treatment.whatItIs),
     whoItSuits: toContentBlockFormValue(treatment.whoItSuits),
@@ -168,9 +178,12 @@ export function TreatmentEditor({
               src: values.image.src ?? imagePreview.src,
               alt: values.image.alt || imagePreview.alt,
               mediaId: values.image.mediaId,
+              fitMode: values.image.fitMode,
+              objectPosition: values.image.objectPosition,
             }}
             onChange={(image) => setField("image", image)}
             mediaAssets={mediaAssets}
+            placement="contentPortrait"
             disabled={isPending}
           />
         </AdminSection>

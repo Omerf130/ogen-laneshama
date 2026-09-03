@@ -156,6 +156,11 @@
   }
 }
 
+.photoFull {
+  transform: none;
+  transform-origin: center center;
+}
+
 .ivoryFade {
   position: absolute;
   inset: 0;
@@ -274,6 +279,10 @@
     object-position: 45% 38%;
     transform: scale(1.08);
     transform-origin: center center;
+  }
+
+  .photoFull {
+    transform: none;
   }
 
   .ivoryFade {

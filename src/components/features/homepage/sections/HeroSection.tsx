@@ -1,22 +1,22 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import type { HomepageHero } from "@/types/homepage";
+import { PlacedContentImage } from "@/components/features/content/PlacedContentImage/PlacedContentImage";
+import type { HomepageHero, HomepageImageAsset } from "@/types/homepage";
 import styles from "./HeroSection.module.scss";
 
 const HERO_IMAGE_FALLBACK = "/images/homepage/hero-editorial.webp";
 
 interface HeroSectionProps {
   content: HomepageHero;
-  imageSrc?: string | null;
+  image?: HomepageImageAsset | null;
   whatsAppUrl: string | null;
 }
 
 export function HeroSection({
   content,
-  imageSrc,
+  image,
   whatsAppUrl,
 }: HeroSectionProps) {
-  const heroImage = imageSrc ?? HERO_IMAGE_FALLBACK;
+  const heroImage = image?.src ?? HERO_IMAGE_FALLBACK;
   const ctaHref = whatsAppUrl ?? "/contact";
   const ctaExternal = Boolean(whatsAppUrl);
 
@@ -54,13 +54,15 @@ export function HeroSection({
 
       <div className={styles.visual} aria-hidden="true">
         <div className={styles.photoFrame}>
-          <Image
+          <PlacedContentImage
             src={heroImage}
             alt=""
-            fill
+            fitMode={image?.fitMode}
+            objectPosition={image?.objectPosition}
             priority
             sizes="(max-width: 768px) 100vw, 52vw"
-            className={styles.photo}
+            coverClassName={styles.photo}
+            containClassName={styles.photoFull}
           />
         </div>
         <div className={styles.ivoryFade} />

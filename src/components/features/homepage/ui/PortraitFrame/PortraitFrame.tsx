@@ -1,23 +1,32 @@
-import Image from "next/image";
+import { PlacedContentImage } from "@/components/features/content/PlacedContentImage/PlacedContentImage";
+import type { ContentImageFitMode, ContentImageObjectPosition } from "@/types/content";
 import styles from "./PortraitFrame.module.scss";
 
 interface PortraitFrameProps {
   src: string | null;
   alt: string;
+  fitMode?: ContentImageFitMode;
+  objectPosition?: ContentImageObjectPosition;
 }
 
-export function PortraitFrame({ src, alt }: PortraitFrameProps) {
+export function PortraitFrame({
+  src,
+  alt,
+  fitMode,
+  objectPosition,
+}: PortraitFrameProps) {
   return (
     <div className={styles.frame}>
       <div className={styles.backing} aria-hidden="true" />
       <div className={styles.inner}>
         {src ? (
-          <Image
+          <PlacedContentImage
             src={src}
             alt={alt}
-            fill
+            fitMode={fitMode}
+            objectPosition={objectPosition}
             sizes="(max-width: 768px) 88vw, 22rem"
-            className={styles.image}
+            coverClassName={styles.image}
           />
         ) : (
           <div

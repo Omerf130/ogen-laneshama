@@ -1,4 +1,5 @@
 import type { MediaAssetLeanDocument } from "@/lib/db/repositories/media-asset.repository";
+import type { ContentImageFitMode, ContentImageObjectPosition } from "@/types/content";
 import type { MediaRef } from "@/types/db/persistence";
 
 export type MediaAssetMap = Map<string, MediaAssetLeanDocument>;
@@ -58,9 +59,21 @@ export function resolveMediaRefToContentImage(
   ref: MediaRef | undefined | null,
   mediaMap: MediaAssetMap,
   fallbackAlt: string,
-): { src: string | null; alt: string } {
+): {
+  src: string | null;
+  alt: string;
+  fitMode?: ContentImageFitMode;
+  objectPosition?: ContentImageObjectPosition;
+} {
   return {
     src: resolveMediaRefToPublicSrc(ref, mediaMap),
     alt: ref?.alt ?? fallbackAlt,
+    fitMode:
+      ref?.fitMode === "contain" || ref?.fitMode === "cover"
+        ? ref.fitMode
+        : undefined,
+    objectPosition: ref?.objectPosition
+      ? { x: ref.objectPosition.x, y: ref.objectPosition.y }
+      : undefined,
   };
 }

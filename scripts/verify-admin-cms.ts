@@ -7,6 +7,15 @@ import {
   adminSiteSettingsSaveSchema,
   adminTreatmentSaveSchema,
 } from "../src/lib/validation/admin-cms";
+import {
+  contentImageObjectPositionSchema,
+  contentImageSchema,
+} from "../src/lib/validation/common";
+import {
+  CENTER_OBJECT_POSITION,
+  formatObjectPositionCss,
+  getContentImagePositionStyle,
+} from "../src/lib/content/content-image-position";
 
 const ROOT = join(__dirname, "..");
 
@@ -133,6 +142,70 @@ function verifyAdminRoutes(): void {
   );
 }
 
+function verifyContentImagePlacement(): void {
+  assertFile("src/lib/content/content-image-position.ts");
+  assertFile("src/lib/content/content-image-display.ts");
+  assertFile("src/components/admin/forms/AdminImagePlacementControl.tsx");
+  assertFile("src/components/features/content/PlacedContentImage/PlacedContentImage.tsx");
+  assertFileContains("src/components/admin/forms/AdminImageField.tsx", "placement");
+  assertFileContains(
+    "src/components/features/inner-pages/ContentImageBlock/ContentImageBlock.tsx",
+    "PlacedContentImage",
+  );
+
+  const centered = getContentImagePositionStyle(undefined);
+  assert(centered === undefined, "Missing objectPosition must not override CSS defaults");
+
+  const explicit = getContentImagePositionStyle({ x: 30, y: 70 });
+  assert(
+    explicit?.objectPosition === "30% 70%",
+    "Public renderer must apply saved object position",
+  );
+
+  assert(
+    formatObjectPositionCss(CENTER_OBJECT_POSITION) === "50% 50%",
+    "Default centered position must be 50% 50%",
+  );
+
+  const validPosition = contentImageObjectPositionSchema.safeParse({ x: 50, y: 50 });
+  assert(validPosition.success, "Valid object position must pass");
+
+  const invalidX = contentImageObjectPositionSchema.safeParse({ x: 101, y: 50 });
+  assert(!invalidX.success, "objectPosition x above 100 must be rejected");
+
+  const invalidY = contentImageObjectPositionSchema.safeParse({ x: 50, y: -1 });
+  assert(!invalidY.success, "objectPosition y below 0 must be rejected");
+
+  const legacyImage = contentImageSchema.safeParse({
+    src: "/images/about/portrait.webp",
+    alt: "Alt text",
+  });
+  assert(legacyImage.success, "ContentImage without fitMode must remain valid");
+
+  const containImage = contentImageSchema.safeParse({
+    src: "/images/about/portrait.webp",
+    alt: "Alt text",
+    fitMode: "contain",
+  });
+  assert(containImage.success, "ContentImage with contain fitMode must pass validation");
+
+  const invalidFitMode = contentImageSchema.safeParse({
+    src: "/images/about/portrait.webp",
+    alt: "Alt text",
+    fitMode: "stretch",
+  });
+  assert(!invalidFitMode.success, "Arbitrary fitMode strings must be rejected");
+
+  const positionedImage = contentImageSchema.safeParse({
+    src: "https://example.public.blob.vercel-storage.com/site-media/a.jpg",
+    alt: "Alt text",
+    mediaId: "abc",
+    fitMode: "cover",
+    objectPosition: { x: 20, y: 80 },
+  });
+  assert(positionedImage.success, "ContentImage with cover fitMode and objectPosition must pass");
+}
+
 function verifyPublicSectionVisibilityWiring(): void {
   assertFile("src/lib/content/get-homepage-section-visibility.ts");
   assertFileContains(
@@ -146,6 +219,7 @@ function main(): void {
   verifyRepositoryExports();
   verifyCmsActions();
   verifyAdminRoutes();
+  verifyContentImagePlacement();
   verifyPublicSectionVisibilityWiring();
 
   console.log("admin:verify-cms — all checks passed");

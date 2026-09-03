@@ -12,6 +12,11 @@ export interface MediaRef {
   mediaId?: Types.ObjectId | string;
   src?: string | null;
   alt: string;
+  objectPosition?: {
+    x: number;
+    y: number;
+  };
+  fitMode?: "cover" | "contain";
 }
 
 export type LeadStatus =
