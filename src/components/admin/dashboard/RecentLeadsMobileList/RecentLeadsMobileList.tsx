@@ -22,7 +22,7 @@ export function RecentLeadsMobileList({ leads }: RecentLeadsMobileListProps) {
           <div className={styles.meta}>
             <LeadStatusBadge status={lead.status} />
             <Link
-              href="/admin/leads"
+              href={`/admin/leads/${lead.id}`}
               className={styles.actionLink}
               aria-label={`צפייה בליד של ${lead.name}`}
             >

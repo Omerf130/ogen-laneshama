@@ -30,6 +30,7 @@ export function AdminHeader({
             aria-controls={menuControlsId}
             aria-label={isMenuOpen ? "סגור תפריט" : "פתח תפריט"}
             onClick={onMenuToggle}
+            suppressHydrationWarning
           >
             <span className={styles.menuIcon} aria-hidden="true" />
           </button>
@@ -43,7 +44,7 @@ export function AdminHeader({
       </div>
 
       <form action={logoutAction}>
-        <button type="submit" className={styles.logoutButton}>
+        <button type="submit" className={styles.logoutButton} suppressHydrationWarning>
           התנתקות
         </button>
       </form>

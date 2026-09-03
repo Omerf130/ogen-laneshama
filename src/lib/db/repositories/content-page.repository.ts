@@ -1,5 +1,5 @@
 import { ContentPageModel } from "@/lib/db/models/content-page.model";
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
 import type { RepositoryContentPageSlug } from "@/lib/db/repositories/constants";
 import type { ContentPageType } from "@/types/db/persistence";
 import { CONTENT_PAGE_SLUG_TYPE_MAP } from "@/types/db/persistence";
@@ -52,7 +52,7 @@ export async function updateContentPageBySlug(input: {
         seo: input.seo,
       },
     },
-    { new: true, upsert: false, runValidators: true },
+    { ...returnUpdatedDocument, upsert: false, runValidators: true },
   ).lean<ContentPageLeanDocument>();
 
   if (!doc) {

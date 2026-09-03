@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { FormField, getFieldDescribedBy } from "@/components/ui/form/FormField";
 import { Input, Textarea } from "@/components/ui/form/Input";
+import { submitContactFormAction } from "@/features/contact/submit-contact-form.action";
+import type { ContactFormActionState } from "@/features/contact/submit-contact-form.types";
 import type { ContactFormContent } from "@/types/content";
 import styles from "./ContactForm.module.scss";
 
@@ -11,108 +13,104 @@ interface ContactFormProps {
   form: ContactFormContent;
 }
 
-interface FormErrors {
-  name?: string;
-  phone?: string;
-  email?: string;
-  message?: string;
-}
-
-function validateEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
+const initialState: ContactFormActionState = {};
 
 export function ContactForm({ form }: ContactFormProps) {
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [formStartedAt] = useState(() => Date.now());
+  const [state, formAction, isPending] = useActionState(
+    submitContactFormAction,
+    initialState,
+  );
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const name = String(formData.get("name") ?? "").trim();
-    const phone = String(formData.get("phone") ?? "").trim();
-    const email = String(formData.get("email") ?? "").trim();
-    const message = String(formData.get("message") ?? "").trim();
-
-    const nextErrors: FormErrors = {};
-
-    if (!name) nextErrors.name = "נא להזין שם";
-    if (!phone) nextErrors.phone = "נא להזין מספר טלפון";
-    if (!email) {
-      nextErrors.email = "נא להזין כתובת דוא\"ל";
-    } else if (!validateEmail(email)) {
-      nextErrors.email = "נא להזין כתובת דוא\"ל תקינה";
-    }
-    if (!message) nextErrors.message = "נא להזין הודעה";
-
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) {
-      return;
-    }
-
-    /* Submission disabled until backend phase — no fake success state */
-  };
+  if (state.success) {
+    return (
+      <div className={styles.form}>
+        <p className={styles.success} role="status">
+          {state.success}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form
       className={styles.form}
-      onSubmit={handleSubmit}
+      action={formAction}
       noValidate
-      aria-describedby="contact-form-notice"
     >
-      <p id="contact-form-notice" className={styles.notice} role="status">
-        {form.devNotice}
-      </p>
+      <input type="hidden" name="formStartedAt" value={formStartedAt} />
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className={styles.honeypot}
+      />
 
-      <FormField id="contact-name" label={form.nameLabel} required error={errors.name}>
+      {state.error && !state.fieldErrors ? (
+        <p className={styles.error} role="alert">
+          {state.error}
+        </p>
+      ) : null}
+
+      <FormField id="contact-name" label={form.nameLabel} required error={state.fieldErrors?.name}>
         <Input
           id="contact-name"
           name="name"
           type="text"
           autoComplete="name"
           required
-          hasError={Boolean(errors.name)}
-          aria-describedby={getFieldDescribedBy(errors.name, "contact-name")}
+          hasError={Boolean(state.fieldErrors?.name)}
+          disabled={isPending}
+          aria-describedby={getFieldDescribedBy(state.fieldErrors?.name, "contact-name")}
         />
       </FormField>
 
-      <FormField id="contact-phone" label={form.phoneLabel} required error={errors.phone}>
+      <FormField id="contact-phone" label={form.phoneLabel} required error={state.fieldErrors?.phone}>
         <Input
           id="contact-phone"
           name="phone"
           type="tel"
           autoComplete="tel"
           required
-          hasError={Boolean(errors.phone)}
-          aria-describedby={getFieldDescribedBy(errors.phone, "contact-phone")}
+          hasError={Boolean(state.fieldErrors?.phone)}
+          disabled={isPending}
+          aria-describedby={getFieldDescribedBy(state.fieldErrors?.phone, "contact-phone")}
         />
       </FormField>
 
-      <FormField id="contact-email" label={form.emailLabel} required error={errors.email}>
+      <FormField id="contact-email" label={form.emailLabel} required error={state.fieldErrors?.email}>
         <Input
           id="contact-email"
           name="email"
           type="email"
           autoComplete="email"
           required
-          hasError={Boolean(errors.email)}
-          aria-describedby={getFieldDescribedBy(errors.email, "contact-email")}
+          hasError={Boolean(state.fieldErrors?.email)}
+          disabled={isPending}
+          aria-describedby={getFieldDescribedBy(state.fieldErrors?.email, "contact-email")}
         />
       </FormField>
 
-      <FormField id="contact-message" label={form.messageLabel} required error={errors.message}>
+      <FormField
+        id="contact-message"
+        label={form.messageLabel}
+        required
+        error={state.fieldErrors?.message}
+      >
         <Textarea
           id="contact-message"
           name="message"
           required
-          hasError={Boolean(errors.message)}
-          aria-describedby={getFieldDescribedBy(errors.message, "contact-message")}
+          hasError={Boolean(state.fieldErrors?.message)}
+          disabled={isPending}
+          aria-describedby={getFieldDescribedBy(state.fieldErrors?.message, "contact-message")}
         />
       </FormField>
 
-      <Button type="submit" disabled>
-        {form.submitLabel}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "שולח..." : form.submitLabel}
       </Button>
     </form>
   );

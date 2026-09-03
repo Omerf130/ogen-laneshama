@@ -1,6 +1,6 @@
 import "server-only";
 
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
 import { AdminLoginRateLimitModel } from "@/lib/db/models/admin-login-rate-limit.model";
 import {
   LOGIN_RATE_LIMIT_MAX_ATTEMPTS,
@@ -44,7 +44,7 @@ export async function recordFailedLoginAttempt(keyHash: string): Promise<void> {
         attempts: 1,
       },
     },
-    { upsert: true, new: true },
+    { upsert: true, ...returnUpdatedDocument },
   ).exec();
 }
 

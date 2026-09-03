@@ -1,7 +1,18 @@
 import { z } from "zod";
 import { leadStatusSchema } from "./common";
 
-/** Public contact form input — privileged CRM fields are not accepted */
+export const publicContactFormSchema = z
+  .object({
+    name: z.string().trim().min(1).max(120),
+    phone: z.string().trim().min(1).max(40),
+    email: z.string().trim().email().max(254),
+    message: z.string().trim().min(1).max(4000),
+    website: z.string().optional(),
+    formStartedAt: z.coerce.number().optional(),
+  })
+  .strict();
+
+/** @deprecated Use publicContactFormSchema for public submissions */
 export const publicLeadInputSchema = z
   .object({
     name: z.string().trim().min(1),
@@ -41,6 +52,7 @@ export const leadDocumentSchema = z
   })
   .strict();
 
+export type PublicContactFormInput = z.infer<typeof publicContactFormSchema>;
 export type PublicLeadInput = z.infer<typeof publicLeadInputSchema>;
 export type AdminLeadUpdateInput = z.infer<typeof adminLeadUpdateSchema>;
 export type LeadDocumentInput = z.infer<typeof leadDocumentSchema>;

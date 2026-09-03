@@ -3,7 +3,7 @@ import {
   ACTIVE_TREATMENTS_FILTER,
   ACTIVE_TREATMENTS_SORT,
 } from "@/lib/db/repositories/constants";
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
 import type { TreatmentDocumentInput } from "@/lib/validation/treatment";
 
 export type TreatmentLeanDocument = TreatmentDocumentInput & {
@@ -76,7 +76,7 @@ export async function updateTreatmentBySlug(
         seo: input.seo,
       },
     },
-    { new: true, upsert: false, runValidators: true },
+    { ...returnUpdatedDocument, upsert: false, runValidators: true },
   ).lean<TreatmentLeanDocument>();
 
   if (!doc) {
@@ -95,7 +95,7 @@ export async function setTreatmentActive(
   const doc = await TreatmentModel.findOneAndUpdate(
     { slug },
     { $set: { isActive } },
-    { new: true, runValidators: true },
+    { ...returnUpdatedDocument, runValidators: true },
   ).lean<TreatmentLeanDocument>();
 
   if (!doc) {

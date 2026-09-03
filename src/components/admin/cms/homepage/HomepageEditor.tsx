@@ -9,7 +9,7 @@ import {
   AdminActionFeedback,
   AdminField,
   AdminFormActions,
-  AdminImagePreview,
+  AdminImageField,
   AdminSection,
   AdminSeoSection,
   AdminTextInput,
@@ -18,13 +18,21 @@ import {
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
+import type { AdminMediaPickerItem } from "@/types/admin-media-picker";
 import styles from "./HomepageEditor.module.scss";
 
 type HomepageEditorProps = {
   initialData: AdminHomepageEditorData;
+  mediaAssets: AdminMediaPickerItem[];
 };
 
-export function HomepageEditor({ initialData }: HomepageEditorProps) {
+type HomepageAssetKey =
+  | "hero"
+  | "aboutPortrait"
+  | "pregnancySpotlight"
+  | "botanicalAccent";
+
+export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps) {
   const { values, setValues, isDirty, resetBaseline } = useAdminFormState(
     initialData.document,
   );
@@ -38,9 +46,37 @@ export function HomepageEditor({ initialData }: HomepageEditorProps) {
 
   const content = values.content;
   const visibility = values.sectionVisibility ?? {};
+  const assets = values.assets ?? {};
 
   const updateContent = (patch: Partial<HomepageDocumentInput["content"]>) => {
     setValues({ ...values, content: { ...content, ...patch } });
+  };
+
+  const getAssetValue = (key: HomepageAssetKey, fallbackAlt: string) => {
+    const ref = assets[key];
+
+    return {
+      src: ref?.src ?? initialData.assetPreviews[key].src,
+      alt: ref?.alt ?? initialData.assetPreviews[key].alt ?? fallbackAlt,
+      mediaId: ref?.mediaId,
+    };
+  };
+
+  const updateAsset = (
+    key: HomepageAssetKey,
+    image: { src: string | null; alt: string; mediaId?: string },
+  ) => {
+    setValues({
+      ...values,
+      assets: {
+        ...assets,
+        [key]: {
+          mediaId: image.mediaId,
+          src: image.src,
+          alt: image.alt,
+        },
+      },
+    });
   };
 
   const handleSave = () => {
@@ -94,10 +130,12 @@ export function HomepageEditor({ initialData }: HomepageEditorProps) {
               disabled={isPending}
             />
           </AdminField>
-          <AdminImagePreview
+          <AdminImageField
             label="תמונת Hero"
-            src={initialData.assetPreviews.hero.src}
-            alt={initialData.assetPreviews.hero.alt}
+            value={getAssetValue("hero", "תמונת Hero")}
+            onChange={(image) => updateAsset("hero", image)}
+            mediaAssets={mediaAssets}
+            disabled={isPending}
           />
         </AdminSection>
 
@@ -297,10 +335,12 @@ export function HomepageEditor({ initialData }: HomepageEditorProps) {
               />
             </AdminField>
           ))}
-          <AdminImagePreview
+          <AdminImageField
             label="דיוקן"
-            src={initialData.assetPreviews.aboutPortrait.src}
-            alt={initialData.assetPreviews.aboutPortrait.alt}
+            value={getAssetValue("aboutPortrait", "דיוקן")}
+            onChange={(image) => updateAsset("aboutPortrait", image)}
+            mediaAssets={mediaAssets}
+            disabled={isPending}
           />
         </AdminSection>
 
@@ -357,10 +397,22 @@ export function HomepageEditor({ initialData }: HomepageEditorProps) {
               />
             </AdminField>
           ))}
-          <AdminImagePreview
+          <AdminImageField
             label="תמונה"
-            src={initialData.assetPreviews.pregnancySpotlight.src}
-            alt={initialData.assetPreviews.pregnancySpotlight.alt}
+            value={getAssetValue("pregnancySpotlight", "הריון ואימהות")}
+            onChange={(image) => updateAsset("pregnancySpotlight", image)}
+            mediaAssets={mediaAssets}
+            disabled={isPending}
+          />
+        </AdminSection>
+
+        <AdminSection title="אלמנט דקורטיבי">
+          <AdminImageField
+            label="אלמנט דקורטיבי"
+            value={getAssetValue("botanicalAccent", "אלמנט דקורטיבי")}
+            onChange={(image) => updateAsset("botanicalAccent", image)}
+            mediaAssets={mediaAssets}
+            disabled={isPending}
           />
         </AdminSection>
 

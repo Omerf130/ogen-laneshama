@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { HomepageVisitorTracker } from "@/components/analytics/HomepageVisitorTracker";
 import { JourneyBackground } from "../JourneyBackground";
 import styles from "./JourneyShell.module.scss";
 
@@ -21,6 +22,7 @@ export function JourneyShell({ children }: JourneyShellProps) {
 
   return (
     <div ref={rootRef} className={styles.shell} data-journey-root>
+      <HomepageVisitorTracker />
       <JourneyBackground targetRef={rootRef} />
       {children}
     </div>

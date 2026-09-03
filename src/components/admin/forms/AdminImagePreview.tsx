@@ -17,9 +17,6 @@ export function AdminImagePreview({ label, src, alt }: AdminImagePreviewProps) {
         <p className={styles.imagePreviewMeta}>אין תמונה מוגדרת</p>
       )}
       {alt ? <p className={styles.imagePreviewMeta}>טקסט חלופי: {alt}</p> : null}
-      <p className={styles.imagePreviewNotice}>
-        החלפת תמונות תתאפשר בשלב העלאת מדיה (בקרוב).
-      </p>
     </div>
   );
 }

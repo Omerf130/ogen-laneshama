@@ -4,6 +4,7 @@ import { AdminDbErrorState } from "@/components/admin/cms/AdminDbErrorState";
 import { TreatmentEditor } from "@/components/admin/cms/treatments/TreatmentEditor";
 import { loadCmsOrError } from "@/lib/admin/cms/load-cms-or-error";
 import { loadTreatmentForAdmin } from "@/lib/admin/cms/loaders";
+import { loadMediaPickerItemsForAdmin } from "@/lib/admin/media/loaders";
 import { TREATMENT_SLUGS } from "@/lib/validation/admin-cms";
 
 type AdminTreatmentEditPageProps = {
@@ -30,13 +31,17 @@ export default async function AdminTreatmentEditPage({
     notFound();
   }
 
-  const result = await loadCmsOrError(
-    () => loadTreatmentForAdmin(slug),
-    "הטיפול לא נמצא",
-  );
+  const [result, mediaResult] = await Promise.all([
+    loadCmsOrError(() => loadTreatmentForAdmin(slug), "הטיפול לא נמצא"),
+    loadCmsOrError(() => loadMediaPickerItemsForAdmin()),
+  ]);
 
   if (!result.ok) {
     return <AdminDbErrorState message={result.message} />;
+  }
+
+  if (!mediaResult.ok) {
+    return <AdminDbErrorState />;
   }
 
   return (
@@ -46,6 +51,7 @@ export default async function AdminTreatmentEditPage({
         slug={slug}
         treatment={result.data.treatment}
         imagePreview={result.data.imagePreview}
+        mediaAssets={mediaResult.data}
       />
     </>
   );

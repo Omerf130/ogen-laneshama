@@ -7,6 +7,7 @@ export { AdminFormActions } from "./AdminFormActions";
 export { AdminActionFeedback } from "./AdminActionFeedback";
 export { AdminSeoSection } from "./AdminSeoSection";
 export type { AdminSeoValues } from "./AdminSeoSection";
+export { AdminImageField } from "./AdminImageField";
 export { AdminImagePreview } from "./AdminImagePreview";
 export { AdminConfirmDialog } from "./AdminConfirmDialog";
 export {

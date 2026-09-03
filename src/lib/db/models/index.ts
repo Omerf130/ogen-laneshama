@@ -15,6 +15,8 @@ export { TestimonialModel } from "./testimonial.model";
 export type { TestimonialDocument } from "./testimonial.model";
 export { LeadModel } from "./lead.model";
 export type { LeadDocument } from "./lead.model";
+export { HomepageVisitorModel } from "./homepage-visitor.model";
+export type { HomepageVisitorDocument } from "./homepage-visitor.model";
 export { MediaAssetModel } from "./media-asset.model";
 export type { MediaAssetDocument } from "./media-asset.model";
 export { AdminUserModel } from "./admin-user.model";

@@ -6,7 +6,7 @@ import styles from "./KpiCardGrid.module.scss";
 type KpiCardGridProps = {
   data: Pick<
     AdminDashboardData,
-    "totalLeads" | "homepageVisitors" | "homepageVisitorsThisWeek" | "newLeads"
+    "totalLeads" | "homepageVisitors" | "homepageVisitorsLast7Days" | "newLeads"
   >;
 };
 
@@ -27,8 +27,8 @@ export function KpiCardGrid({ data }: KpiCardGridProps) {
         variant="visitors"
       />
       <KpiCard
-        label="מבקרים השבוע"
-        metric={data.homepageVisitorsThisWeek}
+        label="מבקרים ב־7 הימים האחרונים"
+        metric={data.homepageVisitorsLast7Days}
         icon={TrendingUp}
         variant="weekly"
       />

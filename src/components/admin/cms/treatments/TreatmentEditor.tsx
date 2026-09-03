@@ -8,7 +8,7 @@ import {
   AdminActionFeedback,
   AdminField,
   AdminFormActions,
-  AdminImagePreview,
+  AdminImageField,
   AdminSection,
   AdminSeoSection,
   AdminTextInput,
@@ -19,12 +19,14 @@ import {
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
+import type { AdminImageFieldValue, AdminMediaPickerItem } from "@/types/admin-media-picker";
 import styles from "./TreatmentEditor.module.scss";
 
 type TreatmentFormValues = {
   title: string;
   shortDescription: string;
   emotionalOpening: string;
+  image: AdminImageFieldValue;
   whatItIs: ReturnType<typeof toContentBlockFormValue>;
   whoItSuits: ReturnType<typeof toContentBlockFormValue>;
   sessionProcess: ReturnType<typeof toContentBlockFormValue>;
@@ -40,6 +42,13 @@ function toFormValues(treatment: TreatmentLeanDocument): TreatmentFormValues {
     title: treatment.title,
     shortDescription: treatment.shortDescription,
     emotionalOpening: treatment.emotionalOpening,
+    image: {
+      src: treatment.image?.src ?? null,
+      alt: treatment.image?.alt ?? treatment.title,
+      mediaId: treatment.image?.mediaId
+        ? String(treatment.image.mediaId)
+        : undefined,
+    },
     whatItIs: toContentBlockFormValue(treatment.whatItIs),
     whoItSuits: toContentBlockFormValue(treatment.whoItSuits),
     sessionProcess: toContentBlockFormValue(treatment.sessionProcess),
@@ -58,12 +67,14 @@ type TreatmentEditorProps = {
   slug: string;
   treatment: TreatmentLeanDocument;
   imagePreview: { src: string | null; alt: string };
+  mediaAssets: AdminMediaPickerItem[];
 };
 
 export function TreatmentEditor({
   slug,
   treatment,
   imagePreview,
+  mediaAssets,
 }: TreatmentEditorProps) {
   const { values, setValues, setField, isDirty, resetBaseline } =
     useAdminFormState(toFormValues(treatment));
@@ -89,7 +100,7 @@ export function TreatmentEditor({
         expectations: fromContentBlockFormValue(values.expectations),
         disclaimer: values.disclaimer.trim() || undefined,
         cta: values.cta,
-        image: treatment.image,
+        image: values.image,
         faq: treatment.faq,
         layoutVariant: treatment.layoutVariant,
         isActive: treatment.isActive,
@@ -151,10 +162,16 @@ export function TreatmentEditor({
               rows={4}
             />
           </AdminField>
-          <AdminImagePreview
+          <AdminImageField
             label="תמונת הטיפול"
-            src={imagePreview.src}
-            alt={imagePreview.alt}
+            value={{
+              src: values.image.src ?? imagePreview.src,
+              alt: values.image.alt || imagePreview.alt,
+              mediaId: values.image.mediaId,
+            }}
+            onChange={(image) => setField("image", image)}
+            mediaAssets={mediaAssets}
+            disabled={isPending}
           />
         </AdminSection>
 

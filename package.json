@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -16,10 +16,15 @@
     "verify:phase-4c": "tsx scripts/verify-phase-4c.ts",
     "admin:create": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/create-admin.ts",
     "admin:verify-auth": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-auth.ts",
-    "admin:verify-cms": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-cms.ts"
+    "admin:verify-cms": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-cms.ts",
+    "admin:verify-leads": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-leads.ts && tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-contact-form-action.ts",
+    "admin:verify-media": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-admin-media.ts",
+    "analytics:verify": "tsx --require ./scripts/lib/register-server-only-stub.cjs scripts/verify-analytics.ts",
+    "verify:phase-7": "tsx scripts/verify-phase-7.ts"
   },
   "dependencies": {
     "@inquirer/prompts": "^8.7.0",
+    "@vercel/blob": "^2.8.0",
     "bcryptjs": "^3.0.3",
     "lucide-react": "^0.511.0",
     "mongoose": "^9.9.4",

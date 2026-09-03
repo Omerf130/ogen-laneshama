@@ -1,16 +1,25 @@
 ﻿import type { Metadata } from "next";
-import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder/AdminPlaceholder";
+import { AdminDbErrorState } from "@/components/admin/cms/AdminDbErrorState";
+import { LeadsListManager } from "@/components/admin/leads/LeadsListManager";
+import { loadCmsOrError } from "@/lib/admin/cms/load-cms-or-error";
+import { loadLeadsForAdmin } from "@/lib/admin/leads/loaders";
 
 export const metadata: Metadata = {
   title: "פניות | ניהול עוגן",
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
+export default async function AdminLeadsPage() {
+  const result = await loadCmsOrError(() => loadLeadsForAdmin());
+
+  if (!result.ok) {
+    return <AdminDbErrorState />;
+  }
+
   return (
-    <AdminPlaceholder
-      title="ניהול פניות"
-      description="צפייה וטיפול בפניות מהאתר — ייושם בשלב הבא."
-    />
+    <>
+      <h1>ניהול פניות</h1>
+      <LeadsListManager initialLeads={result.data} />
+    </>
   );
 }

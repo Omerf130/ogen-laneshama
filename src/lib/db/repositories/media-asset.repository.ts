@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { MediaAssetModel } from "@/lib/db/models/media-asset.model";
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
+import type { MediaAssetDocumentInput } from "@/lib/validation/media";
 
 export interface MediaAssetLeanDocument {
   _id: Types.ObjectId;
@@ -46,4 +47,51 @@ export async function findMediaAssetByProviderKey(
   return MediaAssetModel.findOne({ provider, providerKey })
     .lean<MediaAssetLeanDocument>()
     .exec();
+}
+
+export async function findMediaAssetById(
+  id: string,
+): Promise<MediaAssetLeanDocument | null> {
+  await ensureDbConnection();
+
+  return MediaAssetModel.findById(id).lean<MediaAssetLeanDocument>().exec();
+}
+
+export async function findAllMediaAssetsForAdmin(): Promise<MediaAssetLeanDocument[]> {
+  await ensureDbConnection();
+
+  return MediaAssetModel.find({}).sort({ createdAt: -1 }).lean<MediaAssetLeanDocument[]>().exec();
+}
+
+export async function createMediaAsset(
+  input: MediaAssetDocumentInput,
+): Promise<MediaAssetLeanDocument> {
+  await ensureDbConnection();
+
+  const doc = await MediaAssetModel.create(input);
+
+  return doc.toObject() as MediaAssetLeanDocument;
+}
+
+export async function updateMediaAssetAlt(
+  id: string,
+  alt: string,
+): Promise<MediaAssetLeanDocument | null> {
+  await ensureDbConnection();
+
+  return MediaAssetModel.findByIdAndUpdate(
+    id,
+    { $set: { alt } },
+    { ...returnUpdatedDocument, runValidators: true },
+  )
+    .lean<MediaAssetLeanDocument>()
+    .exec();
+}
+
+export async function deleteMediaAssetById(id: string): Promise<boolean> {
+  await ensureDbConnection();
+
+  const result = await MediaAssetModel.deleteOne({ _id: id }).exec();
+
+  return result.deletedCount === 1;
 }

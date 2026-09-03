@@ -26,6 +26,7 @@ export function AdminTextInput({
       disabled={disabled}
       className={styles.input}
       aria-describedby={describedBy}
+      suppressHydrationWarning
     />
   );
 }

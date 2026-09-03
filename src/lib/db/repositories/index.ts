@@ -74,5 +74,25 @@ export {
 export {
   findMediaAssetsByIds,
   findMediaAssetByProviderKey,
+  findMediaAssetById,
+  findAllMediaAssetsForAdmin,
+  createMediaAsset,
+  updateMediaAssetAlt,
+  deleteMediaAssetById,
   type MediaAssetLeanDocument,
 } from "./media-asset.repository";
+
+export {
+  createLead,
+  findLeadsForAdmin,
+  findLeadByIdForAdmin,
+  updateLeadById,
+  type LeadLeanDocument,
+} from "./lead.repository";
+
+export {
+  upsertHomepageVisitor,
+  countHomepageVisitors,
+  countHomepageVisitorsLast7Days,
+  type HomepageVisitorLeanDocument,
+} from "./homepage-visitor.repository";

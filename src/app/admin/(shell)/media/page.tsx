@@ -1,16 +1,25 @@
 ﻿import type { Metadata } from "next";
-import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder/AdminPlaceholder";
+import { AdminDbErrorState } from "@/components/admin/cms/AdminDbErrorState";
+import { MediaLibraryManager } from "@/components/admin/media/MediaLibraryManager";
+import { loadCmsOrError } from "@/lib/admin/cms/load-cms-or-error";
+import { loadMediaAssetsForAdmin } from "@/lib/admin/media/loaders";
 
 export const metadata: Metadata = {
   title: "מדיה | ניהול עוגן",
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
+export default async function AdminMediaPage() {
+  const result = await loadCmsOrError(() => loadMediaAssetsForAdmin());
+
+  if (!result.ok) {
+    return <AdminDbErrorState />;
+  }
+
   return (
-    <AdminPlaceholder
-      title="ניהול מדיה"
-      description="העלאה וניהול קבצי מדיה — ייושם בשלב 7."
-    />
+    <>
+      <h1>ספריית מדיה</h1>
+      <MediaLibraryManager initialAssets={result.data} />
+    </>
   );
 }

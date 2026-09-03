@@ -18,7 +18,7 @@ export function AdminDashboard({ admin, data }: AdminDashboardProps) {
         data={{
           totalLeads: data.totalLeads,
           homepageVisitors: data.homepageVisitors,
-          homepageVisitorsThisWeek: data.homepageVisitorsThisWeek,
+          homepageVisitorsLast7Days: data.homepageVisitorsLast7Days,
           newLeads: data.newLeads,
         }}
       />

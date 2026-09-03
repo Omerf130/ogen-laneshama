@@ -50,6 +50,7 @@ export type ContentBlockVariant = "default" | "emphasis" | "aside";
 export interface ContentImage {
   src: string | null;
   alt: string;
+  mediaId?: string;
 }
 
 export interface ContentBlock {

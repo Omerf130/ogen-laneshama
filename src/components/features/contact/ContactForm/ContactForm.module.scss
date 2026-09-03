@@ -19,3 +19,33 @@
   background: color-mix(in srgb, #{$color-secondary} 25%, transparent);
   color: $color-text-muted;
 }
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.success {
+  @include text-small;
+  margin: 0;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background: color-mix(in srgb, #{$color-secondary} 35%, transparent);
+  color: $color-text;
+}
+
+.error {
+  @include text-small;
+  margin: 0;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background: rgb(201 173 128 / 15%);
+  color: $color-text;
+}

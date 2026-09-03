@@ -26,6 +26,7 @@ export function AdminTextarea({
       disabled={disabled}
       className={styles.textarea}
       aria-describedby={describedBy}
+      suppressHydrationWarning
     />
   );
 }

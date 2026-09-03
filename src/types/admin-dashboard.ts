@@ -27,7 +27,7 @@ export type DashboardLeadSummary = {
 export type AdminDashboardData = {
   totalLeads: DashboardMetricNumber;
   homepageVisitors: DashboardMetricValue;
-  homepageVisitorsThisWeek: DashboardMetricValue;
+  homepageVisitorsLast7Days: DashboardMetricValue;
   newLeads: DashboardMetricNumber;
   recentLeads: DashboardLeadSummary[];
 };

@@ -1,6 +1,6 @@
 import { SiteSettingsModel } from "@/lib/db/models/site-settings.model";
 import { SITE_SETTINGS_ID } from "@/lib/db/repositories/constants";
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
 import type { SiteSettingsInput } from "@/lib/validation/site-settings";
 
 export interface SiteSettingsLeanDocument {
@@ -84,7 +84,7 @@ export async function updateSiteSettings(input: {
         defaultSeo: input.defaultSeo,
       },
     },
-    { new: true, upsert: false, runValidators: true },
+    { ...returnUpdatedDocument, upsert: false, runValidators: true },
   ).lean<SiteSettingsLeanDocument>();
 
   if (!doc) {

@@ -7,7 +7,7 @@ import {
   AdminActionFeedback,
   AdminField,
   AdminFormActions,
-  AdminImagePreview,
+  AdminImageField,
   AdminSection,
   AdminSeoSection,
   AdminTextInput,
@@ -18,6 +18,7 @@ import {
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
+import type { AdminImageFieldValue, AdminMediaPickerItem } from "@/types/admin-media-picker";
 import { TREATMENT_SLUGS } from "@/lib/validation/admin-cms";
 import styles from "./ContentPageEditor.module.scss";
 
@@ -26,6 +27,7 @@ type ContentPageEditorProps = {
   content: Record<string, unknown>;
   seo?: { title?: string; description?: string };
   imagePreview?: { src: string | null; alt: string } | null;
+  mediaAssets?: AdminMediaPickerItem[];
 };
 
 function buildInitialValues(
@@ -41,6 +43,7 @@ export function ContentPageEditor({
   content,
   seo,
   imagePreview,
+  mediaAssets = [],
 }: ContentPageEditorProps) {
   const { values, setValues, isDirty, resetBaseline } = useAdminFormState(
     buildInitialValues(slug, content, seo),
@@ -77,6 +80,23 @@ export function ContentPageEditor({
 
   const updateCta = (patch: Partial<{ label: string; href: string }>) => {
     updateContent({ cta: { ...(c.cta as object), ...patch } });
+  };
+
+  const getPageImageValue = (
+    key: "portrait" | "image",
+    fallbackAlt: string,
+  ): AdminImageFieldValue => {
+    const image = c[key] as AdminImageFieldValue | undefined;
+
+    return {
+      src: image?.src ?? imagePreview?.src ?? null,
+      alt: image?.alt ?? imagePreview?.alt ?? fallbackAlt,
+      mediaId: image?.mediaId,
+    };
+  };
+
+  const updatePageImage = (key: "portrait" | "image", image: AdminImageFieldValue) => {
+    updateContent({ [key]: image });
   };
 
   return (
@@ -156,11 +176,13 @@ export function ContentPageEditor({
                   />
                 </AdminField>
               ))}
-            {imagePreview ? (
-              <AdminImagePreview
+            {slug === "about" ? (
+              <AdminImageField
                 label="דיוקן"
-                src={imagePreview.src}
-                alt={imagePreview.alt}
+                value={getPageImageValue("portrait", "דיוקן")}
+                onChange={(image) => updatePageImage("portrait", image)}
+                mediaAssets={mediaAssets}
+                disabled={isPending}
               />
             ) : null}
           </>
@@ -259,11 +281,13 @@ export function ContentPageEditor({
                 rows={2}
               />
             </AdminField>
-            {imagePreview ? (
-              <AdminImagePreview
+            {slug === "pregnancy-motherhood" ? (
+              <AdminImageField
                 label="תמונה"
-                src={imagePreview.src}
-                alt={imagePreview.alt}
+                value={getPageImageValue("image", "תמונה")}
+                onChange={(image) => updatePageImage("image", image)}
+                mediaAssets={mediaAssets}
+                disabled={isPending}
               />
             ) : null}
           </>

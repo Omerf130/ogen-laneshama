@@ -4,7 +4,7 @@ import {
   PUBLISHED_FAQ_FILTER,
   PUBLISHED_FAQ_SORT,
 } from "@/lib/db/repositories/constants";
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
 import type { FaqItemDocumentInput } from "@/lib/validation/faq";
 
 export type FaqItemLeanDocument = FaqItemDocumentInput & {
@@ -68,7 +68,7 @@ export async function updateFaqItemById(
         isPublished: input.isPublished,
       },
     },
-    { new: true, runValidators: true },
+    { ...returnUpdatedDocument, runValidators: true },
   )
     .lean<FaqItemLeanDocument>()
     .exec();
@@ -103,7 +103,7 @@ export async function setFaqItemPublished(
   return FaqItemModel.findOneAndUpdate(
     { id },
     { $set: { isPublished } },
-    { new: true, runValidators: true },
+    { ...returnUpdatedDocument, runValidators: true },
   )
     .lean<FaqItemLeanDocument>()
     .exec();

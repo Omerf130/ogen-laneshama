@@ -92,6 +92,7 @@ export const contentImageSchema = new Schema(
   {
     src: { type: String, default: null },
     alt: { type: String, required: true, trim: true },
+    mediaId: { type: Schema.Types.ObjectId, ref: "MediaAsset" },
   },
   { _id: false },
 );

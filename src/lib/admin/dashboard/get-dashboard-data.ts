@@ -2,6 +2,10 @@ import "server-only";
 
 import { ensureDbConnection } from "@/lib/db/repositories/shared";
 import { LeadModel } from "@/lib/db/models/lead.model";
+import {
+  countHomepageVisitors,
+  countHomepageVisitorsLast7Days,
+} from "@/lib/db/repositories/homepage-visitor.repository";
 import type { LeadStatus } from "@/types/db/persistence";
 import type {
   AdminDashboardData,
@@ -10,7 +14,7 @@ import type {
 } from "@/types/admin-dashboard";
 
 const ANALYTICS_UNAVAILABLE_HINT =
-  "הנתון יהיה זמין לאחר חיבור הסטטיסטיקות";
+  "הנתונים נאספים החל מהפעלת המדידה.";
 
 function unavailableAnalyticsMetric(): DashboardMetricUnavailable {
   return {
@@ -23,16 +27,19 @@ function unavailableAnalyticsMetric(): DashboardMetricUnavailable {
 export async function getDashboardData(): Promise<AdminDashboardData> {
   await ensureDbConnection();
 
-  const [totalLeads, newLeads, recentLeadDocs] = await Promise.all([
-    LeadModel.countDocuments().exec(),
-    LeadModel.countDocuments({ status: "NEW" }).exec(),
-    LeadModel.find()
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .select("name phone email status createdAt")
-      .lean()
-      .exec(),
-  ]);
+  const [totalLeads, newLeads, recentLeadDocs, homepageVisitors, homepageVisitorsLast7Days] =
+    await Promise.all([
+      LeadModel.countDocuments().exec(),
+      LeadModel.countDocuments({ status: "NEW" }).exec(),
+      LeadModel.find()
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .select("name phone email status createdAt")
+        .lean()
+        .exec(),
+      countHomepageVisitors().catch(() => null),
+      countHomepageVisitorsLast7Days().catch(() => null),
+    ]);
 
   const recentLeads: DashboardLeadSummary[] = recentLeadDocs.map((lead) => ({
     id: lead._id.toString(),
@@ -45,8 +52,14 @@ export async function getDashboardData(): Promise<AdminDashboardData> {
 
   return {
     totalLeads: { kind: "number", value: totalLeads },
-    homepageVisitors: unavailableAnalyticsMetric(),
-    homepageVisitorsThisWeek: unavailableAnalyticsMetric(),
+    homepageVisitors:
+      homepageVisitors === null
+        ? unavailableAnalyticsMetric()
+        : { kind: "number", value: homepageVisitors },
+    homepageVisitorsLast7Days:
+      homepageVisitorsLast7Days === null
+        ? unavailableAnalyticsMetric()
+        : { kind: "number", value: homepageVisitorsLast7Days },
     newLeads: { kind: "number", value: newLeads },
     recentLeads,
   };

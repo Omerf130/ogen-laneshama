@@ -94,6 +94,7 @@ export const contentImageSchema = z
   .object({
     src: z.string().nullable(),
     alt: z.string().trim().min(1),
+    mediaId: z.string().trim().min(1).optional(),
   })
   .strict();
 

@@ -3,7 +3,7 @@ import {
   PUBLISHED_TESTIMONIAL_FILTER,
   PUBLISHED_TESTIMONIAL_SORT,
 } from "@/lib/db/repositories/constants";
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
 import type { TestimonialDocumentInput } from "@/lib/validation/testimonial";
 
 export type TestimonialLeanDocument = TestimonialDocumentInput & {
@@ -74,7 +74,7 @@ export async function updateTestimonialById(
         isPublished: input.isPublished,
       },
     },
-    { new: true, runValidators: true },
+    { ...returnUpdatedDocument, runValidators: true },
   )
     .lean<TestimonialLeanDocument>()
     .exec();
@@ -109,7 +109,7 @@ export async function setTestimonialPublished(
   return TestimonialModel.findByIdAndUpdate(
     mongoId,
     { $set: { isPublished } },
-    { new: true, runValidators: true },
+    { ...returnUpdatedDocument, runValidators: true },
   )
     .lean<TestimonialLeanDocument>()
     .exec();

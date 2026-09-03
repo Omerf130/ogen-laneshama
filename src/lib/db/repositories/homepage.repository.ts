@@ -1,6 +1,6 @@
 import { HomepageModel } from "@/lib/db/models/homepage.model";
 import { HOMEPAGE_ID } from "@/lib/db/repositories/constants";
-import { ensureDbConnection } from "@/lib/db/repositories/shared";
+import { ensureDbConnection, returnUpdatedDocument } from "@/lib/db/repositories/shared";
 import type { HomepageDocumentInput } from "@/lib/validation/homepage";
 
 export interface HomepageLeanDocument {
@@ -38,7 +38,7 @@ export async function updateHomepage(
         seo: input.seo,
       },
     },
-    { new: true, upsert: false, runValidators: true },
+    { ...returnUpdatedDocument, upsert: false, runValidators: true },
   ).lean<HomepageLeanDocument>();
 
   if (!doc) {
