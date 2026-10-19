@@ -3,7 +3,9 @@
 
 .figure {
   margin: 0;
+  width: min(100%, 18rem);
   max-width: 18rem;
+  flex-shrink: 0;
 }
 
 .frame {
