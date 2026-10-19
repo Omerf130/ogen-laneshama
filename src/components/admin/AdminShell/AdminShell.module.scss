@@ -13,6 +13,13 @@
 
   @media (min-width: $breakpoint-lg) {
     display: block;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    align-self: flex-start;
+    max-height: 100vh;
+    overflow-y: auto;
+    background: $color-secondary;
   }
 }
 
