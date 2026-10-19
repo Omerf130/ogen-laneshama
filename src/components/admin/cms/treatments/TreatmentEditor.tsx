@@ -1,13 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
 import type { TreatmentLeanDocument } from "@/lib/db/repositories/treatment.repository";
 import { saveTreatmentAction } from "@/features/admin/treatments/treatments.actions";
 import {
-  AdminActionFeedback,
+  AdminEditorSaveBar,
   AdminField,
-  AdminFormActions,
   AdminImageField,
   AdminSection,
   AdminSeoSection,
@@ -16,9 +14,11 @@ import {
   ContentBlockEditor,
   fromContentBlockFormValue,
   toContentBlockFormValue,
+  useAdminBaselineOnSaveComplete,
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
+import formStyles from "@/components/admin/forms/forms.module.scss";
 import type { AdminImageFieldValue, AdminMediaPickerItem } from "@/types/admin-media-picker";
 import styles from "./TreatmentEditor.module.scss";
 
@@ -89,12 +89,14 @@ export function TreatmentEditor({
   const { values, setValues, setField, isDirty, resetBaseline } =
     useAdminFormState(toFormValues(treatment));
   const { state, submit, isPending } = useAdminCmsSubmit(saveTreatmentAction);
+  const expandSections = Boolean(state.error);
 
-  useEffect(() => {
-    if (state.success) {
-      resetBaseline(values);
-    }
-  }, [state.success, resetBaseline, values]);
+  useAdminBaselineOnSaveComplete(
+    isPending,
+    state.success,
+    values,
+    resetBaseline,
+  );
 
   const handleSave = () => {
     submit({
@@ -133,15 +135,13 @@ export function TreatmentEditor({
   };
 
   return (
-    <div className={styles.editor}>
+    <div className={`${styles.editor} ${formStyles.editorWithSaveBar}`}>
       <Link href="/admin/treatments" className={styles.backLink}>
         חזרה לרשימה
       </Link>
 
-      <AdminActionFeedback success={state.success} error={state.error} />
-
       <div className={styles.stack}>
-        <AdminSection title="פרטים כלליים">
+        <AdminSection forceOpen={expandSections} title="פרטים כלליים">
           <AdminField label="כותרת" htmlFor="treatment-title">
             <AdminTextInput
               id="treatment-title"
@@ -188,7 +188,7 @@ export function TreatmentEditor({
           />
         </AdminSection>
 
-        <AdminSection title="תוכן הטיפול">
+        <AdminSection forceOpen={expandSections} title="תוכן הטיפול">
           <ContentBlockEditor
             label="מה זה"
             value={values.whatItIs}
@@ -230,7 +230,7 @@ export function TreatmentEditor({
           </AdminField>
         </AdminSection>
 
-        <AdminSection title="קריאה לפעולה">
+        <AdminSection forceOpen={expandSections} title="קריאה לפעולה">
           <AdminField label="טקסט כפתור" htmlFor="cta-label">
             <AdminTextInput
               id="cta-label"
@@ -253,7 +253,7 @@ export function TreatmentEditor({
           </AdminField>
         </AdminSection>
 
-        <AdminSection title="SEO">
+        <AdminSection forceOpen={expandSections} title="SEO">
           <AdminSeoSection
             values={values.seo}
             onChange={(seo) => setField("seo", seo)}
@@ -262,7 +262,13 @@ export function TreatmentEditor({
         </AdminSection>
       </div>
 
-      <AdminFormActions isDirty={isDirty} isPending={isPending} onSave={handleSave} />
+      <AdminEditorSaveBar
+        isDirty={isDirty}
+        isPending={isPending}
+        onSave={handleSave}
+        success={state.success}
+        error={state.error}
+      />
     </div>
   );
 }

@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
 import type { RepositoryContentPageSlug } from "@/lib/db/repositories/constants";
 import { saveContentPageAction } from "@/features/admin/content-pages/save-content-page.action";
 import {
-  AdminActionFeedback,
+  AdminEditorSaveBar,
   AdminField,
-  AdminFormActions,
   AdminImageField,
   AdminSection,
   AdminSeoSection,
@@ -15,9 +13,11 @@ import {
   ContentBlockEditor,
   fromContentBlockFormValue,
   toContentBlockFormValue,
+  useAdminBaselineOnSaveComplete,
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
+import formStyles from "@/components/admin/forms/forms.module.scss";
 import type { AdminImageFieldValue, AdminMediaPickerItem } from "@/types/admin-media-picker";
 import { TREATMENT_SLUGS } from "@/lib/validation/admin-cms";
 import styles from "./ContentPageEditor.module.scss";
@@ -49,12 +49,14 @@ export function ContentPageEditor({
     buildInitialValues(slug, content, seo),
   );
   const { state, submit, isPending } = useAdminCmsSubmit(saveContentPageAction);
+  const expandSections = Boolean(state.error);
 
-  useEffect(() => {
-    if (state.success) {
-      resetBaseline(values);
-    }
-  }, [state.success, resetBaseline, values]);
+  useAdminBaselineOnSaveComplete(
+    isPending,
+    state.success,
+    values,
+    resetBaseline,
+  );
 
   const handleSave = () => {
     submit({
@@ -102,13 +104,11 @@ export function ContentPageEditor({
   };
 
   return (
-    <div className={styles.editor}>
-      <AdminActionFeedback success={state.success} error={state.error} />
-
+    <div className={`${styles.editor} ${formStyles.editorWithSaveBar}`}>
       <div className={styles.stack}>
         {slug === "about" ? (
           <>
-            <AdminSection title="כותרת">
+            <AdminSection forceOpen={expandSections} title="כותרת">
               <AdminField label="כותרת" htmlFor="about-hero-title">
                 <AdminTextInput
                   id="about-hero-title"
@@ -193,7 +193,7 @@ export function ContentPageEditor({
 
         {slug === "pregnancy-motherhood" ? (
           <>
-            <AdminSection title="כותרת">
+            <AdminSection forceOpen={expandSections} title="כותרת">
               <AdminField label="כותרת" htmlFor="preg-hero-title">
                 <AdminTextInput
                   id="preg-hero-title"
@@ -223,7 +223,7 @@ export function ContentPageEditor({
                 />
               ),
             )}
-            <AdminSection title="רגעים">
+            <AdminSection forceOpen={expandSections} title="רגעים">
               <AdminField label="כותרת" htmlFor="moments-title">
                 <AdminTextInput
                   id="moments-title"
@@ -298,7 +298,7 @@ export function ContentPageEditor({
         ) : null}
 
         {slug === "contact" ? (
-          <AdminSection title="עמוד יצירת קשר">
+          <AdminSection forceOpen={expandSections} title="עמוד יצירת קשר">
             <AdminField label="כותרת" htmlFor="contact-title">
               <AdminTextInput
                 id="contact-title"
@@ -335,7 +335,7 @@ export function ContentPageEditor({
                 disabled={isPending}
               />
             </AdminField>
-            <AdminSection title="תוויות טופס">
+            <AdminSection forceOpen={expandSections} title="תוויות טופס">
               {(
                 [
                   ["nameLabel", "שם"],
@@ -374,7 +374,7 @@ export function ContentPageEditor({
         ) : null}
 
         {slug === "treatments" ? (
-          <AdminSection title="עמוד טיפולים">
+          <AdminSection forceOpen={expandSections} title="עמוד טיפולים">
             <AdminField label="כותרת" htmlFor="treatments-title">
               <AdminTextInput
                 id="treatments-title"
@@ -407,7 +407,7 @@ export function ContentPageEditor({
         {(slug === "about" ||
           slug === "pregnancy-motherhood" ||
           slug === "treatments") && (
-          <AdminSection title="קריאה לפעולה">
+          <AdminSection forceOpen={expandSections} title="קריאה לפעולה">
             <AdminField label="טקסט כפתור" htmlFor="page-cta-label">
               <AdminTextInput
                 id="page-cta-label"
@@ -427,7 +427,7 @@ export function ContentPageEditor({
           </AdminSection>
         )}
 
-        <AdminSection title="SEO">
+        <AdminSection forceOpen={expandSections} title="SEO">
           <AdminSeoSection
             values={values.seo}
             onChange={(seo) => setValues({ ...values, seo })}
@@ -436,7 +436,13 @@ export function ContentPageEditor({
         </AdminSection>
       </div>
 
-      <AdminFormActions isDirty={isDirty} isPending={isPending} onSave={handleSave} />
+      <AdminEditorSaveBar
+        isDirty={isDirty}
+        isPending={isPending}
+        onSave={handleSave}
+        success={state.success}
+        error={state.error}
+      />
     </div>
   );
 }

@@ -214,6 +214,32 @@ function verifyPublicSectionVisibilityWiring(): void {
   );
 }
 
+function verifyEditorBaselineLifecycle(): void {
+  const editors = [
+    "src/components/admin/cms/homepage/HomepageEditor.tsx",
+    "src/components/admin/cms/content-pages/ContentPageEditor.tsx",
+    "src/components/admin/cms/treatments/TreatmentEditor.tsx",
+    "src/components/admin/cms/settings/SiteSettingsEditor.tsx",
+  ];
+
+  for (const relativePath of editors) {
+    const content = readFileSync(join(ROOT, relativePath), "utf8");
+    assert(
+      content.includes("useAdminBaselineOnSaveComplete"),
+      `${relativePath} must sync baseline via useAdminBaselineOnSaveComplete`,
+    );
+    assert(
+      !content.includes("[state.success, resetBaseline, values]"),
+      `${relativePath} must not reset baseline on every values change`,
+    );
+  }
+
+  assertFileContains(
+    "src/components/admin/forms/useAdminCmsSubmit.ts",
+    "shouldSyncBaselineOnSaveComplete",
+  );
+}
+
 function main(): void {
   verifyValidationSchemas();
   verifyRepositoryExports();
@@ -221,6 +247,7 @@ function main(): void {
   verifyAdminRoutes();
   verifyContentImagePlacement();
   verifyPublicSectionVisibilityWiring();
+  verifyEditorBaselineLifecycle();
 
   console.log("admin:verify-cms — all checks passed");
 }

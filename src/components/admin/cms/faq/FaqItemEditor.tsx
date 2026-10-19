@@ -16,6 +16,7 @@ import {
   AdminTextInput,
   AdminTextarea,
   AdminToggle,
+  useAdminBaselineOnSaveComplete,
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
@@ -48,16 +49,18 @@ export function FaqItemEditor({ mode, initialItem }: FaqItemEditorProps) {
   const { state, submit, isPending } = useAdminCmsSubmit(action);
 
   useEffect(() => {
-    if (state.success) {
-      if (mode === "create") {
-        router.push("/admin/faq");
-        router.refresh();
-        return;
-      }
-
-      resetBaseline(values);
+    if (state.success && mode === "create") {
+      router.push("/admin/faq");
+      router.refresh();
     }
-  }, [state.success, mode, router, resetBaseline, values]);
+  }, [state.success, mode, router]);
+
+  useAdminBaselineOnSaveComplete(
+    isPending,
+    mode === "edit" ? state.success : undefined,
+    values,
+    resetBaseline,
+  );
 
   const handleSave = () => {
     if (mode === "create") {

@@ -14,6 +14,7 @@ import {
   AdminFormActions,
   AdminSection,
   AdminTextarea,
+  useAdminBaselineOnSaveComplete,
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
@@ -63,11 +64,12 @@ export function LeadDetailEditor({ initialLead }: LeadDetailEditorProps) {
   } = useAdminCmsSubmit(archiveLeadAction);
   const [archiveOpen, setArchiveOpen] = useState(false);
 
-  useEffect(() => {
-    if (updateState.success) {
-      resetBaseline(values);
-    }
-  }, [updateState.success, resetBaseline, values]);
+  useAdminBaselineOnSaveComplete(
+    updatePending,
+    updateState.success,
+    values,
+    resetBaseline,
+  );
 
   useEffect(() => {
     if (archiveState.success) {

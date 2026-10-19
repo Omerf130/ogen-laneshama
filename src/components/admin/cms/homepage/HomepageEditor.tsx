@@ -1,23 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
 import type { AdminHomepageEditorData } from "@/lib/admin/cms/loaders/homepage.loader";
 import { saveHomepageAction } from "@/features/admin/homepage/save-homepage.action";
 import type { HomepageDocumentInput } from "@/lib/validation/homepage";
 import {
-  AdminActionFeedback,
+  AdminEditorSaveBar,
   AdminField,
-  AdminFormActions,
   AdminImageField,
   AdminSection,
   AdminSeoSection,
   AdminTextInput,
   AdminTextarea,
   AdminToggle,
+  useAdminBaselineOnSaveComplete,
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
+import formStyles from "@/components/admin/forms/forms.module.scss";
 import type { AdminMediaPickerItem } from "@/types/admin-media-picker";
 import styles from "./HomepageEditor.module.scss";
 
@@ -37,12 +37,14 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
     initialData.document,
   );
   const { state, submit, isPending } = useAdminCmsSubmit(saveHomepageAction);
+  const expandSections = Boolean(state.error);
 
-  useEffect(() => {
-    if (state.success) {
-      resetBaseline(values);
-    }
-  }, [state.success, resetBaseline, values]);
+  useAdminBaselineOnSaveComplete(
+    isPending,
+    state.success,
+    values,
+    resetBaseline,
+  );
 
   const content = values.content;
   const visibility = values.sectionVisibility ?? {};
@@ -94,11 +96,9 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
   };
 
   return (
-    <div className={styles.editor}>
-      <AdminActionFeedback success={state.success} error={state.error} />
-
+    <div className={`${styles.editor} ${formStyles.editorWithSaveBar}`}>
       <div className={styles.stack}>
-        <AdminSection title="Hero">
+        <AdminSection forceOpen={expandSections} title="Hero">
           <AdminField label="Eyebrow" htmlFor="hero-eyebrow">
             <AdminTextInput
               id="hero-eyebrow"
@@ -150,7 +150,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           />
         </AdminSection>
 
-        <AdminSection title="Recognition">
+        <AdminSection forceOpen={expandSections} title="Recognition">
           {(
             [
               ["title", "כותרת"],
@@ -201,6 +201,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
         </AdminSection>
 
         <AdminSection
+          forceOpen={expandSections}
           title="למי זה מתאים"
           description="נדרשות בדיוק 4 פריטים."
         >
@@ -281,7 +282,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           ))}
         </AdminSection>
 
-        <AdminSection title="תצוגה מקדימה — אודות">
+        <AdminSection forceOpen={expandSections} title="תצוגה מקדימה — אודות">
           {(
             [
               ["eyebrow", "Eyebrow"],
@@ -356,7 +357,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           />
         </AdminSection>
 
-        <AdminSection title="תצוגה מקדימה — טיפולים">
+        <AdminSection forceOpen={expandSections} title="תצוגה מקדימה — טיפולים">
           {(
             [
               ["eyebrow", "Eyebrow"],
@@ -383,7 +384,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           ))}
         </AdminSection>
 
-        <AdminSection title="הריון ואימהות">
+        <AdminSection forceOpen={expandSections} title="הריון ואימהות">
           {(
             [
               ["eyebrow", "Eyebrow"],
@@ -419,7 +420,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           />
         </AdminSection>
 
-        <AdminSection title="אלמנט דקורטיבי">
+        <AdminSection forceOpen={expandSections} title="אלמנט דקורטיבי">
           <AdminImageField
             label="אלמנט דקורטיבי"
             value={getAssetValue("botanicalAccent", "אלמנט דקורטיבי")}
@@ -430,6 +431,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
         </AdminSection>
 
         <AdminSection
+          forceOpen={expandSections}
           title="תהליך"
           description="נדרשים בדיוק 4 שלבים."
         >
@@ -484,7 +486,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           ))}
         </AdminSection>
 
-        <AdminSection title="שאלות נפוצות">
+        <AdminSection forceOpen={expandSections} title="שאלות נפוצות">
           {(
             [
               ["eyebrow", "Eyebrow"],
@@ -512,7 +514,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           </p>
         </AdminSection>
 
-        <AdminSection title="המלצות">
+        <AdminSection forceOpen={expandSections} title="המלצות">
           <AdminField label="כותרת" htmlFor="testimonials-title">
             <AdminTextInput
               id="testimonials-title"
@@ -550,7 +552,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           </p>
         </AdminSection>
 
-        <AdminSection title="CTA יצירת קשר">
+        <AdminSection forceOpen={expandSections} title="CTA יצירת קשר">
           {(
             [
               ["eyebrow", "Eyebrow"],
@@ -574,7 +576,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           ))}
         </AdminSection>
 
-        <AdminSection title="נראות סקשנים">
+        <AdminSection forceOpen={expandSections} title="נראות סקשנים">
           <AdminToggle
             id="visibility-faq"
             label="הצגת שאלות נפוצות בדף הבית"
@@ -601,7 +603,7 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
           />
         </AdminSection>
 
-        <AdminSection title="SEO">
+        <AdminSection forceOpen={expandSections} title="SEO">
           <AdminSeoSection
             values={values.seo ?? {}}
             onChange={(seo) => setValues({ ...values, seo })}
@@ -610,7 +612,13 @@ export function HomepageEditor({ initialData, mediaAssets }: HomepageEditorProps
         </AdminSection>
       </div>
 
-      <AdminFormActions isDirty={isDirty} isPending={isPending} onSave={handleSave} />
+      <AdminEditorSaveBar
+        isDirty={isDirty}
+        isPending={isPending}
+        onSave={handleSave}
+        success={state.success}
+        error={state.error}
+      />
     </div>
   );
 }

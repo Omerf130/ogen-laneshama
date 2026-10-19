@@ -5,18 +5,26 @@ type AdminSectionProps = {
   title: string;
   description?: string;
   children: ReactNode;
+  /** Expand when save validation fails so errors inside collapsed panels are visible. */
+  forceOpen?: boolean;
 };
 
-export function AdminSection({ title, description, children }: AdminSectionProps) {
+export function AdminSection({
+  title,
+  description,
+  children,
+  forceOpen = false,
+}: AdminSectionProps) {
   return (
-    <section className={styles.section}>
-      <header className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>{title}</h2>
-        {description ? (
-          <p className={styles.sectionDescription}>{description}</p>
-        ) : null}
-      </header>
+    <details className={styles.section} open={forceOpen || undefined}>
+      <summary className={styles.sectionSummary}>
+        <span className={styles.sectionTitle}>{title}</span>
+        <span className={styles.sectionChevron} aria-hidden="true" />
+      </summary>
+      {description ? (
+        <p className={styles.sectionDescription}>{description}</p>
+      ) : null}
       <div className={styles.sectionBody}>{children}</div>
-    </section>
+    </details>
   );
 }

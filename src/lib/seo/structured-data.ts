@@ -3,6 +3,29 @@ import type { FaqItem } from "@/types/homepage";
 import type { Treatment } from "@/types/content";
 import { getSiteUrl } from "@/lib/seo/constants";
 
+/** Confirmed clinic geography — no street address or contact details. */
+const CLINIC_CITY = "רמת ישי";
+const SERVICE_REGION = "עמק יזרעאל";
+
+function buildClinicPlaceSchema() {
+  return {
+    "@type": "Place",
+    name: CLINIC_CITY,
+    containedInPlace: {
+      "@type": "AdministrativeArea",
+      name: SERVICE_REGION,
+    },
+  };
+}
+
+function buildConfirmedServiceAreaSchema() {
+  return [
+    { "@type": "City", name: CLINIC_CITY },
+    { "@type": "AdministrativeArea", name: SERVICE_REGION },
+    { "@type": "Country", name: "Israel" },
+  ];
+}
+
 export function buildPersonSchema(siteConfig: SiteConfig) {
   const siteUrl = getSiteUrl(siteConfig);
 
@@ -11,10 +34,12 @@ export function buildPersonSchema(siteConfig: SiteConfig) {
     "@type": "Person",
     name: siteConfig.therapistName,
     jobTitle: "מלווה רגשית ורוחנית",
+    workLocation: buildClinicPlaceSchema(),
     worksFor: {
       "@type": "Organization",
       name: siteConfig.businessName,
       url: siteUrl,
+      location: buildClinicPlaceSchema(),
     },
     url: `${siteUrl}/about`,
   };
@@ -60,11 +85,9 @@ export function buildServiceSchema(
     provider: {
       "@type": "Person",
       name: siteConfig.therapistName,
+      workLocation: buildClinicPlaceSchema(),
     },
-    areaServed: {
-      "@type": "Country",
-      name: "Israel",
-    },
+    areaServed: buildConfirmedServiceAreaSchema(),
   };
 }
 
@@ -96,7 +119,7 @@ export function buildContactPageSchema(siteConfig: SiteConfig) {
   if (!hasContact) {
     return buildWebPageSchema(siteConfig, {
       name: "יצירת קשר",
-      description: "צרו קשר עם עוגן לנשימה",
+      description: `צרו קשר עם ${siteConfig.businessName}`,
       path: "/contact",
     });
   }

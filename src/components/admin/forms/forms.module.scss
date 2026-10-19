@@ -5,11 +5,28 @@
   border: 1px solid $color-border;
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
-  padding: $spacing-lg;
+  padding: 0;
+  overflow: hidden;
 }
 
-.sectionHeader {
-  margin-bottom: $spacing-md;
+.sectionSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: -2px;
+  }
 }
 
 .sectionTitle {
@@ -19,8 +36,24 @@
   font-weight: 600;
 }
 
+.sectionChevron {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-inline-end: 2px solid $color-text-muted;
+  border-block-end: 2px solid $color-text-muted;
+  transform: rotate(-45deg);
+  transition: transform $transition-fast;
+
+  .section[open] > .sectionSummary & {
+    transform: rotate(135deg);
+  }
+}
+
 .sectionDescription {
-  margin: $spacing-xs 0 0;
+  margin: 0;
+  padding-inline: $spacing-lg;
+  padding-block-end: $spacing-sm;
   color: $color-text-muted;
   font-size: $font-size-small;
   line-height: 1.5;
@@ -30,6 +63,8 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
+  padding: 0 $spacing-lg $spacing-lg;
+  border-top: 1px solid $color-border;
 }
 
 .field {
@@ -147,6 +182,45 @@
   margin-block-start: $spacing-lg;
   padding-block-start: $spacing-lg;
   border-top: 1px solid $color-border;
+}
+
+.saveBar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-block-start: $spacing-lg;
+  padding: $spacing-md $spacing-lg;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background: color-mix(in srgb, #{$color-surface} 94%, transparent);
+  box-shadow: 0 -4px 16px rgb(45 52 54 / 8%);
+  backdrop-filter: blur(6px);
+}
+
+.saveBar .feedbackSuccess,
+.saveBar .feedbackError {
+  margin-bottom: 0;
+}
+
+.saveBarInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.saveBarHint {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-small;
+}
+
+.editorWithSaveBar {
+  padding-block-end: $spacing-md;
 }
 
 .dirtyNotice {
@@ -489,7 +563,8 @@
 @media (prefers-reduced-motion: reduce) {
   .toggle,
   .toggleThumb,
-  .submit {
+  .submit,
+  .sectionChevron {
     transition: none;
   }
 }

@@ -4,6 +4,7 @@ export { AdminTextInput } from "./AdminTextInput";
 export { AdminTextarea } from "./AdminTextarea";
 export { AdminToggle } from "./AdminToggle";
 export { AdminFormActions } from "./AdminFormActions";
+export { AdminEditorSaveBar } from "./AdminEditorSaveBar";
 export { AdminActionFeedback } from "./AdminActionFeedback";
 export { AdminSeoSection } from "./AdminSeoSection";
 export type { AdminSeoValues } from "./AdminSeoSection";
@@ -16,5 +17,13 @@ export {
   fromContentBlockFormValue,
 } from "./ContentBlockEditor";
 export type { ContentBlockFormValue } from "./ContentBlockEditor";
-export { useAdminFormState } from "./useAdminFormState";
-export { useAdminCmsSubmit, useAdminCmsFeedbackReset } from "./useAdminCmsSubmit";
+export {
+  serializeAdminFormSnapshot,
+  useAdminFormState,
+} from "./useAdminFormState";
+export {
+  shouldSyncBaselineOnSaveComplete,
+  useAdminBaselineOnSaveComplete,
+  useAdminCmsSubmit,
+  useAdminCmsFeedbackReset,
+} from "./useAdminCmsSubmit";

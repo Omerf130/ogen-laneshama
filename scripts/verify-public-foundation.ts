@@ -18,6 +18,8 @@ import {
   buildPublicSitemap,
   isAdminSitemapPath,
 } from "../src/lib/seo/build-sitemap";
+import { getSiteUrl } from "../src/lib/seo/constants";
+import { OFFICIAL_SITE_URL, resolveSiteUrl } from "../src/lib/seo/site-url";
 import {
   CONTENT_PAGE_SEO_KEY,
   TREATMENT_SEO_KEY,
@@ -98,15 +100,40 @@ async function verifySeoParity(): Promise<void> {
   console.log("  ✓ empty DB SEO falls back to static metadata");
 }
 
+async function verifySiteUrlResolution(): Promise<void> {
+  console.log("\n1b. Site URL resolution");
+
+  assert(
+    resolveSiteUrl("https://example.com") === OFFICIAL_SITE_URL,
+    "Placeholder example.com must resolve to official domain",
+  );
+  assert(
+    resolveSiteUrl("https://ogenlaneshima.co.il/") === OFFICIAL_SITE_URL,
+    "Official domain must normalize without trailing slash",
+  );
+  assert(
+    resolveSiteUrl("https://custom.example.org") === "https://custom.example.org",
+    "Non-placeholder CMS URLs must be preserved",
+  );
+  console.log("  ✓ site URL placeholder resolution");
+}
+
 async function verifySitemap(): Promise<void> {
   console.log("\n2. Sitemap verification");
 
   process.env.CONTENT_SOURCE = "db";
   resetContentSourceCacheForTests();
 
+  const { getSiteConfig } = await import("../src/lib/content/get-site-config");
+  const resolvedSiteUrl = getSiteUrl(await getSiteConfig());
+
   const sitemap = await buildPublicSitemap();
   const urls = sitemap.map((entry) => entry.url);
-  const paths = urls.map((url) => url.replace(siteConfig.siteUrl, ""));
+  assert(
+    urls.every((url) => url.startsWith(`${resolvedSiteUrl}/`) || url === resolvedSiteUrl),
+    "Sitemap URLs must use resolved site URL (not raw placeholder)",
+  );
+  const paths = urls.map((url) => url.replace(resolvedSiteUrl, ""));
 
   const requiredCore = ["/", "/about", "/pregnancy-motherhood", "/contact", "/treatments"];
   for (const path of requiredCore) {
@@ -212,6 +239,7 @@ async function main(): Promise<void> {
   console.log("Public foundation verification (read-only)...");
 
   await verifySeoParity();
+  await verifySiteUrlResolution();
   await verifySitemap();
   await verifyHomepageMedia();
   runStaticGetterSection();

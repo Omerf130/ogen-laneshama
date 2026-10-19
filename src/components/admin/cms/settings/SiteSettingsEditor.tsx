@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect } from "react";
 import type { SiteSettingsLeanDocument } from "@/lib/db/repositories/site-settings.repository";
 import { saveSiteSettingsAction } from "@/features/admin/settings/save-site-settings.action";
 import {
-  AdminActionFeedback,
+  AdminEditorSaveBar,
   AdminField,
-  AdminFormActions,
   AdminSection,
   AdminSeoSection,
   AdminTextInput,
   AdminTextarea,
+  useAdminBaselineOnSaveComplete,
   useAdminCmsSubmit,
   useAdminFormState,
 } from "@/components/admin/forms";
+import formStyles from "@/components/admin/forms/forms.module.scss";
 import styles from "./SiteSettingsEditor.module.scss";
 
 type SiteSettingsFormValues = {
@@ -63,23 +63,23 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
   const { values, setValues, setField, isDirty, resetBaseline } =
     useAdminFormState(toFormValues(initialDoc));
   const { state, submit, isPending } = useAdminCmsSubmit(saveSiteSettingsAction);
+  const expandSections = Boolean(state.error);
+
+  useAdminBaselineOnSaveComplete(
+    isPending,
+    state.success,
+    values,
+    resetBaseline,
+  );
 
   const handleSave = () => {
     submit(values);
   };
 
-  useEffect(() => {
-    if (state.success) {
-      resetBaseline(values);
-    }
-  }, [state.success, values, resetBaseline]);
-
   return (
-    <div className={styles.editor}>
-      <AdminActionFeedback success={state.success} error={state.error} />
-
+    <div className={`${styles.editor} ${formStyles.editorWithSaveBar}`}>
       <div className={styles.stack}>
-        <AdminSection title="פרטי העסק">
+        <AdminSection forceOpen={expandSections} title="פרטי העסק">
           <AdminField label="שם העסק" htmlFor="businessName">
             <AdminTextInput
               id="businessName"
@@ -115,7 +115,7 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
           </AdminField>
         </AdminSection>
 
-        <AdminSection title="פרטי קשר">
+        <AdminSection forceOpen={expandSections} title="פרטי קשר">
           <AdminField label="טלפון" htmlFor="phone">
             <AdminTextInput
               id="phone"
@@ -151,7 +151,7 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
           </AdminField>
         </AdminSection>
 
-        <AdminSection title="WhatsApp">
+        <AdminSection forceOpen={expandSections} title="WhatsApp">
           <AdminField label="מספר" htmlFor="whatsappNumber">
             <AdminTextInput
               id="whatsappNumber"
@@ -177,6 +177,7 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
         </AdminSection>
 
         <AdminSection
+          forceOpen={expandSections}
           title="רשתות חברתיות"
           description="עריכת קישורים קיימים בלבד. הוספת פלטפורמות חדשות דורשת עדכון מפתח."
         >
@@ -212,7 +213,7 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
           ))}
         </AdminSection>
 
-        <AdminSection title="פוטר">
+        <AdminSection forceOpen={expandSections} title="פוטר">
           <AdminField label="משפט מותג" htmlFor="footerBrandSentence">
             <AdminTextarea
               id="footerBrandSentence"
@@ -226,7 +227,7 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
           </AdminField>
         </AdminSection>
 
-        <AdminSection title="ניווט">
+        <AdminSection forceOpen={expandSections} title="ניווט">
           <div className={styles.readOnlyPanel}>
             <p className={styles.readOnlyTitle}>מבנה הניווט</p>
             <p className={styles.readOnlyText}>
@@ -240,7 +241,7 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
           </div>
         </AdminSection>
 
-        <AdminSection title="SEO ברירת מחדל">
+        <AdminSection forceOpen={expandSections} title="SEO ברירת מחדל">
           <AdminSeoSection
             values={values.defaultSeo}
             onChange={(defaultSeo) => setField("defaultSeo", defaultSeo)}
@@ -249,7 +250,13 @@ export function SiteSettingsEditor({ initialDoc }: SiteSettingsEditorProps) {
         </AdminSection>
       </div>
 
-      <AdminFormActions isDirty={isDirty} isPending={isPending} onSave={handleSave} />
+      <AdminEditorSaveBar
+        isDirty={isDirty}
+        isPending={isPending}
+        onSave={handleSave}
+        success={state.success}
+        error={state.error}
+      />
     </div>
   );
 }
