@@ -20,6 +20,9 @@
 # production
 /build
 
+# local one-off CMS backups (CP2B migrations)
+.backups/
+
 # misc
 .DS_Store
 *.pem

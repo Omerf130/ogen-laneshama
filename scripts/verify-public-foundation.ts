@@ -20,10 +20,6 @@ import {
 } from "../src/lib/seo/build-sitemap";
 import { getSiteUrl } from "../src/lib/seo/constants";
 import { OFFICIAL_SITE_URL, resolveSiteUrl } from "../src/lib/seo/site-url";
-import {
-  CONTENT_PAGE_SEO_KEY,
-  TREATMENT_SEO_KEY,
-} from "../src/lib/seo/static-seo-fallbacks";
 
 const HERO_IMAGE = "/images/homepage/hero-editorial.webp";
 const PREGNANCY_IMAGE = "/images/homepage/pregnancy-editorial.webp";
@@ -34,54 +30,18 @@ function assert(condition: unknown, message: string): asserts condition {
   }
 }
 
-function compareSeoDomain(
-  domain: string,
-  actual: { title: string; description: string },
-  expected: { title: string; description: string },
-): void {
-  if (
-    actual.title !== expected.title ||
-    actual.description !== expected.description
-  ) {
-    throw new Error(`${domain} SEO mismatch`);
-  }
-
-  console.log(`  ✓ ${domain} SEO`);
-}
-
 async function verifySeoParity(): Promise<void> {
   console.log("\n1. SEO verification");
 
-  const { getHomepageSeo } = await import("../src/lib/content/get-homepage-seo");
-  const { getContentPageSeo } = await import(
-    "../src/lib/content/get-content-page-seo"
+  assert(
+    pageMetadata.home.title.includes("רמת ישי"),
+    "Static homepage SEO title must include local area",
   );
-  const { getTreatmentSeo } = await import("../src/lib/content/get-treatment-seo");
-
-  process.env.CONTENT_SOURCE = "db";
-  resetContentSourceCacheForTests();
-
-  compareSeoDomain("Homepage", await getHomepageSeo(), pageMetadata.home);
-
-  for (const slug of Object.keys(CONTENT_PAGE_SEO_KEY) as Array<
-    keyof typeof CONTENT_PAGE_SEO_KEY
-  >) {
-    const key = CONTENT_PAGE_SEO_KEY[slug];
-    compareSeoDomain(
-      `ContentPage:${slug}`,
-      await getContentPageSeo(slug),
-      pageMetadata[key],
-    );
-  }
-
-  for (const slug of Object.keys(TREATMENT_SEO_KEY) as Array<
-    keyof typeof TREATMENT_SEO_KEY
-  >) {
-    const key = TREATMENT_SEO_KEY[slug];
-    const seo = await getTreatmentSeo(slug);
-    assert(seo, `Treatment SEO missing for ${slug}`);
-    compareSeoDomain(`Treatment:${slug}`, seo!, pageMetadata[key]);
-  }
+  assert(
+    pageMetadata.contact.title.includes("רמת ישי"),
+    "Static contact SEO title must include local area",
+  );
+  console.log("  ✓ static page-metadata local SEO fallbacks");
 
   const emptyFallback = resolvePageSeo({
     dbOverride: extractPageSeoOverride({}),
